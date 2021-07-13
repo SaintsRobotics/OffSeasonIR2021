@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,6 +22,9 @@ import frc.robot.commands.ShooterOnCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController m_operatorController = new XboxController(1);
+
+  private HardwareMap hardwareMap = new HardwareMap();
+  private ShooterSubsystem shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -36,10 +40,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // turns on shooter when A is pressed
-    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ShooterOnCommand());
+    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ShooterOnCommand(shooterSubsystem));
 
     // turns off shooter when B is pressed
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand());
+    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand(shooterSubsystem));
   }
 
   /**

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class HardwareMap {
 
     public class ShooterHardware{
-        public CANSparkMax leftShooter = new CANSparkMax(16, MotorType.kBrushless );
+        public CANSparkMax leftShooter = new CANSparkMax(16, MotorType.kBrushless);
         public CANSparkMax rightShooter = new CANSparkMax(17, MotorType.kBrushless);
         public SpeedControllerGroup shooter = new SpeedControllerGroup(leftShooter, rightShooter);
         public ShooterHardware(){
@@ -19,7 +19,8 @@ public class HardwareMap {
         }
     };
 
+    public ShooterHardware shooterHardware;
     public HardwareMap() {
-        
+        shooterHardware = new ShooterHardware();
     }
 }
