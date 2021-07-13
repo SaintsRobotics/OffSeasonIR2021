@@ -15,7 +15,7 @@ public class HardwareMap {
         public CANSparkMax rightShooter = new CANSparkMax(17, MotorType.kBrushless);
         public SpeedControllerGroup shooter = new SpeedControllerGroup(leftShooter, rightShooter);
         public ShooterHardware(){
-            rightShooter.setInverted(true);
+            leftShooter.setInverted(true);
         }
     };
 
