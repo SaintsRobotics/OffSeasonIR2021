@@ -7,10 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,6 +23,9 @@ import frc.robot.commands.ShooterOnCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController m_operatorController = new XboxController(1);
+  private HardwareMap m_hardwareMap = new HardwareMap();
+  private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(m_hardwareMap.shooterHardware);
+  private ShooterOnCommand m_shooterOnCommand = new ShooterOnCommand(m_shooterSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -36,10 +41,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // turns on shooter when A is pressed
-    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ShooterOnCommand());
+
+    edu.wpi.first.wpilibj2.command.button.Button onbutton = new JoystickButton(m_operatorController, Button.kA.value)
+        .whenHeld(new ShooterOnCommand(m_shooterSubsystem));
 
     // turns off shooter when B is pressed
     new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand());
+
+    SmartDashboard.putNumber("button binding test", 1);
   }
 
   /**

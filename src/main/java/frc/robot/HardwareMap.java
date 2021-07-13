@@ -19,7 +19,8 @@ public class HardwareMap {
         }
     };
 
+    public ShooterHardware shooterHardware;
     public HardwareMap() {
-        
+        shooterHardware = new ShooterHardware();
     }
 }
