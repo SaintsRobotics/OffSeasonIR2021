@@ -30,10 +30,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("shooter value", m_targetSpeed);
-
+    SmartDashboard.putNumber("shooter speed", m_targetSpeed);
     m_shooter.set(m_targetSpeed);
     // This method will be called once per scheduler run
 
-  }
+  } 
 }

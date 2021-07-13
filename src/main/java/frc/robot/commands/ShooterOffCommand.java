@@ -4,14 +4,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.HardwareMap;
+import frc.robot.HardwareMap.ShooterHardware;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOffCommand extends CommandBase {
-  private ShooterSubsystem m_ShooterSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
   /** Creates a new ShooterOffCommand. */
-  public ShooterOffCommand() {
+  public ShooterOffCommand(ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_shooterSubsystem = shooterSubsystem;
+    addRequirements(m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,7 +26,7 @@ public class ShooterOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.setShooter(0);
+    m_shooterSubsystem.setShooter(0);
   }
 
   // Called once the command ends or is interrupted.

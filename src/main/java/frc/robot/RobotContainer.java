@@ -26,6 +26,7 @@ public class RobotContainer {
   private HardwareMap m_hardwareMap = new HardwareMap();
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(m_hardwareMap.shooterHardware);
   private ShooterOnCommand m_shooterOnCommand = new ShooterOnCommand(m_shooterSubsystem);
+  private ShooterOffCommand m_shooterOffCommand = new ShooterOffCommand(m_shooterSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,14 +42,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // turns on shooter when A is pressed
-
-    edu.wpi.first.wpilibj2.command.button.Button onbutton = new JoystickButton(m_operatorController, Button.kA.value)
-        .whenHeld(new ShooterOnCommand(m_shooterSubsystem));
+    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(m_shooterOnCommand);
 
     // turns off shooter when B is pressed
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand());
-
-    SmartDashboard.putNumber("button binding test", 1);
+    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_shooterOffCommand);
   }
 
   /**
