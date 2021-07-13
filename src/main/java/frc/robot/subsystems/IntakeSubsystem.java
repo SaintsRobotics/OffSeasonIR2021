@@ -10,27 +10,31 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.HardwareMap.IntakeHardware;
 
 public class IntakeSubsystem extends SubsystemBase {
   
-  private VictorSPX intakeController;
-  private VictorSPX armController;
+  private VictorSPX m_intakeController;
+  private VictorSPX m_armController;
   private double desiredSpeed;
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
+  public IntakeSubsystem(IntakeHardware intake) {
     // fill this in based on hardwaremap
+    m_intakeController = intake.intakeController;
+    m_armController = intake.armController;
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Intake MotorSpeed", desiredSpeed);
-    intakeController.set(VictorSPXControlMode.PercentOutput, desiredSpeed);
+    m_intakeController.set(VictorSPXControlMode.PercentOutput, desiredSpeed);
   }
 
   public void moveArm(double speed) {
-    armController.set(VictorSPXControlMode.PercentOutput, speed);
+    m_armController.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
   public void intake() {

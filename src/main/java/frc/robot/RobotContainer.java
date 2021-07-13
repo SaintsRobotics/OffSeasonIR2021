@@ -29,7 +29,7 @@ public class RobotContainer {
   private XboxController m_driverController = new XboxController(0);
   private XboxController m_operatorController = new XboxController(1);
   
-  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(m_hardwareMap.intakeHardware);
 
   private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
 
