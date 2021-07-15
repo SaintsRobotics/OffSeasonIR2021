@@ -28,6 +28,10 @@ public class ShooterSubsystem extends SubsystemBase {
     this.m_targetSpeed = speed;
   }
 
+  public double getShooterSpeed() {
+    return m_shooter.get();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shooter speed", m_targetSpeed);

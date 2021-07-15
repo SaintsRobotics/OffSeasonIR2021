@@ -17,6 +17,8 @@ public class HardwareMap {
         public ShooterHardware(){
             leftShooter.setInverted(true);
         }
+
+        
     };
 
     public ShooterHardware shooterHardware;
