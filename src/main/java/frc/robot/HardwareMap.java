@@ -11,14 +11,15 @@ import edu.wpi.first.wpilibj.XboxController;
 public class HardwareMap {
 
     public class ShooterHardware{
-        public CANSparkMax leftShooter = new CANSparkMax(16, MotorType.kBrushless);
-        public CANSparkMax rightShooter = new CANSparkMax(17, MotorType.kBrushless);
-        public SpeedControllerGroup shooter = new SpeedControllerGroup(leftShooter, rightShooter);
-        public ShooterHardware(){
-            leftShooter.setInverted(true);
-        }
-
-        
+        public CANSparkMax leftShooter; 
+        public CANSparkMax rightShooter;
+        public SpeedControllerGroup shooter; 
+        public ShooterHardware() {
+            leftShooter = new CANSparkMax(16, MotorType.kBrushless);
+            leftShooter.setInverted(true);      
+            rightShooter = new CANSparkMax(17, MotorType.kBrushless);
+            shooter = new SpeedControllerGroup(leftShooter, rightShooter);
+        }        
     };
 
     public ShooterHardware shooterHardware;
