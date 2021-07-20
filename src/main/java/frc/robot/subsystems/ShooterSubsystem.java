@@ -13,15 +13,10 @@ import frc.robot.HardwareMap;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_leftShooter;
-  private CANSparkMax m_rightShooter;
   private SpeedControllerGroup m_shooter;
   private double m_targetSpeed;
   /** Creates a new ShooterSubsystem. */
-  public ShooterSubsystem(ShooterHardware shooter) {
-    m_leftShooter = shooter.leftShooter;
-    m_rightShooter = shooter.rightShooter;
-  
+  public ShooterSubsystem(ShooterHardware shooter) {    
     m_shooter = shooter.shooter;
   }
   public void setShooter(double speed){
