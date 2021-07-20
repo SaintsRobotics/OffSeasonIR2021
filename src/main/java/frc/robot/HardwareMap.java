@@ -43,11 +43,14 @@ public class HardwareMap {
 
     public class SwerveHardware {
 
+        public Constants constants = new Constants();
+        public double y = constants.Physical.widthInMeters; //names are a bit off
+        public double x = constants.Physical.lengthInMeters; //names are a bit off
         public SwerveModuleHardware swerveModuleHardware = new SwerveModuleHardware();
-        public SwerveModule frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor, swerveModuleHardware.frontLeftTurningMotor, swerveModuleHardware.frontLeftTurningEncoder);
-        public SwerveModule frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor, swerveModuleHardware.frontRightTurningMotor, swerveModuleHardware.frontRightTurningEncoder);
-        public SwerveModule backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor, swerveModuleHardware.backLeftTurningMotor, swerveModuleHardware.backLeftTurningEncoder);
-        public SwerveModule backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor, swerveModuleHardware.backRightTurningMotor, swerveModuleHardware.backRightTurningEncoder);
+        public SwerveModule frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor, swerveModuleHardware.frontLeftTurningMotor, -x/2, y/2, swerveModuleHardware.frontLeftTurningEncoder);
+        public SwerveModule frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor, swerveModuleHardware.frontRightTurningMotor, x/2, y/2, swerveModuleHardware.frontRightTurningEncoder);
+        public SwerveModule backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor, swerveModuleHardware.backLeftTurningMotor, -x/2, -y/2, swerveModuleHardware.backLeftTurningEncoder);
+        public SwerveModule backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor, swerveModuleHardware.backRightTurningMotor, x/2, -y/2, swerveModuleHardware.backRightTurningEncoder);
         public SwerveHardware() {
 
         }
