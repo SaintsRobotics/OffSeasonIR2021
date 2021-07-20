@@ -63,6 +63,13 @@ public final class Constants {
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
     }
 
+    public final class ShooterConstants {
+        public static final int FEEDER_PORT = 26;
+        public static final int SPINNER_PORT = 27;
+        public static final int LEFT_SHOOTER_PORT = 16;
+        public static final int RIGHT_SHOOTER_PORT = 17;
+    }
+
 }
 
 // copied from simulatorpractice2021
