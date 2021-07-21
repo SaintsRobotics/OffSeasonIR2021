@@ -35,7 +35,7 @@ public class AbsoluteEncoder {
      * @param offset   swerve offset (in <i>RADIANS</i>). This value is <i>SUBTRACTED</i> from
      *                 the raw encoder output, so double check your algebra!
      */
-    public AbsoluteEncoder(int channel, double offset, boolean inverted) {
+    public AbsoluteEncoder(int channel, boolean inverted, double offset) {
         m_analogIn = new AnalogInput(channel);
         m_isInverted = inverted;
         m_offset = offset;
