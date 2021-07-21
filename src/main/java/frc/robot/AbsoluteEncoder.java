@@ -48,10 +48,10 @@ public class AbsoluteEncoder {
      */
     
     public Rotation2d getAngle() {
-        if (isInverted) {
-            return new Rotation2d((5 - analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
+        if (m_isInverted) {
+            return new Rotation2d((5 - m_analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
         }
 
-        return new Rotation2d((analogIn.getVoltage() ) * VOLTAGE_TO_RADIANS - m_offset);
+        return new Rotation2d((m_analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
     }
 }
