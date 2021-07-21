@@ -6,16 +6,22 @@ public class HardwareMap {
     // make subclasses each with their own constructor + fields
     // one subclass per subsystem
 
-    // either construct each subclass seperately in robotcontainer, 
+    // either construct each subclass seperately in robotcontainer,
     // OR create fields for each subclass in the constructor for hardwaremap
-    public class IntakeHardware{
-        public VictorSPX intakeController = new VictorSPX(25);
-        public VictorSPX armController = new VictorSPX(24);
+    public class IntakeHardware {
+        public VictorSPX intakeController;
+        public VictorSPX armController;
 
-        public IntakeHardware(){
-
+        public IntakeHardware() {
+            armController = new VictorSPX(24);
+            intakeController = new VictorSPX(25);
         }
     }
-        IntakeHardware intakeHardware = new IntakeHardware();
+
+    IntakeHardware intakeHardware;
+
+    public HardwareMap() {
+        intakeHardware = new IntakeHardware();
+    }
 
 }
