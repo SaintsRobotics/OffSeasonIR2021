@@ -7,11 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
+import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,17 +24,23 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private XboxController m_operatorController = new XboxController(1);
-
   private HardwareMap hardwareMap = new HardwareMap();
+
+  private XboxController m_driveController = hardwareMap.inputHardware.driveController;
+  private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
+
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
+  private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
+
   private ShooterOnCommand m_shooterOnCommand = new ShooterOnCommand(m_shooterSubsystem);
   private ShooterOffCommand m_shooterOffCommand = new ShooterOffCommand(m_shooterSubsystem);
+  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem, m_driveController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
+    // Configure the button bindings    
     configureButtonBindings();
+    m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
   }
 
   /**

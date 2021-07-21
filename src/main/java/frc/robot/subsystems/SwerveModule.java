@@ -20,7 +20,6 @@ public class SwerveModule extends SubsystemBase {
   AbsoluteEncoder m_turningEncoder;
   PIDController m_turningPidController;
   double m_turningSpeed;
-  Constants constants = new Constants();
   Translation2d m_location;
 
   //Stores current, real state of the wheel
@@ -37,10 +36,11 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.getRadians()));
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.getAngle().getRadians()));
 
-    m_driveMotor.set(state.speedMetersPerSecond / constants.Drivetrain.maxMetersPerSecond);
-    m_turningSpeed = m_turningPidController.calculate(m_turningEncoder.getRadians());
+    m_driveMotor.set(state.speedMetersPerSecond / Constants.ModuleConstants.MAX_SPEED_METERS_PER_SECOND);
+    m_turningPidController.setSetpoint(state.angle.getRadians());
+    m_turningSpeed = m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians());
     m_turningMotor.set(m_turningSpeed);
   }
 

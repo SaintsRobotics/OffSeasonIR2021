@@ -1,70 +1,57 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Our wrapper for the absolute encoder, such as the US Digital MA3.  
+ * Most useful for tracking the position of swerve wheels.
+ */
 public class AbsoluteEncoder {
-	/**
-	 * this class is mainly a wrapper for accessing the current position of rotation
-	 * that the motor is at it uses the potentiometer values as voltage and
-	 * correlates them to rotation degrees
-	 */
+    private AnalogInput m_analogIn;
+    private boolean m_isInverted;
 
-	private AnalogInput analogIn;
-	private double m_offset = 0; // the offset from zero for each motor
-	private boolean isInverted;
-	private double voltageToDegrees = 72;
-	private AnalogEncoder x;
+    private double VOLTAGE_TO_RADIANS = Math.PI * 2 / 5;
 
-	/**
-	 * Construct and absolute encoder, most likely a US Digital MA3 encoder.
-	 * 
-	 * @param channel  Analog in (sometimes also refered to as AIO) port on the
-	 *                 roboRIO.
-	 * @param inverted Set this to <i>TRUE</i> if physically turning the wheel
-	 *                 <i>CLOCKWISE</i> (looking down on it from the top of the bot)
-	 *                 <i>INCREASES</i> the voltage it returns.
-	 * @param offset   Swerve offset (in <i>DEGREES</i>), like we've been using for
-	 *                 the past three years. This value is <i>SUBTRACTED</i> from
-	 *                 the output.
-	 */
-	public AbsoluteEncoder(int channel, double offset, boolean isInverted) {
-		analogIn = new AnalogInput(channel);
-		this.x = new AnalogEncoder(analogIn);
-		this.isInverted = isInverted;
-		this.m_offset = offset;
-	}
+    private double m_offset;
 
-	/**
-	 * Gets rotation in degrees
-	 * 
-	 * @return the position of encoder in degrees
-	 */
-	public double getDegrees() {
-		if (isInverted) {
-			return ((5 - analogIn.getVoltage()) * this.voltageToDegrees);
-		}
-
-		else {
-			return (analogIn.getVoltage() * this.voltageToDegrees);
-		}
-	}
-
-	public double getRadians() {
-		return Math.toRadians(getDegrees()) - this.m_offset;
+    /**
+     * Construct and absolute encoder, most likely a US Digital MA3 encoder.
+     * 
+     * @param channel  analog in (sometimes also refered to as AIO) port on the
+     *                 roboRIO
+     * @param inverted set this to <i>TRUE</i> if physically turning the swerve wheel
+     *                 <i>CLOCKWISE</i> (looking down on it from the top of the bot)
+     *                 <i>INCREASES</i> the raw voltage the encoder returns.
+     * @param offset   swerve offset (in <i>RADIANS</i>). This value is <i>SUBTRACTED</i> from
+     *                 the raw encoder output, so double check your algebra!
+     */
+    public AbsoluteEncoder(int channel, double offset, boolean inverted) {
+        m_analogIn = new AnalogInput(channel);
+        m_isInverted = inverted;
+        m_offset = offset;
     }
 
     /**
-     * Gets the Rotation2d
-     * @return
+     * 
+     * @return the angle of the absolute encoder, as a Rotation2d object. zero points toward the front
+     *         of the bot. <i>the value increases as the swerve wheel is turned counter-clockwise.</i>
      */
-    public Rotation2d getRotation2d() {
-        return new Rotation2d(Math.toRadians(getDegrees()) - this.m_offset);
+    
+    public Rotation2d getAngle() {
+        if (m_isInverted) {
+            return new Rotation2d((5 - m_analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
+        }
+
+        return new Rotation2d((m_analogIn.getVoltage() ) * VOLTAGE_TO_RADIANS - m_offset);
     }
-
-	public void reset() {
-		this.m_offset = analogIn.getVoltage() * this.voltageToDegrees;
-	}
-
 }
