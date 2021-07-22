@@ -17,48 +17,85 @@ public class SwerveModule {
 
   private CANSparkMax m_driveMotor, m_turningMotor;
   private AbsoluteEncoder m_turningEncoder;
-  private PIDController m_turningPidController;
-  private double m_turningSpeed;
+  private PIDController m_turningPIDController;
   private Translation2d m_location;
 
-  //Stores current, real state of the wheel, based on information from the sensors.
+  // Stores current, real state of the wheel, based on information from the
+  // sensors.
   SwerveModuleState m_state;
 
- /**
-  * For the x and y coordinates, forward is along the x-axis.
-  * @param driveMotor     Drive Motor drives the wheel
-  * @param turningMotor   Rotates the wheel
-  * @param X              X Coordinate of the Swerve Wheel
-  * @param Y              Y Coordinate of the Swerve Wheel
-  * @param turningEncoder Measures the angle of the wheel
-  */
-  public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, double X, double Y, AbsoluteEncoder turningEncoder) {
+  /**
+   * For the x and y coordinates, forward is along the x-axis. This method also
+   * updates the swerve module state, accessed by getState, for odometry.
+   * 
+   * @param driveMotor     Drive Motor drives the wheel
+   * @param turningMotor   Rotates the wheel
+   * @param X              X Coordinate of the Swerve Wheel
+   * @param Y              Y Coordinate of the Swerve Wheel
+   * @param turningEncoder Measures the angle of the wheel
+   */
+  public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, double X, double Y,
+      AbsoluteEncoder turningEncoder) {
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
-    m_turningPidController = new PIDController(0.05, 0, 0);
+    m_turningPIDController = new PIDController(0.05, 0, 0);
     m_location = new Translation2d(X, Y);
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
 
     // We assumed/guessed that optimize method uses radians for encoder position.
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState,
+        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
 
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
-    m_turningPidController.setSetpoint(state.angle.getRadians());
-    m_turningSpeed = m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians());
-    m_turningMotor.set(m_turningSpeed);
+    m_turningPIDController.setSetpoint(state.angle.getRadians());
+    m_turningMotor.set(m_turningPIDController.calculate(m_turningEncoder.getAngle().getRadians()));
 
-    // TODO RIght now, drive motor velocity is in RPM.  see rev CANEncoder docs to configure conversion to meters per second.
-    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
+    // configure conversion to meters per second.
+    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
+        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+  }
+
+  /**
+   * This method is used for when the direction the swerve modules face shoudln't
+   * change, but the drive motors should change velocity. Best uses are for
+   * coasting, and the effect is that when the bot stops moving, the wheels don't
+   * lock on to a specific angle, but their most recent angle was preserved. It
+   * does this by just setting the turning motor to 0. (I know, this description
+   * isn't as coherent as it could be.) This method also updates the swerve module
+   * state, accessed by getState, for odometry.
+   * 
+   * @param velocity The desired velocity of the <b>drive</b> motor, in meters per
+   *                 second. (can be a negative number, if necessary)
+   */
+  public void setDriveVelocity(double velocity) {
+    m_turningMotor.set(0);
+    m_driveMotor.set(velocity / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
+    // configure conversion to meters per second.
+    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
+        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
   }
 
   /**
    * 
-   * @return The location of the Swerve wheel. Origin is the center of the robot. Robt is facing forward along the x-axis.
+   * @return The location of the Swerve wheel. Origin is the center of the robot.
+   *         Robt is facing forward along the x-axis.
    */
   public Translation2d getLocation() {
     return m_location;
   }
+
+  /**
+   * @return The actual state of the module (not the necessarily the same as the
+   *         desired state passed in setDesiredState), measured from encoders on
+   *         the module.
+   */
+  public SwerveModuleState getState() {
+    return m_state;
+  }
+
 }
