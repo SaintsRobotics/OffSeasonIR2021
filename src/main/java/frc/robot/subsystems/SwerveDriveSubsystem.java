@@ -27,8 +27,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
 
-  HardwareMap hardwareMap = new HardwareMap();
-
   /** Creates a new SwerveDrivetrain. */
   public SwerveDriveSubsystem(SwerveDriveHardware swerveHardware) {
     m_frontLeftModule = swerveHardware.frontLeft;
