@@ -53,10 +53,7 @@ public class SwerveModule {
     m_turningPIDController.setSetpoint(state.angle.getRadians());
     m_turningMotor.set(m_turningPIDController.calculate(m_turningEncoder.getAngle().getRadians()));
 
-    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
-    // configure conversion to meters per second.
-    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
-        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+    this.setSwerveModuleState();
   }
 
   /**
@@ -74,10 +71,8 @@ public class SwerveModule {
   public void setDriveVelocity(double velocity) {
     m_turningMotor.set(0);
     m_driveMotor.set(velocity / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
-    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
-    // configure conversion to meters per second.
-    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
-        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+
+    this.setSwerveModuleState();
   }
 
   /**
@@ -96,6 +91,16 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     return m_state;
+  }
+
+  /**
+   * //TODO ADD DOCS
+   */
+  private void setSwerveModuleState() {
+    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
+    // configure conversion to meters per second.
+    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
+        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
   }
 
 }
