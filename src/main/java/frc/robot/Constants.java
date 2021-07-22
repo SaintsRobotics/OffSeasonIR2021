@@ -35,7 +35,7 @@ public final class Constants {
 	// 	public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
 	// }
 
-	public static final class ModuleConstants {
+	public static final class SwerveConstants {
 		public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
 		public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
@@ -47,10 +47,11 @@ public final class Constants {
 
 		public static final double TRANSLATIONAL_FRICTION = 0.0205;
 
+		// Swerve module offsets
 		public static final double FRONT_LEFT_ROTATION_OFFSET = 2.75 - (Math.PI / 5);
-		public static final double REAR_LEFT_ROTATION_OFFSET = -6.091199;
+		public static final double BACK_LEFT_ROTATION_OFFSET = -6.091199;
 		public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
-		public static final double REAR_RIGHT_ROTATION_OFFSET = 3.9;
+		public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
     }
     public final class ShooterPorts {
         public static final int FEEDER_PORT = 26;

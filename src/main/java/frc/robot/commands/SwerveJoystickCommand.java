@@ -35,9 +35,9 @@ public class SwerveJoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2)) * Constants.ModuleConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
-    double y = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kLeft), 0.2)) * Constants.ModuleConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
-    double rot = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kRight), 0.2)) * Constants.ModuleConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.2;
+    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
+    double y = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
+    double rot = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kRight), 0.2)) * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.2;
     boolean fieldRelative = m_controller.getBumper(Hand.kRight);
     
     m_drivetrain.move(x, y, rot, fieldRelative);

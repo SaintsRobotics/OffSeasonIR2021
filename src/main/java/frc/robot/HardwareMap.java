@@ -33,40 +33,57 @@ public class HardwareMap {
         }
     }
 
-    public class SwerveModuleHardware {
-        public CANSparkMax frontLeftDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
-        public CANSparkMax frontRightDriveMotor = new CANSparkMax(4, MotorType.kBrushless);
-        public CANSparkMax backLeftDriveMotor = new CANSparkMax(2, MotorType.kBrushless);
-        public CANSparkMax backRightDriveMotor = new CANSparkMax(6, MotorType.kBrushless);
+    private class SwerveModuleHardware {
+        public CANSparkMax frontLeftDriveMotor;
+        public CANSparkMax frontRightDriveMotor;
+        public CANSparkMax backLeftDriveMotor;
+        public CANSparkMax backRightDriveMotor;
 
-        public CANSparkMax frontLeftTurningMotor = new CANSparkMax(1, MotorType.kBrushless);
-        public CANSparkMax frontRightTurningMotor = new CANSparkMax(5, MotorType.kBrushless);
-        public CANSparkMax backLeftTurningMotor = new CANSparkMax(3, MotorType.kBrushless);
-        public CANSparkMax backRightTurningMotor = new CANSparkMax(7, MotorType.kBrushless);
+        public CANSparkMax frontLeftTurningMotor;
+        public CANSparkMax frontRightTurningMotor;
+        public CANSparkMax backLeftTurningMotor;
+        public CANSparkMax backRightTurningMotor;
 
-        public AbsoluteEncoder frontLeftTurningEncoder = new AbsoluteEncoder(0, 2.254991, true);
-        public AbsoluteEncoder frontRightTurningEncoder = new AbsoluteEncoder(1, 2.466641, true);
-        public AbsoluteEncoder backLeftTurningEncoder = new AbsoluteEncoder(3, .279, true);
-        public AbsoluteEncoder backRightTurningEncoder = new AbsoluteEncoder(2, 3.925, true);
+        public AbsoluteEncoder frontLeftTurningEncoder;
+        public AbsoluteEncoder frontRightTurningEncoder;
+        public AbsoluteEncoder backLeftTurningEncoder;
+        public AbsoluteEncoder backRightTurningEncoder;
 
         public SwerveModuleHardware() {
+            frontLeftDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
+            frontRightDriveMotor = new CANSparkMax(4, MotorType.kBrushless);
+            backLeftDriveMotor = new CANSparkMax(2, MotorType.kBrushless);
+            backRightDriveMotor = new CANSparkMax(6, MotorType.kBrushless);
 
+            frontLeftTurningMotor = new CANSparkMax(1, MotorType.kBrushless);
+            frontRightTurningMotor = new CANSparkMax(5, MotorType.kBrushless);
+            backLeftTurningMotor = new CANSparkMax(3, MotorType.kBrushless);
+            backRightTurningMotor = new CANSparkMax(7, MotorType.kBrushless);
+
+            frontLeftTurningEncoder = new AbsoluteEncoder(0, true, Constants.SwerveConstants.FRONT_LEFT_ROTATION_OFFSET);
+            frontRightTurningEncoder = new AbsoluteEncoder(1, true, Constants.SwerveConstants.FRONT_RIGHT_ROTATION_OFFSET);
+            backLeftTurningEncoder = new AbsoluteEncoder(3, true, Constants.SwerveConstants.BACK_LEFT_ROTATION_OFFSET);
+            backRightTurningEncoder = new AbsoluteEncoder(2, true, Constants.SwerveConstants.BACK_RIGHT_ROTATION_OFFSET);
         }
     }
 
-    public class SwerveDriveHardware {
-
-        public Constants constants = new Constants();       
-        public double x = Constants.ModuleConstants.WHEEL_BASE/2; 
-        public double y = Constants.ModuleConstants.TRACK_WIDTH/2; 
-        public SwerveModuleHardware swerveModuleHardware = new SwerveModuleHardware();
-        public SwerveModule frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor, swerveModuleHardware.frontLeftTurningMotor, x, y, swerveModuleHardware.frontLeftTurningEncoder);
-        public SwerveModule frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor, swerveModuleHardware.frontRightTurningMotor, x, -y, swerveModuleHardware.frontRightTurningEncoder);
-        public SwerveModule backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor, swerveModuleHardware.backLeftTurningMotor, -x, y, swerveModuleHardware.backLeftTurningEncoder);
-        public SwerveModule backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor, swerveModuleHardware.backRightTurningMotor, -x, -y, swerveModuleHardware.backRightTurningEncoder);
+    public class SwerveDriveHardware {     
+        private double x; 
+        private double y; 
+        private SwerveModuleHardware swerveModuleHardware;
+        public SwerveModule frontLeft;
+        public SwerveModule frontRight;
+        public SwerveModule backLeft;
+        public SwerveModule backRight;
         
         public SwerveDriveHardware() {
-
+            x = Constants.SwerveConstants.WHEEL_BASE/2;
+            y = Constants.SwerveConstants.TRACK_WIDTH/2;
+            swerveModuleHardware = new SwerveModuleHardware();
+            frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor, swerveModuleHardware.frontLeftTurningMotor, x, y, swerveModuleHardware.frontLeftTurningEncoder);
+            frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor, swerveModuleHardware.frontRightTurningMotor, x, -y, swerveModuleHardware.frontRightTurningEncoder);
+            backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor, swerveModuleHardware.backLeftTurningMotor, -x, y, swerveModuleHardware.backLeftTurningEncoder);
+            backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor, swerveModuleHardware.backRightTurningMotor, -x, -y, swerveModuleHardware.backRightTurningEncoder);
         }
 
     }

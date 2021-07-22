@@ -19,7 +19,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private double m_xSpeed;
   private double m_ySpeed;
-  private double m_rotation;
+  private double m_rotationSpeed;
   private boolean m_isFieldRelative;
 
   private ChassisSpeeds m_chassisSpeeds;
@@ -42,7 +42,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     //Create chassisSpeed object
-    m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotation);
+    m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed);
 
     //toSwerveModuleState array create it from kinematics
     SwerveModuleState[] swerveModuleStates;
@@ -54,12 +54,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_backLeftModule.setDesiredState(swerveModuleStates[2]);
     m_backRightModule.setDesiredState(swerveModuleStates[3]);
   }
-
-  public void move(double xSpeed, double ySpeed, double rotation, boolean isFieldRelative) {
+  /**
+   * 
+   * @param xSpeed Represents forward velocity w.r.t the robot frame of reference. Radians per second (Forward is positive)
+   * @param ySpeed Represents sideways velocity w.r.t the robot frame of reference. Radians per second (Left is positive)
+   * @param rotationSpeed Represents the angular velocity of the robot frame. Radians per second (Counterclockwise is positive)
+   * @param isFieldRelative 
+   */
+  public void move(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
 
     m_xSpeed = xSpeed;
     m_ySpeed = ySpeed;
-    m_rotation = rotation;
+    m_rotationSpeed = rotationSpeed;
     m_isFieldRelative = isFieldRelative;
   }
 }
