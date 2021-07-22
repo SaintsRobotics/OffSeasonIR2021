@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -14,22 +15,27 @@ import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SpeedControllerGroup m_shooter;
+  private CANEncoder m_canEncoder;
   private double m_targetSpeed;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooter) {    
     m_shooter = shooter.shooter;
+    m_canEncoder = shooter.rightCanEncoder;
   }
   public void setShooter(double speed){
     this.m_targetSpeed = speed;
   }
 
   public double getShooterSpeed() {
-    return m_shooter.get();
+    return m_canEncoder.getVelocity();
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("shooter speed", m_targetSpeed);
+
+    // Spit out the shooter speed
+    SmartDashboard.putNumber("Current Shooter Speed", getShooterSpeed());
+
     m_shooter.set(m_targetSpeed);
     // This method will be called once per scheduler run
 

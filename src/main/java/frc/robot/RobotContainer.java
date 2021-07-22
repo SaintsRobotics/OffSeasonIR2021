@@ -36,7 +36,7 @@ public class RobotContainer {
   private ShooterOnCommand m_shooterOnCommand = new ShooterOnCommand(m_shooterSubsystem);
   private ShooterOffCommand m_shooterOffCommand = new ShooterOffCommand(m_shooterSubsystem);
 
-  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(m_hardwareMap.intakeHardware);
+  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
   private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
   private IntakeCommand m_intakeCommand = new IntakeCommand(m_intakeSubsystem);
   private OuttakeCommand m_outtakeCommand = new OuttakeCommand(m_intakeSubsystem);
@@ -55,14 +55,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // turns on shooter when A is pressed
-    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(m_shooterOnCommand);
+    // turns on shooter when Left Bumper is pressed
+    new JoystickButton(m_operatorController, Button.kBumperLeft.value).whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when B is pressed
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_shooterOffCommand);
+    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand(m_shooterSubsystem));
     // runs intake forwards while X is held
-		new JoystickButton(m_operatorController, Button.kX.value).whenHeld(m_intakeCommand);
-		// runs the intake backwards while Y is held
-		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(m_outtakeCommand);
+		new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
+		// runs the intake backwards while Y is heldnew ShooterOnCommand(m_shooterSubsystem)
+		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new ShooterOnCommand(m_shooterSubsystem));
+    
+  
   }
 
   /**

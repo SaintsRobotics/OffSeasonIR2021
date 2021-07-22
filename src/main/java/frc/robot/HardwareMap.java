@@ -1,5 +1,6 @@
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class HardwareMap {
 
     public class ShooterHardware{
+        public CANEncoder rightCanEncoder;
         public CANSparkMax leftShooter; 
         public CANSparkMax rightShooter;
         public SpeedControllerGroup shooter; 
@@ -16,6 +18,7 @@ public class HardwareMap {
             leftShooter = new CANSparkMax(16, MotorType.kBrushless);
             leftShooter.setInverted(true);      
             rightShooter = new CANSparkMax(17, MotorType.kBrushless);
+            rightCanEncoder = rightShooter.getEncoder();
             shooter = new SpeedControllerGroup(leftShooter, rightShooter);
         }        
     };   

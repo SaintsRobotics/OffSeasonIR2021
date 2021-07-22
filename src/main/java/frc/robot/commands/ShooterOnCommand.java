@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,21 +25,21 @@ public class ShooterOnCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    DriverStation.reportWarning("Shooter On command triggered", false);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    SmartDashboard.putNumber("Current Shooter Speed", m_shooterSubsystem.getShooterSpeed());
-
     double currentSpeed = m_shooterSubsystem.getShooterSpeed();
-    if (currentSpeed < 0.8){
+    if (currentSpeed < 4500){ //subject to tuning
       m_shooterSubsystem.setShooter(1);
     }
     
-    else if (currentSpeed > 0.8) {
-      m_shooterSubsystem.setShooter(0.5);
+    else if (currentSpeed > 4500) { //subject to tuning
+      m_shooterSubsystem.setShooter(0.85);
     }
 
     // m_pidController.setSetpoint(0.96);
