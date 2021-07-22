@@ -17,6 +17,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 
@@ -57,12 +58,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // turns on shooter when Left Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperLeft.value).whenPressed(new ShooterOnCommand(m_shooterSubsystem));
-    // turns off shooter when B is pressed
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+    // turns off shooter when Right Bumper is pressed
+    new JoystickButton(m_operatorController, Button.kBumperRight.value).whenPressed(new ShooterOffCommand(m_shooterSubsystem));
     // runs intake forwards while X is held
 		new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
 		// runs the intake backwards while Y is heldnew ShooterOnCommand(m_shooterSubsystem)
-		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new ShooterOnCommand(m_shooterSubsystem));
+		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
+    // runs the shoot one ball command while A is held
+    new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
     
   
   }

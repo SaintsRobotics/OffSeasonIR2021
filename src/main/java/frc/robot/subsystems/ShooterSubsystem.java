@@ -55,8 +55,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Spit out the shooter speed
     SmartDashboard.putNumber("Current Shooter Speed", getShooterSpeed());
-
+    SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
     m_shooter.set(m_targetSpeed);
+    m_feeder.set(m_feederSpeed);
     // This method will be called once per scheduler run
 
   } 
