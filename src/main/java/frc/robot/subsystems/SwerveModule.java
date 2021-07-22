@@ -59,20 +59,14 @@ public class SwerveModule {
   }
 
   /**
-   * This method is used for when the direction the swerve modules face shoudln't
-   * change, but the drive motors should change velocity. Best uses are for
-   * coasting, and the effect is that when the bot stops moving, the wheels don't
-   * lock on to a specific angle, but their most recent angle was preserved. It
-   * does this by just setting the turning motor to 0. (I know, this description
-   * isn't as coherent as it could be.) 
-   * This method also updates the swerve module state, accessed by getState, for odometry.
-   * 
-   * @param velocity The desired velocity of the <b>drive</b> motor, in meters per
-   *                 second. (can be a negative number, if necessary)
+   * Overload setDesiredState method, takes in no params.  This method halts the swerve module, stopping both the drive
+   * and turning motors.  This is so that the direction that the module is facing is preserved, and the pid loop isn't
+   * activated.  
+   * This method also updates the swerve module state, accessed by getState, for odometry. 
    */
-  public void setDriveVelocity(double velocity) {
+  public void setDesiredState() {
     m_turningMotor.set(0);
-    m_driveMotor.set(velocity / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    m_driveMotor.set(0);
 
     this.updateSwerveModuleState();
   }
