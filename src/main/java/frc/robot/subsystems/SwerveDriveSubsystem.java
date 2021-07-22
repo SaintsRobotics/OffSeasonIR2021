@@ -44,13 +44,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Create chassisSpeed object
-    m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed);
+    // Create chassis speeds object.
+    // Convert chassis speeds from field-relative speeds to robot-relative speeds,
+    // if needed.
+    if (m_isFieldRelative) {
+      m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed, robotAngle);
+      // TODO implement gyro!! code won't build witout fixing this lol
+    } else {
+      m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed);
+    }
 
     // toSwerveModuleState array create it from kinematics
     SwerveModuleState[] swerveModuleStates;
     swerveModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
+    // Normalizing wheel speeds so that the maximum possible speed isn't exceeded.
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates,
         Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
@@ -63,11 +71,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   /**
    * 
    * @param xSpeed          Represents forward velocity w.r.t the robot frame of
-   *                        reference. Radians per second (Forward is positive)
+   *                        reference. Meters per second, forward is positive
    * @param ySpeed          Represents sideways velocity w.r.t the robot frame of
-   *                        reference. Radians per second (Left is positive)
+   *                        reference. Meters per second, left is positive
    * @param rotationSpeed   Represents the angular velocity of the robot frame.
-   *                        Radians per second (Counterclockwise is positive)
+   *                        Radians per second, counterclockwise is positive
    * @param isFieldRelative Whether or not the provided x and y values should be
    *                        considered relative to the field, or relative to the
    *                        robot.
