@@ -49,11 +49,13 @@ public class SwerveModule {
     SwerveModuleState state = SwerveModuleState.optimize(desiredState,
         new Rotation2d(m_turningEncoder.getAngle().getRadians()));
 
+    // Dividing given speed by max meters per second to fit the value within the range of [-1, 1]
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+
     m_turningPIDController.setSetpoint(state.angle.getRadians());
     m_turningMotor.set(m_turningPIDController.calculate(m_turningEncoder.getAngle().getRadians()));
 
-    this.setSwerveModuleState();
+    this.updateSwerveModuleState();
   }
 
   /**
@@ -62,8 +64,8 @@ public class SwerveModule {
    * coasting, and the effect is that when the bot stops moving, the wheels don't
    * lock on to a specific angle, but their most recent angle was preserved. It
    * does this by just setting the turning motor to 0. (I know, this description
-   * isn't as coherent as it could be.) This method also updates the swerve module
-   * state, accessed by getState, for odometry.
+   * isn't as coherent as it could be.) 
+   * This method also updates the swerve module state, accessed by getState, for odometry.
    * 
    * @param velocity The desired velocity of the <b>drive</b> motor, in meters per
    *                 second. (can be a negative number, if necessary)
@@ -72,12 +74,12 @@ public class SwerveModule {
     m_turningMotor.set(0);
     m_driveMotor.set(velocity / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
-    this.setSwerveModuleState();
+    this.updateSwerveModuleState();
   }
 
   /**
    * 
-   * @return The location of the Swerve wheel. Origin is the center of the robot.
+   * @return The location of the Swerve wheel w.r.t. the frame of the robot. Origin is the center of the robot.
    *         Robt is facing forward along the x-axis.
    */
   public Translation2d getLocation() {
@@ -94,11 +96,11 @@ public class SwerveModule {
   }
 
   /**
-   * //TODO ADD DOCS
+   * Private method that is used in this class to update the state (heading and velocity) of the swerve module.
+   * State is accessable by the getState method of this class.
    */
-  private void setSwerveModuleState() {
-    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
-    // configure conversion to meters per second.
+  private void updateSwerveModuleState() {
+    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to configure conversion to meters per second.
     m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
         new Rotation2d(m_turningEncoder.getAngle().getRadians()));
   }
