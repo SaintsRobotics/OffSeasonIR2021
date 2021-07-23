@@ -60,20 +60,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates,
         Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
-
-    if (m_chassisSpeeds.vxMetersPerSecond == 0 && desiredSpeed.vyMetersPerSecond == 0 && desiredSpeed.omegaRadiansPerSecond == 0) {
+    if (m_chassisSpeeds.vxMetersPerSecond == 0 && m_chassisSpeeds.vyMetersPerSecond == 0
+        && m_chassisSpeeds.omegaRadiansPerSecond == 0) {
       m_frontLeftModule.setDesiredState();
       m_frontRightModule.setDesiredState();
       m_backLeftModule.setDesiredState();
       m_backRightModule.setDesiredState();
     } else {
-      // I assume swerve module states are given in the same order that the wheels are given to the kinematics object.
+      // I assume swerve module states are given in the same order that the wheels are
+      // given to the kinematics object.
       m_frontLeftModule.setDesiredState(swerveModuleStates[0]);
       m_frontRightModule.setDesiredState(swerveModuleStates[1]);
       m_backLeftModule.setDesiredState(swerveModuleStates[2]);
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
-    
+
   }
 
   /**
