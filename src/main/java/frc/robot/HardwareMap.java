@@ -1,10 +1,9 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.SwerveModule;
@@ -21,15 +20,16 @@ public class HardwareMap {
         }
     }
 
-    public class ShooterHardware{
-        public CANSparkMax leftShooter; 
+    public class ShooterHardware {
+        public CANSparkMax leftShooter;
         public CANSparkMax rightShooter;
-        public SpeedControllerGroup shooter; 
-        public ShooterHardware(){
+        public SpeedControllerGroup shooter;
+
+        public ShooterHardware() {
             leftShooter = new CANSparkMax(16, MotorType.kBrushless);
             leftShooter.setInverted(true);
             rightShooter = new CANSparkMax(17, MotorType.kBrushless);
-            shooter = new SpeedControllerGroup(leftShooter, rightShooter);            
+            shooter = new SpeedControllerGroup(leftShooter, rightShooter);
         }
     }
 
@@ -60,30 +60,41 @@ public class HardwareMap {
             backLeftTurningMotor = new CANSparkMax(3, MotorType.kBrushless);
             backRightTurningMotor = new CANSparkMax(7, MotorType.kBrushless);
 
-            frontLeftTurningEncoder = new AbsoluteEncoder(0, true, Constants.SwerveConstants.FRONT_LEFT_ROTATION_OFFSET);
-            frontRightTurningEncoder = new AbsoluteEncoder(1, true, Constants.SwerveConstants.FRONT_RIGHT_ROTATION_OFFSET);
+            frontLeftTurningEncoder = new AbsoluteEncoder(0, true,
+                    Constants.SwerveConstants.FRONT_LEFT_ROTATION_OFFSET);
+            frontRightTurningEncoder = new AbsoluteEncoder(1, true,
+                    Constants.SwerveConstants.FRONT_RIGHT_ROTATION_OFFSET);
             backLeftTurningEncoder = new AbsoluteEncoder(3, true, Constants.SwerveConstants.BACK_LEFT_ROTATION_OFFSET);
-            backRightTurningEncoder = new AbsoluteEncoder(2, true, Constants.SwerveConstants.BACK_RIGHT_ROTATION_OFFSET);
+            backRightTurningEncoder = new AbsoluteEncoder(2, true,
+                    Constants.SwerveConstants.BACK_RIGHT_ROTATION_OFFSET);
         }
     }
 
-    public class SwerveDriveHardware {     
-        private double x; 
-        private double y; 
+    public class SwerveDriveHardware {
+        private double x;
+        private double y;
         private SwerveModuleHardware swerveModuleHardware;
         public SwerveModule frontLeft;
         public SwerveModule frontRight;
         public SwerveModule backLeft;
         public SwerveModule backRight;
-        
+
+        public AHRS gyro;
+
         public SwerveDriveHardware() {
-            x = Constants.SwerveConstants.WHEEL_BASE/2;
-            y = Constants.SwerveConstants.TRACK_WIDTH/2;
+            x = Constants.SwerveConstants.WHEEL_BASE / 2;
+            y = Constants.SwerveConstants.TRACK_WIDTH / 2;
             swerveModuleHardware = new SwerveModuleHardware();
-            frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor, swerveModuleHardware.frontLeftTurningMotor, x, y, swerveModuleHardware.frontLeftTurningEncoder);
-            frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor, swerveModuleHardware.frontRightTurningMotor, x, -y, swerveModuleHardware.frontRightTurningEncoder);
-            backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor, swerveModuleHardware.backLeftTurningMotor, -x, y, swerveModuleHardware.backLeftTurningEncoder);
-            backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor, swerveModuleHardware.backRightTurningMotor, -x, -y, swerveModuleHardware.backRightTurningEncoder);
+            frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor,
+                    swerveModuleHardware.frontLeftTurningMotor, x, y, swerveModuleHardware.frontLeftTurningEncoder);
+            frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor,
+                    swerveModuleHardware.frontRightTurningMotor, x, -y, swerveModuleHardware.frontRightTurningEncoder);
+            backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor,
+                    swerveModuleHardware.backLeftTurningMotor, -x, y, swerveModuleHardware.backLeftTurningEncoder);
+            backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor,
+                    swerveModuleHardware.backRightTurningMotor, -x, -y, swerveModuleHardware.backRightTurningEncoder);
+
+            gyro = new AHRS();
         }
 
     }
@@ -91,6 +102,7 @@ public class HardwareMap {
     public InputHardware inputHardware;
     public ShooterHardware shooterHardware;
     public SwerveDriveHardware swerveDriveHardware;
+
     public HardwareMap() {
         inputHardware = new InputHardware();
         shooterHardware = new ShooterHardware();

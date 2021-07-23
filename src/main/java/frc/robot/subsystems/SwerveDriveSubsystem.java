@@ -4,12 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.HardwareMap;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
@@ -18,6 +19,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveModule m_frontRightModule;
   private SwerveModule m_backLeftModule;
   private SwerveModule m_backRightModule;
+  private AHRS m_gyro;
 
   private double m_xSpeed;
   private double m_ySpeed;
@@ -33,6 +35,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_frontRightModule = swerveHardware.frontRight;
     m_backLeftModule = swerveHardware.backLeft;
     m_backRightModule = swerveHardware.backRight;
+    m_gyro = swerveHardware.gyro;
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
@@ -46,7 +49,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // Convert chassis speeds from field-relative speeds to robot-relative speeds,
     // if needed.
     if (m_isFieldRelative) {
-      m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed, robotAngle);
+      m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed,
+          m_gyro.getRotation2d());
       // TODO implement gyro!! code won't build witout fixing this lol
     } else {
       m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed);
