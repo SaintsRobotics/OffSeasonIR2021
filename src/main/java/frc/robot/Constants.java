@@ -19,20 +19,20 @@ public final class Constants {
 	public static final double intakeSpeed = 0.5;
 
 	// public static final class SwervePorts {
-	// 	public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
-	// 	public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
-	// 	public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-	// 	public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
+	// public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+	// public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
+	// public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
+	// public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
 
-	// 	public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
-	// 	public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
-	// 	public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
-	// 	public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
+	// public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
+	// public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
+	// public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
+	// public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
 
-	// 	public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
-	// 	public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
-	// 	public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
-	// 	public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
+	// public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
+	// public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
+	// public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
+	// public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
 	// }
 
 	public static final class SwerveConstants {
@@ -47,17 +47,22 @@ public final class Constants {
 
 		public static final double TRANSLATIONAL_FRICTION = 0.0205;
 
-		// Swerve module offsets
+		// Swerve module turning encoder offsets
 		public static final double FRONT_LEFT_ROTATION_OFFSET = 2.75 - (Math.PI / 5);
 		public static final double BACK_LEFT_ROTATION_OFFSET = -6.091199;
 		public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
 		public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
-    }
-    public final class ShooterPorts {
-        public static final int FEEDER_PORT = 26;
-        public static final int SPINNER_PORT = 27;
-        public static final int LEFT_SHOOTER_PORT = 16;
-        public static final int RIGHT_SHOOTER_PORT = 17;
-    }
+
+		// Gyro rotation rate deadzone
+		public static final double GYRO_RATE_DEADZONE = 0.05;
+		// TODO this value might need adjustment. copied from frc2020
+	}
+
+	public final class ShooterPorts {
+		public static final int FEEDER_PORT = 26;
+		public static final int SPINNER_PORT = 27;
+		public static final int LEFT_SHOOTER_PORT = 16;
+		public static final int RIGHT_SHOOTER_PORT = 17;
+	}
 
 }

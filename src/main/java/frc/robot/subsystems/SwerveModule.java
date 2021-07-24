@@ -17,7 +17,7 @@ public class SwerveModule {
 
   private CANSparkMax m_driveMotor, m_turningMotor;
   private AbsoluteEncoder m_turningEncoder;
-  private PIDController m_turningPIDController;
+  private PIDController m_turningPidController;
   private Translation2d m_location;
 
   // Stores current, real state of the wheel, based on information from the
@@ -39,7 +39,7 @@ public class SwerveModule {
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
-    m_turningPIDController = new PIDController(0.05, 0, 0);
+    m_turningPidController = new PIDController(0.05, 0, 0);
     m_location = new Translation2d(X, Y);
   }
 
@@ -49,20 +49,22 @@ public class SwerveModule {
     SwerveModuleState state = SwerveModuleState.optimize(desiredState,
         new Rotation2d(m_turningEncoder.getAngle().getRadians()));
 
-    // Dividing given speed by max meters per second to fit the value within the range of [-1, 1]
+    // Dividing given speed by max meters per second to fit the value within the
+    // range of [-1, 1]
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
-    m_turningPIDController.setSetpoint(state.angle.getRadians());
-    m_turningMotor.set(m_turningPIDController.calculate(m_turningEncoder.getAngle().getRadians()));
+    m_turningPidController.setSetpoint(state.angle.getRadians());
+    m_turningMotor.set(m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
 
     this.updateSwerveModuleState();
   }
 
   /**
-   * Overload setDesiredState method, takes in no params.  This method halts the swerve module, stopping both the drive
-   * and turning motors.  This is so that the direction that the module is facing is preserved, and the pid loop isn't
-   * activated.  
-   * This method also updates the swerve module state, accessed by getState, for odometry. 
+   * Overload setDesiredState method, takes in no params. This method halts the
+   * swerve module, stopping both the drive and turning motors. This is so that
+   * the direction that the module is facing is preserved, and the pid loop isn't
+   * activated. This method also updates the swerve module state, accessed by
+   * getState, for odometry.
    */
   public void setDesiredState() {
     m_turningMotor.set(0);
@@ -73,8 +75,9 @@ public class SwerveModule {
 
   /**
    * 
-   * @return The location of the Swerve wheel w.r.t. the frame of the robot. Origin is the center of the robot.
-   *         Robt is facing forward along the x-axis.
+   * @return The location of the Swerve wheel w.r.t. the frame of the robot.
+   *         Origin is the center of the robot. Robt is facing forward along the
+   *         x-axis.
    */
   public Translation2d getLocation() {
     return m_location;
@@ -90,11 +93,13 @@ public class SwerveModule {
   }
 
   /**
-   * Private method that is used in this class to update the state (heading and velocity) of the swerve module.
-   * State is accessable by the getState method of this class.
+   * Private method that is used in this class to update the state (heading and
+   * velocity) of the swerve module. State is accessable by the getState method of
+   * this class.
    */
   private void updateSwerveModuleState() {
-    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to configure conversion to meters per second.
+    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
+    // configure conversion to meters per second.
     m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
         new Rotation2d(m_turningEncoder.getAngle().getRadians()));
   }

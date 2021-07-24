@@ -6,11 +6,13 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utils;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
@@ -28,6 +30,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
+  private PIDController m_headingPidController;
+
+  /**
+   * Determined by the gyro. Signifies whether or not the robot is
+   * <b>physically</b> rotating, aka changing heading
+   */
+  private boolean m_isTurning;
 
   /** Creates a new SwerveDrivetrain. */
   public SwerveDriveSubsystem(SwerveDriveHardware swerveHardware) {
@@ -44,6 +53,28 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // Heading correction
+    if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) != 0) {
+      m_isTurning = true;
+    } else if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) == 0 && m_isTurning) {
+      // If this is true, that means the robot was rotating the "instant" BEFORE, but
+      // now, it's not.
+      // We want to remember the direction the bot is facing right now so that when
+      // the bot do start drifting, it knows where to go back to.
+      m_headingPidController.setSetpoint(Utils.normalizeAngle(m_gyro.getAngle(), 360));
+      m_isTurning = false;
+      // Setting the rotation input to pid output, instead of whatever is input via
+      // the drive() method.
+      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
+    } else if (m_xSpeed != 0 || m_ySpeed != 0) {
+      // Only use pid output for rotation input if the bot is being told to translate.
+      // In other words, do not heading-correct if the bot is being told to be
+      // otherwise stationary.
+      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
+    }
+
+    // TODO somehow account for static friction, I think?
 
     // Create chassis speeds object.
     // Convert chassis speeds from field-relative speeds to robot-relative speeds,
