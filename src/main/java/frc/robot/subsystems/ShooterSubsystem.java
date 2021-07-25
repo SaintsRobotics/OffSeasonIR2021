@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 
@@ -16,6 +17,7 @@ import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SpeedControllerGroup m_shooter;
+  private CANEncoder m_canEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
   private WPI_VictorSPX m_wheels;
@@ -24,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooter) {    
     m_shooter = shooter.shooter;
+    m_canEncoder = shooter.rightCanEncoder;
     m_kicker = new WPI_VictorSPX(ShooterConstants.FEEDER_PORT); 
     m_wheels = new WPI_VictorSPX(ShooterConstants.SPINNER_PORT);
     m_wheels.setInverted(true);
@@ -36,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getShooterSpeed() {
-    return m_shooter.get();
+    return m_canEncoder.getVelocity();
   }
 
   public void turnFeederOn() {
@@ -49,8 +52,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("shooter speed", m_targetSpeed);
+
+    // Spit out the shooter speed
+    SmartDashboard.putNumber("Current Shooter Speed", getShooterSpeed());
+    SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
     m_shooter.set(m_targetSpeed);
+    m_feeder.set(m_feederSpeed);
     // This method will be called once per scheduler run
 
   } 
