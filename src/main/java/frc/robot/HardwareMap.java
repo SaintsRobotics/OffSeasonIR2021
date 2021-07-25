@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class HardwareMap {
 
+    // either construct each subclass seperately in robotcontainer,
+    // OR create fields for each subclass in the constructor for hardwaremap
     public class ShooterHardware{
         public CANEncoder rightCanEncoder;
         public CANSparkMax leftShooter; 
@@ -29,6 +31,7 @@ public class HardwareMap {
         public IntakeHardware(){
             intakeController = new VictorSPX(25);
             armController = new VictorSPX(24);
+
         }
     };
   
@@ -38,4 +41,5 @@ public class HardwareMap {
         shooterHardware = new ShooterHardware();
         intakeHardware = new IntakeHardware();
     }
+
 }
