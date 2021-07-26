@@ -44,8 +44,6 @@ public final class Constants {
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
     }
 
-
-
 }
 
 // copied from simulatorpractice2021
