@@ -7,10 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
-/** Creates a new {@link ShootOneBallCommand}. */
+/** Command to shoot one ball. */
 public class ShootOneBallCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
 
+  /**
+   * Creates a new {@link ShootOneBallCommand}.
+   * 
+   * @param shooter Shooter subsystem that the command will run on.
+   */
   public ShootOneBallCommand(ShooterSubsystem shooter) {
     m_shooterSubsystem = shooter;
     addRequirements(m_shooterSubsystem);
