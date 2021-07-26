@@ -73,8 +73,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
     } else if (m_xSpeed != 0 || m_ySpeed != 0) {
       // Only use pid output for rotation input if the bot is being told to translate.
-      // In other words, do not heading-correct if the bot is being told to be
-      // otherwise stationary.
+      // In other words, do not heading-correct if the bot is being told to be stationary.
       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
     }
 
@@ -100,6 +99,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     if (m_chassisSpeeds.vxMetersPerSecond == 0 && m_chassisSpeeds.vyMetersPerSecond == 0
         && m_chassisSpeeds.omegaRadiansPerSecond == 0) {
+      // Only stops swerve module's wheel from driving, preserves module's heading.
       m_frontLeftModule.setDesiredState();
       m_frontRightModule.setDesiredState();
       m_backLeftModule.setDesiredState();
@@ -120,15 +120,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @param xSpeed          Represents forward velocity w.r.t the robot frame of
    *                        reference. Meters per second, forward is positive
    * @param ySpeed          Represents sideways velocity w.r.t the robot frame of
-   *                        reference. Meters per second, left is positive
+   *                        reference. Meters per second, <b>left is positive</b>
    * @param rotationSpeed   Represents the angular velocity of the robot frame.
-   *                        Radians per second, counterclockwise is positive
+   *                        Radians per second, <b>counterclockwise is positive</b>
    * @param isFieldRelative Whether or not the provided x and y values should be
    *                        considered relative to the field, or relative to the
    *                        robot.
    */
   public void move(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
-
     m_xSpeed = xSpeed;
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
