@@ -12,26 +12,22 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareMap;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
   private SpeedControllerGroup m_shooter;
+  private SpeedControllerGroup m_feeder;
   private CANEncoder m_canEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
-  private WPI_VictorSPX m_wheels;
-  private WPI_VictorSPX m_kicker;
-  private SpeedControllerGroup m_feeder;
+  
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooter) {    
     m_shooter = shooter.shooter;
+    m_feeder = shooter.feeder;
     m_canEncoder = shooter.rightCanEncoder;
-    m_kicker = new WPI_VictorSPX(ShooterConstants.FEEDER_PORT); 
-    m_wheels = new WPI_VictorSPX(ShooterConstants.SPINNER_PORT);
-    m_wheels.setInverted(true);
-
-    m_feeder = new SpeedControllerGroup(m_kicker, m_wheels);
+    
 
   }
   public void setShooter(double speed){
@@ -52,13 +48,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // This method will be called once per scheduler run
 
     // Spit out the shooter speed
     SmartDashboard.putNumber("Current Shooter Speed", getShooterSpeed());
     SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
     m_shooter.set(m_targetSpeed);
     m_feeder.set(m_feederSpeed);
-    // This method will be called once per scheduler run
 
   } 
 }
