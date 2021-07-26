@@ -7,22 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/** Creates a new {@link ShootOneBallCommand}. */
 public class ShootOneBallCommand extends CommandBase {
-  /** Creates a new ShootOneBallCommand. */
   private ShooterSubsystem m_shooterSubsystem;
-  
+
   public ShootOneBallCommand(ShooterSubsystem shooter) {
-    // Use addRequirements() here to declare subsystem dependencies.
     m_shooterSubsystem = shooter;
     addRequirements(m_shooterSubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
-    
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_shooterSubsystem.getShooterSpeed() >= 0.96) {
@@ -30,14 +27,11 @@ public class ShootOneBallCommand extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooterSubsystem.turnFeederOff(); 
+    m_shooterSubsystem.turnFeederOff();
   }
 
-     
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
