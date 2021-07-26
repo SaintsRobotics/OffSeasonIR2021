@@ -48,6 +48,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
+  
+    m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P, Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
+    m_headingPidController.setContinuousInput(0, 360);
+    // TODO right now, the heading PID controller is in degrees. do we want to switch to radians?
   }
 
   @Override
@@ -82,7 +86,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     if (m_isFieldRelative) {
       m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed,
           m_gyro.getRotation2d());
-      // TODO implement gyro!! code won't build witout fixing this lol
     } else {
       m_chassisSpeeds = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed);
     }

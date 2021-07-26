@@ -56,6 +56,13 @@ public final class Constants {
 		// Gyro rotation rate deadzone
 		public static final double GYRO_RATE_DEADZONE = 0.05;
 		// TODO this value might need adjustment. copied from frc2020
+
+		// Heading PID Controller
+		public static final double HEADING_PID_P = 0.1;
+		public static final double HEADING_PID_I = 0;
+		public static final double HEADING_PID_D = 0;
+		// TODO these values might need adjustment. copied from frc2020.
+
 	}
 
 	public final class ShooterPorts {
