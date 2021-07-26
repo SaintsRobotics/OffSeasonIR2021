@@ -4,10 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.HardwareMap;
-import frc.robot.HardwareMap.ShooterHardware;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOffCommand extends CommandBase {
