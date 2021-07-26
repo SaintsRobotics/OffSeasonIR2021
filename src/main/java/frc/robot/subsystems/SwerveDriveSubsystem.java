@@ -48,10 +48,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
-  
-    m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P, Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
-    m_headingPidController.setContinuousInput(0, 360);
-    // TODO right now, the heading PID controller is in degrees. do we want to switch to radians?
+
+    m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P,
+        Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
+    m_headingPidController.enableContinuousInput(0, 360);
+    // TODO right now, the heading PID controller is in degrees. do we want to
+    // switch to radians?
   }
 
   @Override
@@ -73,7 +75,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
     } else if (m_xSpeed != 0 || m_ySpeed != 0) {
       // Only use pid output for rotation input if the bot is being told to translate.
-      // In other words, do not heading-correct if the bot is being told to be stationary.
+      // In other words, do not heading-correct if the bot is being told to be
+      // stationary.
       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
     }
 
@@ -122,7 +125,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @param ySpeed          Represents sideways velocity w.r.t the robot frame of
    *                        reference. Meters per second, <b>left is positive</b>
    * @param rotationSpeed   Represents the angular velocity of the robot frame.
-   *                        Radians per second, <b>counterclockwise is positive</b>
+   *                        Radians per second, <b>counterclockwise is
+   *                        positive</b>
    * @param isFieldRelative Whether or not the provided x and y values should be
    *                        considered relative to the field, or relative to the
    *                        robot.
