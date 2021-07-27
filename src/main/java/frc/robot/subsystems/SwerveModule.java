@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 
@@ -56,6 +57,8 @@ public class SwerveModule {
     m_turningPidController.setSetpoint(state.angle.getRadians());
     m_turningMotor.set(m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
 
+    SmartDashboard.putNumber("turning velocity", m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
+    SmartDashboard.putNumber("drive velocity", state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
     this.updateSwerveModuleState();
   }
 
