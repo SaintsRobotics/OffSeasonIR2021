@@ -57,7 +57,7 @@ public final class Constants {
 		public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
 
 		// Swerve module turning moder PID coefficients
-		public static final double MODULE_PID_P = 0.05;
+		public static final double MODULE_PID_P = 0.3;
 		public static final double MODULE_PID_I = 0;
 		public static final double MODULE_PID_D = 0;
 
