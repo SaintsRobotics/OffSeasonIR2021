@@ -51,10 +51,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // turns on shooter when A is pressed
-    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(m_shooterOnCommand);
+    // new JoystickButton(m_operatorController, Button.kA.value).whenPressed(m_shooterOnCommand);
 
     // turns off shooter when B is pressed
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_shooterOffCommand);
+    // new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_shooterOffCommand);
   }
 
   /**

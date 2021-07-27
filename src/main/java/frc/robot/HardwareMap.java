@@ -50,22 +50,22 @@ public class HardwareMap {
         public AbsoluteEncoder backRightTurningEncoder;
 
         public SwerveModuleHardware() {
-            frontLeftDriveMotor = new CANSparkMax(8, MotorType.kBrushless);
-            frontRightDriveMotor = new CANSparkMax(4, MotorType.kBrushless);
-            backLeftDriveMotor = new CANSparkMax(2, MotorType.kBrushless);
-            backRightDriveMotor = new CANSparkMax(6, MotorType.kBrushless);
+            frontLeftDriveMotor = new CANSparkMax(Constants.SwervePorts.FRONT_LEFT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+            frontRightDriveMotor = new CANSparkMax(Constants.SwervePorts.FRONT_RIGHT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+            backLeftDriveMotor = new CANSparkMax(Constants.SwervePorts.REAR_LEFT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+            backRightDriveMotor = new CANSparkMax(Constants.SwervePorts.REAR_RIGHT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
 
-            frontLeftTurningMotor = new CANSparkMax(1, MotorType.kBrushless);
-            frontRightTurningMotor = new CANSparkMax(5, MotorType.kBrushless);
-            backLeftTurningMotor = new CANSparkMax(3, MotorType.kBrushless);
-            backRightTurningMotor = new CANSparkMax(7, MotorType.kBrushless);
+            frontLeftTurningMotor = new CANSparkMax(Constants.SwervePorts.FRONT_LEFT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+            frontRightTurningMotor = new CANSparkMax(Constants.SwervePorts.FRONT_RIGHT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+            backLeftTurningMotor = new CANSparkMax(Constants.SwervePorts.REAR_LEFT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+            backRightTurningMotor = new CANSparkMax(Constants.SwervePorts.REAR_RIGHT_TURNING_MOTOR_PORT, MotorType.kBrushless);
 
-            frontLeftTurningEncoder = new AbsoluteEncoder(0, true,
+            frontLeftTurningEncoder = new AbsoluteEncoder(Constants.SwervePorts.FRONT_LEFT_TURNING_ENCODER_PORT, true,
                     Constants.SwerveConstants.FRONT_LEFT_ROTATION_OFFSET);
-            frontRightTurningEncoder = new AbsoluteEncoder(1, true,
+            frontRightTurningEncoder = new AbsoluteEncoder(Constants.SwervePorts.FRONT_RIGHT_TURNING_ENCODER_PORT, true,
                     Constants.SwerveConstants.FRONT_RIGHT_ROTATION_OFFSET);
-            backLeftTurningEncoder = new AbsoluteEncoder(3, true, Constants.SwerveConstants.BACK_LEFT_ROTATION_OFFSET);
-            backRightTurningEncoder = new AbsoluteEncoder(2, true,
+            backLeftTurningEncoder = new AbsoluteEncoder(Constants.SwervePorts.REAR_LEFT_TURNING_ENCODER_PORT, true, Constants.SwerveConstants.BACK_LEFT_ROTATION_OFFSET);
+            backRightTurningEncoder = new AbsoluteEncoder(Constants.SwervePorts.REAR_RIGHT_TURNING_ENCODER_PORT, true,
                     Constants.SwerveConstants.BACK_RIGHT_ROTATION_OFFSET);
         }
     }

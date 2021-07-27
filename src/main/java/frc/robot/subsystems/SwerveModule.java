@@ -39,7 +39,7 @@ public class SwerveModule {
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
-    m_turningPidController = new PIDController(0.05, 0, 0);
+    m_turningPidController = new PIDController(Constants.SwerveConstants.MODULE_PID_P, Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
     m_location = new Translation2d(X, Y);
   }
 

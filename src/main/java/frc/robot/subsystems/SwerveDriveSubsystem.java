@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Utils;
@@ -115,7 +116,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_backLeftModule.setDesiredState(swerveModuleStates[2]);
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
-
+    SmartDashboard.putBoolean("is turning ", m_isTurning);
   }
 
   /**

@@ -18,22 +18,25 @@ public final class Constants {
 	public static final double defaultNull = Double.MIN_VALUE;
 	public static final double intakeSpeed = 0.5;
 
-	// public static final class SwervePorts {
-	// public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
-	// public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
-	// public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-	// public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
+	/**
+	 * Port numbers for any hardware relating to swerve modules.
+	 */
+	public static final class SwervePorts {
+	public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+	public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
+	public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
+	public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
 
-	// public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
-	// public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
-	// public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
-	// public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
+	public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
+	public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
+	public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
+	public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
 
-	// public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
-	// public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
-	// public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
-	// public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
-	// }
+	public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
+	public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
+	public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
+	public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
+	}
 
 	public static final class SwerveConstants {
 		public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
@@ -52,6 +55,12 @@ public final class Constants {
 		public static final double BACK_LEFT_ROTATION_OFFSET = -6.091199;
 		public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
 		public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
+
+		// Swerve module turning moder PID coefficients
+		public static final double MODULE_PID_P = 0.05;
+		public static final double MODULE_PID_I = 0;
+		public static final double MODULE_PID_D = 0;
+
 
 		// Gyro rotation rate deadzone
 		public static final double GYRO_RATE_DEADZONE = 0.05;
