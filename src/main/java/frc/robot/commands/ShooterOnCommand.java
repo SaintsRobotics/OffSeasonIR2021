@@ -12,7 +12,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOnCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
-  private PIDController m_pidController; 
+  private PIDController m_pidController;
+
   /** Creates a new ShooterCommand. */
   public ShooterOnCommand(ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,6 +21,7 @@ public class ShooterOnCommand extends CommandBase {
     m_pidController = new PIDController(0.5, 0, 0);
     addRequirements(m_shooterSubsystem);
   }
+
   Timer timer = new Timer();
 
   // Called when the command is initially scheduled.
@@ -32,38 +34,36 @@ public class ShooterOnCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double currentSpeed = m_shooterSubsystem.getShooterSpeed();
-    if (currentSpeed < 4500){ //subject to tuning
-      m_shooterSubsystem.setShooter(1);
+    double currentSpeed = m_shooterSubsystem.getFlywheelRPM();
+    if (currentSpeed < 4500) { // subject to tuning
+      m_shooterSubsystem.setFlywheel(1);
     }
-    
-    else if (currentSpeed > 4500) { //subject to tuning
-      m_shooterSubsystem.setShooter(0.85);
+
+    else if (currentSpeed > 4500) { // subject to tuning
+      m_shooterSubsystem.setFlywheel(0.85);
     }
 
     // m_pidController.setSetpoint(0.96);
-    // double pidOutput = m_pidController.calculate(m_shooterSubsystem.getShooterSpeed());
+    // double pidOutput =
+    // m_pidController.calculate(m_shooterSubsystem.getShooterSpeed());
     // if (pidOutput > 1) {
-    //   m_shooterSubsystem.setShooter(1);
+    // m_shooterSubsystem.setShooter(1);
     // }
     // m_shooterSubsystem.setShooter(pidOutput);
-    
-    
-
-    
 
     // if (timer.hasElapsed(4)) {
-    //   m_shooterSubsystem.setShooter(0.8);
+    // m_shooterSubsystem.setShooter(0.8);
 
     // } else {
-    //   m_shooterSubsystem.setShooter(0.1);
+    // m_shooterSubsystem.setShooter(0.1);
     // }
-        
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

@@ -27,7 +27,7 @@ public class ShootOneBallCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getShooterSpeed() >= 0.96) {
+    if (m_shooterSubsystem.getFlywheelRPM() >= 0.96) {
       m_shooterSubsystem.turnFeederOn();
     }
   }

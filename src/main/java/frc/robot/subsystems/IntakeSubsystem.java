@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.HardwareMap.IntakeHardware;
 
 public class IntakeSubsystem extends SubsystemBase {
-  
+
   private VictorSPX m_intakeController;
   private VictorSPX m_armController;
   private double desiredSpeed;
@@ -38,7 +38,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    desiredSpeed = Constants.intakeSpeed;
+    desiredSpeed = Constants.IntakeConstants.INTAKE_SPEED;
   }
 
   public void stopIntake() {
@@ -46,6 +46,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void outtake() {
-    desiredSpeed = -Constants.intakeSpeed;
+    desiredSpeed = -Constants.IntakeConstants.INTAKE_SPEED;
   }
 }

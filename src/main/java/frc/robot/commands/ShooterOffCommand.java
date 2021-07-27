@@ -9,6 +9,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOffCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
+
   /** Creates a new ShooterOffCommand. */
   public ShooterOffCommand(ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -18,17 +19,19 @@ public class ShooterOffCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setShooter(0);
+    m_shooterSubsystem.setFlywheel(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
