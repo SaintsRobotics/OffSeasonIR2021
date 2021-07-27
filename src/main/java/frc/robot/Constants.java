@@ -21,25 +21,6 @@ public final class Constants {
     public static final double defaultNull = Double.MIN_VALUE;
     public static final double intakeSpeed = 0.5;
     
-    public final class SwervePorts {
-        public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
-        public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
-
-        public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-        public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
-
-        public static final int BACK_LEFT_DRIVE_MOTOR_PORT = 2;
-        public static final int BACK_LEFT_TURNING_MOTOR_PORT = 3;
-
-        public static final int BACK_RIGHT_DRIVE_MOTOR_PORT = 6;
-        public static final int BACK_RIGHT_TURNING_MOTOR_PORT = 7;
-
-        public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
-        public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
-        public static final int BACK_LEFT_TURNING_ENCODER_PORT = 3;
-        public static final int BACK_RIGHT_TURNING_ENCODER_PORT = 2;
-
-    }
 
     public final class SwerveConstants {
         public static final double MAX_METERS_PER_SECOND = 3.627;
