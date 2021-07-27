@@ -27,7 +27,7 @@ public final class Constants {
         public static final int WHEELS_PORT = 27;
 
         // TODO Might need a better, more descriptive name
-        public static final double FLYWHEEL_SPEED_THRESHOLD = 0.96;
+        public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
         // TODO I don't even think this number is right
     }
 

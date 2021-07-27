@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOnCommand extends CommandBase {
@@ -29,7 +30,7 @@ public class ShooterOnCommand extends CommandBase {
   public void execute() {
 
     double currentSpeed = m_shooterSubsystem.getFlywheelRPM();
-    if (currentSpeed < 4500) { // subject to tuning
+    if (currentSpeed < Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) { // TODO subject to tuning
       m_shooterSubsystem.setFlywheel(1);
     }
 
