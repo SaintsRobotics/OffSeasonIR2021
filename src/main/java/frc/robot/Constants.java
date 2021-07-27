@@ -25,6 +25,10 @@ public final class Constants {
 
         public static final int KICKER_PORT = 26;
         public static final int WHEELS_PORT = 27;
+
+        // TODO Might need a better, more descriptive name
+        public static final double FLYWHEEL_SPEED_THRESHOLD = 0.96;
+        // TODO I don't even think this number is right
     }
 
     public static final class IntakeConstants {

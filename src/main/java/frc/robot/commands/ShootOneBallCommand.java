@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /** Command to shoot one ball. */
@@ -27,7 +28,7 @@ public class ShootOneBallCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getFlywheelRPM() >= 0.96) {
+    if (m_shooterSubsystem.getFlywheelRPM() >= Constants.ShooterConstants.FLYWHEEL_SPEED_THRESHOLD) {
       m_shooterSubsystem.turnFeederOn();
     }
   }

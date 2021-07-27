@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private VictorSPX m_intakeController;
   private VictorSPX m_armController;
-  private double desiredSpeed;
+  private double m_desiredIntakeSpeed;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(IntakeHardware intake) {
@@ -29,8 +29,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Intake MotorSpeed", desiredSpeed);
-    m_intakeController.set(VictorSPXControlMode.PercentOutput, desiredSpeed);
+    SmartDashboard.putNumber("Intake MotorSpeed", m_desiredIntakeSpeed);
+    m_intakeController.set(VictorSPXControlMode.PercentOutput, m_desiredIntakeSpeed);
   }
 
   public void moveArm(double speed) {
@@ -38,14 +38,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    desiredSpeed = Constants.IntakeConstants.INTAKE_SPEED;
+    m_desiredIntakeSpeed = Constants.IntakeConstants.INTAKE_SPEED;
   }
 
   public void stopIntake() {
-    desiredSpeed = 0;
+    m_desiredIntakeSpeed = 0;
   }
 
   public void outtake() {
-    desiredSpeed = -Constants.IntakeConstants.INTAKE_SPEED;
+    m_desiredIntakeSpeed = -Constants.IntakeConstants.INTAKE_SPEED;
   }
 }
