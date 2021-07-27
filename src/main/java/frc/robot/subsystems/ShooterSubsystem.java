@@ -14,7 +14,7 @@ import frc.robot.HardwareMap.ShooterHardware;
 public class ShooterSubsystem extends SubsystemBase {
   private SpeedControllerGroup m_shooter;
   private SpeedControllerGroup m_feeder;
-  private CANEncoder m_canEncoder;
+  private CANEncoder m_shooterSpeedEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
   
@@ -23,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem(ShooterHardware shooter) {    
     m_shooter = shooter.shooter;
     m_feeder = shooter.feeder;
-    m_canEncoder = shooter.rightCanEncoder;
+    m_shooterSpeedEncoder = shooter.rightCanEncoder;
     
 
   }
@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getShooterSpeed() {
-    return m_canEncoder.getVelocity();
+    return m_shooterSpeedEncoder.getVelocity();
   }
 
   public void turnFeederOn() {
