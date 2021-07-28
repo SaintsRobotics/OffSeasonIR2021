@@ -29,10 +29,10 @@ public class ShooterSubsystem extends SubsystemBase {
   /**
    * Inherits from SpeedController.set(double) method.
    * 
-   * @param speed Value from [-1, 1].
+   * @param power Value from [-1, 1].
    */
-  public void setFlywheel(double speed) {
-    this.m_targetSpeed = speed;
+  public void setFlywheelPower(double power) {
+    this.m_targetSpeed = power;
   }
 
   /**

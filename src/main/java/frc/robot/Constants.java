@@ -26,8 +26,10 @@ public final class Constants {
         public static final int KICKER_PORT = 26;
         public static final int WHEELS_PORT = 27;
 
-        // TODO Might need a better, more descriptive name
+        // TODO Might need a better, more descriptive name.
+        // TODO write a comment explaining the distinction between these two values
         public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
+        public static final double FLYWHEEL_READY_RPM = 5000;
         // TODO Subject to tuning
     }
 

@@ -31,11 +31,12 @@ public class ShooterOnCommand extends CommandBase {
 
     double currentSpeed = m_shooterSubsystem.getFlywheelRPM();
     if (currentSpeed < Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) { // TODO subject to tuning
-      m_shooterSubsystem.setFlywheel(1);
+      m_shooterSubsystem.setFlywheelPower(1);
     }
 
-    else if (currentSpeed > Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) { 
-      m_shooterSubsystem.setFlywheel(0.85);
+    else if (currentSpeed > Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) {
+      m_shooterSubsystem.setFlywheelPower(0.85);
+      // TODO put this number in Constants
     }
   }
 

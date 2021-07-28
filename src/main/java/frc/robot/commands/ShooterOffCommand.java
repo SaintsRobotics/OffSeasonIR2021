@@ -25,7 +25,7 @@ public class ShooterOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setFlywheel(0);
+    m_shooterSubsystem.setFlywheelPower(0);
   }
 
   // Called once the command ends or is interrupted.

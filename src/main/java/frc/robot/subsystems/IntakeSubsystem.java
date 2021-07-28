@@ -34,12 +34,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * A <b>negative</b> `speed` value makes the arm move <b>up</b>
+   * A <b>positive</b> `speed` value makes the arm move <b>up</b>
    * 
-   * @param speed A value from [-1, 1], the speed at which the arm moves
+   * @param velocity A value from [-1, 1], the speed at which the arm moves
    */
-  public void moveArm(double speed) {
-    m_armController.set(VictorSPXControlMode.PercentOutput, speed);
+  public void moveArm(double velocity) {
+    m_armController.set(VictorSPXControlMode.PercentOutput, velocity);
   }
 
   /**
