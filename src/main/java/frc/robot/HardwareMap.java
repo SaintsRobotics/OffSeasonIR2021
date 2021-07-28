@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public class HardwareMap {
 
-    // either construct each subclass seperately in robotcontainer,
-    // OR create fields for each subclass in the constructor for hardwaremap
     public class ShooterHardware {
         public CANEncoder rightCanEncoder;
         private CANSparkMax leftFlywheel;
@@ -20,6 +18,7 @@ public class HardwareMap {
         private WPI_VictorSPX wheels;
         private WPI_VictorSPX kicker;
         public SpeedControllerGroup feeder;
+        // TODO Write comments briefly explaining some of this hardware
 
         public ShooterHardware() {
             leftFlywheel = new CANSparkMax(Constants.ShooterConstants.LEFT_FLYWHEEL_PORT, MotorType.kBrushless);

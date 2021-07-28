@@ -43,10 +43,16 @@ public class ShooterSubsystem extends SubsystemBase {
     return m_flywheelEncoder.getVelocity();
   }
 
+  /**
+   * Turns on the feeder to feed balls into the shooter.
+   */
   public void turnFeederOn() {
     m_feederSpeed = 1;
   }
 
+  /**
+   * Turns off the feeder to stop feeding balls into the shooter.
+   */
   public void turnFeederOff() {
     m_feederSpeed = 0;
   }

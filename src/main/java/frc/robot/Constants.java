@@ -28,7 +28,7 @@ public final class Constants {
 
         // TODO Might need a better, more descriptive name
         public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
-        // TODO I don't even think this number is right
+        // TODO Subject to tuning
     }
 
     public static final class IntakeConstants {

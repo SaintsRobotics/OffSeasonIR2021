@@ -33,18 +33,32 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeController.set(VictorSPXControlMode.PercentOutput, m_desiredIntakeSpeed);
   }
 
+  /**
+   * A <b>negative</b> `speed` value makes the arm move <b>up</b>
+   * 
+   * @param speed A value from [-1, 1], the speed at which the arm moves
+   */
   public void moveArm(double speed) {
     m_armController.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
+  /**
+   * Spins the intake to intake balls.
+   */
   public void intake() {
     m_desiredIntakeSpeed = Constants.IntakeConstants.INTAKE_SPEED;
   }
 
+  /**
+   * Stops the intake from spinning.
+   */
   public void stopIntake() {
     m_desiredIntakeSpeed = 0;
   }
 
+  /**
+   * Spins the intake "backwards" to outtake balls.
+   */
   public void outtake() {
     m_desiredIntakeSpeed = -Constants.IntakeConstants.INTAKE_SPEED;
   }
