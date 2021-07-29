@@ -23,7 +23,7 @@ public class SwerveModule {
 
   // Stores current, real state of the wheel, based on information from the
   // sensors.
-  SwerveModuleState m_state;
+  private SwerveModuleState m_state;
 
   /**
    * For the x and y coordinates, forward is along the x-axis. This method also
@@ -40,16 +40,15 @@ public class SwerveModule {
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
-    m_turningPidController = new PIDController(Constants.SwerveConstants.MODULE_PID_P, Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
+    m_turningPidController = new PIDController(Constants.SwerveConstants.MODULE_PID_P,
+        Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
     m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
     m_location = new Translation2d(X, Y);
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
 
-    // We assumed/guessed that optimize method uses radians for encoder position.
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState,
-        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, m_turningEncoder.getAngle());
 
     // Dividing given speed by max meters per second to fit the value within the
     // range of [-1, 1]
@@ -58,8 +57,10 @@ public class SwerveModule {
     m_turningPidController.setSetpoint(state.angle.getRadians());
     m_turningMotor.set(m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
 
-    SmartDashboard.putNumber("turning velocity", m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
-    SmartDashboard.putNumber("drive velocity", state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    SmartDashboard.putNumber("turning velocity",
+        m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
+    SmartDashboard.putNumber("drive velocity",
+        state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
     this.updateSwerveModuleState();
   }
 
