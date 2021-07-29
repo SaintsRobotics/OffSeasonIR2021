@@ -29,7 +29,7 @@ public final class Constants {
         // TODO Might need a better, more descriptive name.
         // TODO write a comment explaining the distinction between these two values
         public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
-        public static final double FLYWHEEL_READY_RPM = 5000;
+        public static final double FLYWHEEL_READY_RPM = 4500;
         // TODO Subject to tuning
     }
 

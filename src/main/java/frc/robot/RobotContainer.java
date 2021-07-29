@@ -16,6 +16,7 @@ import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.ShootCommand;
 
 
 /**
@@ -24,6 +25,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private XboxController m_driverController = new XboxController(0);
@@ -40,6 +42,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
   }
+
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -59,8 +62,9 @@ public class RobotContainer {
 		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
     // runs the shoot one ball command while A is held
     new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
-    
-  
+    // turns on Feeder and shoots ball
+    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShootCommand(m_shooterSubsystem));
+      
   }
 
   /**
