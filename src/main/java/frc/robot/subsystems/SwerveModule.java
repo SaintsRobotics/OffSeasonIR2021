@@ -41,6 +41,7 @@ public class SwerveModule {
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
     m_turningPidController = new PIDController(Constants.SwerveConstants.MODULE_PID_P, Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
+    m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
     m_location = new Translation2d(X, Y);
   }
 
