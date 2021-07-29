@@ -62,24 +62,20 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Heading correction
-    if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) != 0) {
-      m_isTurning = true;
-    } else if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) == 0 && m_isTurning) {
-      // If this is true, that means the robot was rotating the "instant" BEFORE, but
-      // now, it's not.
-      // We want to remember the direction the bot is facing right now so that when
-      // the bot do start drifting, it knows where to go back to.
-      m_headingPidController.setSetpoint(Utils.normalizeAngle(m_gyro.getAngle(), 360));
-      m_isTurning = false;
-      // Setting the rotation input to pid output, instead of whatever is input via
-      // the drive() method.
-      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
-    } else if (m_xSpeed != 0 || m_ySpeed != 0) {
-      // Only use pid output for rotation input if the bot is being told to translate.
-      // In other words, do not heading-correct if the bot is being told to be
-      // stationary.
+    if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) != 0
+        && m_rotationSpeed != 0) {
+      m_headingPidController.setSetpoint(m_gyro.getAngle());
+      SmartDashboard.putString("heading correction", "not correcting heading");
+    } 
+    if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
+      SmartDashboard.putString("heading correction", "correcting heading");
       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
     }
+    else {
+      SmartDashboard.putString("heading correction", "not correcting heading, not translating");
+    }
+    SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
+    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
 
     // TODO somehow account for static friction, I think?
 
@@ -117,6 +113,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
     SmartDashboard.putBoolean("is turning ", m_isTurning);
+    SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
+    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
   }
 
   /**
