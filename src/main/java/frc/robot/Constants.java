@@ -1,6 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -15,27 +18,26 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	public static final double defaultNull = Double.MIN_VALUE;
-	public static final double intakeSpeed = 0.5;
+
 
 	/**
 	 * Port numbers for any hardware relating to swerve modules.
 	 */
-	public static final class SwervePorts {
-	public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
-	public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
-	public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-	public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
+  public static final class SwervePorts {
+	  public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+	  public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
+	  public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
+	  public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
 
-	public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
-	public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
-	public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
-	public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
+	  public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
+	  public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
+	  public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
+	  public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
 
-	public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
-	public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
-	public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
-	public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
+	  public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
+	  public static final int REAR_LEFT_TURNING_ENCODER_PORT = 3;
+	  public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
+	  public static final int REAR_RIGHT_TURNING_ENCODER_PORT = 2;
 	}
 
 	public static final class SwerveConstants {
@@ -80,5 +82,31 @@ public final class Constants {
 		public static final int LEFT_SHOOTER_PORT = 16;
 		public static final int RIGHT_SHOOTER_PORT = 17;
 	}
+
+}
+
+    public static final class ShooterConstants {
+        public static final int LEFT_FLYWHEEL_PORT = 16;
+        public static final int RIGHT_FLYWHEEL_PORT = 17;
+
+        public static final int KICKER_PORT = 26;
+        public static final int WHEELS_PORT = 27;
+
+        // TODO Might need a better, more descriptive name.
+        // TODO write a comment explaining the distinction between these two values
+        public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
+        public static final double FLYWHEEL_READY_RPM = 5000;
+        // TODO Subject to tuning
+    }
+
+    public static final class IntakeConstants {
+        // Speed [-1, 1] at which to run the intake motor.
+        public static final double INTAKE_SPEED = 0.5;
+
+        public static final int WHEELS_PORT = 25;
+        public static final int ARM_PORT = 24;
+    }
+
+    
 
 }

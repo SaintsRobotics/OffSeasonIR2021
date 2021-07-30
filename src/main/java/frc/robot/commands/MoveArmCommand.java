@@ -4,17 +4,22 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class ShooterOffCommand extends CommandBase {
-  private ShooterSubsystem m_shooterSubsystem;
-
-  /** Creates a new ShooterOffCommand. */
-  public ShooterOffCommand(ShooterSubsystem shooterSubsystem) {
+public class MoveArmCommand extends CommandBase {
+  private XboxController m_controller;
+  private IntakeSubsystem m_intakeSubsystem;
+  /**
+   * Creates a new MoveArmCommand.
+   */
+  public MoveArmCommand(XboxController controller, IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_shooterSubsystem = shooterSubsystem;
-    addRequirements(m_shooterSubsystem);
+    m_controller = controller;
+    m_intakeSubsystem = intake;
+    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,8 +30,12 @@ public class ShooterOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setFlywheelPower(0);
+    //joystickOutput will be between 1 and -1
+    double joystickOutput = m_controller.getY(Hand.kLeft);
+    m_intakeSubsystem.moveArm(-0.75*joystickOutput);
+    
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

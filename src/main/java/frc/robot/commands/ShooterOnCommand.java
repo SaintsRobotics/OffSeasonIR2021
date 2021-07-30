@@ -4,11 +4,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOnCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
+
   /** Creates a new ShooterCommand. */
   public ShooterOnCommand(ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -18,17 +21,29 @@ public class ShooterOnCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    DriverStation.reportWarning("Shooter On command triggered", false);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setShooter(0.85);
+
+    double currentSpeed = m_shooterSubsystem.getFlywheelRPM();
+    if (currentSpeed < Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) { // TODO subject to tuning
+      m_shooterSubsystem.setFlywheelPower(1);
+    }
+
+    else if (currentSpeed > Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) {
+      m_shooterSubsystem.setFlywheelPower(0.85);
+      // TODO put this number in Constants
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

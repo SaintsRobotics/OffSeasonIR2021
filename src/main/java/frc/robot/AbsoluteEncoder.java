@@ -13,13 +13,17 @@ import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Our wrapper for the absolute encoder, such as the US Digital MA3. Most useful
- * for tracking the position of swerve wheels.
+
+ * Our wrapper for the absolute encoder, such as the US Digital MA3.  
+ * Most useful for tracking the position of swerve wheels.
+
  */
 public class AbsoluteEncoder {
     private AnalogInput m_analogIn;
     private boolean m_isInverted;
+
     private AnalogInputSim m_analogInSim;
+
     private double VOLTAGE_TO_RADIANS = Math.PI * 2 / 5;
 
     private double m_offset;
@@ -29,6 +33,7 @@ public class AbsoluteEncoder {
      * 
      * @param channel  analog in (sometimes also refered to as AIO) port on the
      *                 roboRIO
+
      * @param inverted set this to <i>TRUE</i> if physically turning the swerve
      *                 wheel <i>CLOCKWISE</i> (looking down on it from the top of
      *                 the bot) <i>INCREASES</i> the raw voltage the encoder
@@ -46,18 +51,21 @@ public class AbsoluteEncoder {
 
     /**
      * 
+
      * @return the angle of the absolute encoder, as a Rotation2d object. zero
      *         points toward the front of the bot. <i>the value increases as the
      *         swerve wheel is turned counter-clockwise.</i>
      */
 
     public Rotation2d getRotation2d() {
+
         if (m_isInverted) {
             return new Rotation2d((5 - m_analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
         }
 
         return new Rotation2d((m_analogIn.getVoltage()) * VOLTAGE_TO_RADIANS - m_offset);
     }
+
 
     /**
      * Figures out the value that the simulated absolute encoder should be at. Read
@@ -100,4 +108,5 @@ public class AbsoluteEncoder {
         // reading the voltage that u give it, range: [0, 5]
         m_analogInSim.setVoltage(outputVoltage);
     }
+
 }

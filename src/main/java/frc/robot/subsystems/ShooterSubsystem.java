@@ -4,35 +4,68 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.HardwareMap;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_leftShooter;
-  private CANSparkMax m_rightShooter;
-  private SpeedControllerGroup m_shooter;
+  private SpeedControllerGroup m_flywheelMotor;
+  private SpeedControllerGroup m_feeder;
+  private CANEncoder m_flywheelEncoder;
   private double m_targetSpeed;
+  private double m_feederSpeed;
+
   /** Creates a new ShooterSubsystem. */
-  public ShooterSubsystem(ShooterHardware shooter) {
-    m_leftShooter = shooter.leftShooter;
-    m_rightShooter = shooter.rightShooter;
-  
-    m_shooter = shooter.shooter;
+  public ShooterSubsystem(ShooterHardware shooterHardware) {
+    m_flywheelMotor = shooterHardware.flywheel;
+    m_feeder = shooterHardware.feeder;
+    m_flywheelEncoder = shooterHardware.rightCanEncoder;
+
   }
-  public void setShooter(double speed){
-    this.m_targetSpeed = speed;
+
+  /**
+   * Inherits from SpeedController.set(double) method.
+   * 
+   * @param power Value from [-1, 1].
+   */
+  public void setFlywheelPower(double power) {
+    this.m_targetSpeed = power;
+  }
+
+  /**
+   * 
+   * @return Speed of flywheel, in RPM
+   */
+  public double getFlywheelRPM() {
+    return m_flywheelEncoder.getVelocity();
+  }
+
+  /**
+   * Turns on the feeder to feed balls into the shooter.
+   */
+  public void turnFeederOn() {
+    m_feederSpeed = 1;
+  }
+
+  /**
+   * Turns off the feeder to stop feeding balls into the shooter.
+   */
+  public void turnFeederOff() {
+    m_feederSpeed = 0;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("shooter speed", m_targetSpeed);
-    m_shooter.set(m_targetSpeed);
     // This method will be called once per scheduler run
 
-  } 
+    // Spit out the shooter speed
+    SmartDashboard.putNumber("Current Flywheel RPM", getFlywheelRPM());
+    SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
+    m_flywheelMotor.set(m_targetSpeed);
+    m_feeder.set(m_feederSpeed);
+
+  }
 }
