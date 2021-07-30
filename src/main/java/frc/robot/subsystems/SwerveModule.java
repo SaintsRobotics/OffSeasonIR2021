@@ -48,18 +48,18 @@ public class SwerveModule {
 
   public void setDesiredState(SwerveModuleState desiredState) {
 
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, m_turningEncoder.getAngle());
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, m_turningEncoder.getRotation2d());
 
     // Dividing given speed by max meters per second to fit the value within the
     // range of [-1, 1]
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
     m_turningPidController.setSetpoint(state.angle.getRadians());
-    double turningMotorPower = m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians());
+    double turningMotorPower = m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians());
     m_turningMotor.set(turningMotorPower);
     m_turningEncoder.sendVoltage(turningMotorPower);
     SmartDashboard.putNumber("turning velocity",
-        m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
+        m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians()));
     SmartDashboard.putNumber("drive velocity",
         state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
     this.updateSwerveModuleState();
@@ -107,7 +107,7 @@ public class SwerveModule {
     // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
     // configure conversion to meters per second.
     m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(),
-        new Rotation2d(m_turningEncoder.getAngle().getRadians()));
+        new Rotation2d(m_turningEncoder.getRotation2d().getRadians()));
   }
 
 }
