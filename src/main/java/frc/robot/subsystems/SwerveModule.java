@@ -55,8 +55,9 @@ public class SwerveModule {
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
     m_turningPidController.setSetpoint(state.angle.getRadians());
-    m_turningMotor.set(m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
-
+    double turningMotorPower = m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians());
+    m_turningMotor.set(turningMotorPower);
+    m_turningEncoder.sendVoltage(turningMotorPower);
     SmartDashboard.putNumber("turning velocity",
         m_turningPidController.calculate(m_turningEncoder.getAngle().getRadians()));
     SmartDashboard.putNumber("drive velocity",
