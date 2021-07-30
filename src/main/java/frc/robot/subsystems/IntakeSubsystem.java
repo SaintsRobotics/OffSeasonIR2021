@@ -13,10 +13,10 @@ import frc.robot.Constants;
 import frc.robot.HardwareMap.IntakeHardware;
 
 public class IntakeSubsystem extends SubsystemBase {
-  
+
   private VictorSPX m_intakeController;
   private VictorSPX m_armController;
-  private double desiredSpeed;
+  private double m_desiredIntakeSpeed;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(IntakeHardware intake) {
@@ -29,23 +29,37 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Intake MotorSpeed", desiredSpeed);
-    m_intakeController.set(VictorSPXControlMode.PercentOutput, desiredSpeed);
+    SmartDashboard.putNumber("Intake MotorSpeed", m_desiredIntakeSpeed);
+    m_intakeController.set(VictorSPXControlMode.PercentOutput, m_desiredIntakeSpeed);
   }
 
-  public void moveArm(double speed) {
-    m_armController.set(VictorSPXControlMode.PercentOutput, speed);
+  /**
+   * A <b>positive</b> `speed` value makes the arm move <b>up</b>
+   * 
+   * @param velocity A value from [-1, 1], the speed at which the arm moves
+   */
+  public void moveArm(double velocity) {
+    m_armController.set(VictorSPXControlMode.PercentOutput, velocity);
   }
 
+  /**
+   * Spins the intake to intake balls.
+   */
   public void intake() {
-    desiredSpeed = Constants.intakeSpeed;
+    m_desiredIntakeSpeed = Constants.IntakeConstants.INTAKE_SPEED;
   }
 
+  /**
+   * Stops the intake from spinning.
+   */
   public void stopIntake() {
-    desiredSpeed = 0;
+    m_desiredIntakeSpeed = 0;
   }
 
+  /**
+   * Spins the intake "backwards" to outtake balls.
+   */
   public void outtake() {
-    desiredSpeed = -Constants.intakeSpeed;
+    m_desiredIntakeSpeed = -Constants.IntakeConstants.INTAKE_SPEED;
   }
 }

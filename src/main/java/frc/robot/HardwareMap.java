@@ -15,41 +15,46 @@ import frc.robot.subsystems.SwerveModule;
 
 public class HardwareMap {
 
-        // either construct each subclass seperately in robotcontainer,
-        // OR create fields for each subclass in the constructor for hardwaremap
-        public class ShooterHardware {
-                public CANEncoder rightCanEncoder;
-                public CANSparkMax leftShooter;
-                public CANSparkMax rightShooter;
-                public SpeedControllerGroup shooter;
-                public WPI_VictorSPX wheels;
-                public WPI_VictorSPX kicker;
-                public SpeedControllerGroup feeder;
 
-                public ShooterHardware() {
-                        leftShooter = new CANSparkMax(16, MotorType.kBrushless);
-                        leftShooter.setInverted(true);
-                        rightShooter = new CANSparkMax(17, MotorType.kBrushless);
-                        rightCanEncoder = rightShooter.getEncoder();
-                        shooter = new SpeedControllerGroup(leftShooter, rightShooter);
+    public class ShooterHardware {
+        public CANEncoder rightCanEncoder;
+        private CANSparkMax leftFlywheel;
+        private CANSparkMax rightFlywheel;
+        public SpeedControllerGroup flywheel;
+        private WPI_VictorSPX wheels;
+        private WPI_VictorSPX kicker;
+        public SpeedControllerGroup feeder;
+        // TODO Write comments briefly explaining some of this hardware
 
-                        kicker = new WPI_VictorSPX(26);
-                        wheels = new WPI_VictorSPX(27);
-                        wheels.setInverted(true);
-                        feeder = new SpeedControllerGroup(kicker, wheels);
+        public ShooterHardware() {
+            leftFlywheel = new CANSparkMax(Constants.ShooterConstants.LEFT_FLYWHEEL_PORT, MotorType.kBrushless);
+            leftFlywheel.setInverted(true);
+            rightFlywheel = new CANSparkMax(Constants.ShooterConstants.RIGHT_FLYWHEEL_PORT, MotorType.kBrushless);
+            rightCanEncoder = rightFlywheel.getEncoder();
+            flywheel = new SpeedControllerGroup(leftFlywheel, rightFlywheel);
+
+            kicker = new WPI_VictorSPX(Constants.ShooterConstants.KICKER_PORT);
+            wheels = new WPI_VictorSPX(Constants.ShooterConstants.WHEELS_PORT);
+            wheels.setInverted(true);
+            feeder = new SpeedControllerGroup(kicker, wheels);
+        }
+    };
+
+    public class IntakeHardware {
+        public VictorSPX intakeController;
+        public VictorSPX armController;
+
+        public IntakeHardware() {
+            intakeController = new VictorSPX(25);
+            armController = new VictorSPX(24);
+            kicker = new WPI_VictorSPX(26);
+            wheels = new WPI_VictorSPX(27);
+            wheels.setInverted(true);
+            feeder = new SpeedControllerGroup(kicker, wheels);
                 }
         };
 
-        public class IntakeHardware {
-                public VictorSPX intakeController;
-                public VictorSPX armController;
-
-                public IntakeHardware() {
-                        intakeController = new VictorSPX(25);
-                        armController = new VictorSPX(24);
-
-                }
-        };
+       
 
         public class SwerveHardware {
 
