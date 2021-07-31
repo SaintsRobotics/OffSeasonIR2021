@@ -62,17 +62,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Heading correction
-    if (m_rotationSpeed != 0) {
-      m_headingPidController.setSetpoint(m_gyro.getAngle());
-      SmartDashboard.putString("heading correction", "not correcting heading");
-    } 
-    if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
-      SmartDashboard.putString("heading correction", "correcting heading");
-      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
-    }
-    else {
-      SmartDashboard.putString("heading correction", "not correcting heading, not translating");
-    }
+//     if (m_rotationSpeed != 0) {
+//       m_headingPidController.setSetpoint(m_gyro.getAngle());
+//       SmartDashboard.putString("heading correction", "not correcting heading");
+//     } 
+//     if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
+//       SmartDashboard.putString("heading correction", "correcting heading");
+//       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
+//     }
+//     else {
+//       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
+//     }
 
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
