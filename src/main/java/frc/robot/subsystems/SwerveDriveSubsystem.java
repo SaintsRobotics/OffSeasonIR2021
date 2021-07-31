@@ -52,7 +52,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P,
         Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
-    m_headingPidController.enableContinuousInput(0, 360);
+    m_headingPidController.enableContinuousInput(-180, 180);
     // TODO right now, the heading PID controller is in degrees. do we want to
     // switch to radians?
   }
@@ -62,8 +62,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Heading correction
-    if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) != 0
-        && m_rotationSpeed != 0) {
+    if (m_rotationSpeed != 0) {
       m_headingPidController.setSetpoint(m_gyro.getAngle());
       SmartDashboard.putString("heading correction", "not correcting heading");
     } 
@@ -74,8 +73,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     else {
       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
     }
+
+    SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
     SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
 
@@ -135,5 +137,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
     m_isFieldRelative = isFieldRelative;
+  }
+
+  /**
+   * Resets the gyro.
+   * Aka, sets the current heading of the robot to zero.
+   * TODO make sure this also updates odometry, <i>if needed</i>.
+   */
+  public void resetGyro() {
+    m_gyro.reset();
   }
 }

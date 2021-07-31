@@ -110,4 +110,18 @@ public class SwerveModule {
         new Rotation2d(m_turningEncoder.getRotation2d().getRadians()));
   }
 
+  /**
+   * @return the wheel heading PID controller object for the wheel
+   */
+  public PIDController getPidController() {
+    return m_turningPidController;
+  }
+
+  /**
+   * @return the CANSparkMax object for the drive motor
+   */
+  public CANSparkMax getDriveMotor() {
+    return m_driveMotor;
+  }
+
 }

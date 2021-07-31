@@ -37,9 +37,9 @@ public class SwerveJoystickCommand extends CommandBase {
   public void execute() {
     // Just think really hard about why these values are negated and flip-flopped.
     // Maybe use a whiteboard or piece of paper.
-    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
-    double y = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.2;
-    double rot = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kRight), 0.2)) * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.2;
+    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.7;
+    double y = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kLeft), 0.2)) * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.7;
+    double rot = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kRight), 0.2)) * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.7;
     boolean fieldRelative = m_controller.getBumper(Hand.kRight);
     
     m_drivetrain.move(x, y, rot, fieldRelative);
