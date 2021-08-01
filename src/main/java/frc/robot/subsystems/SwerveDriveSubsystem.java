@@ -62,21 +62,26 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Heading correction
-//     if (m_rotationSpeed != 0) {
-//       m_headingPidController.setSetpoint(m_gyro.getAngle());
-//       SmartDashboard.putString("heading correction", "not correcting heading");
-//     } 
-//     if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
-//       SmartDashboard.putString("heading correction", "correcting heading");
-//       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
-//     }
-//     else {
-//       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
-//     }
+    // if (m_rotationSpeed != 0) {
+    // m_headingPidController.setSetpoint(m_gyro.getAngle());
+    // SmartDashboard.putString("heading correction", "not correcting heading");
+    // }
+    // if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
+    // SmartDashboard.putString("heading correction", "correcting heading");
+    // m_rotationSpeed =
+    // m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(),
+    // 360));
+    // }
+    // else {
+    // SmartDashboard.putString("heading correction", "not correcting heading, not
+    // translating");
+    // }
 
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
-    SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
-    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("gyro rate ",
+        Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
+    SmartDashboard.putNumber("heading pid output ",
+        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
     SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
@@ -116,7 +121,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
     SmartDashboard.putBoolean("is turning ", m_isTurning);
     SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
-    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("heading pid output ",
+        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
   }
 
   /**
@@ -140,9 +146,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the gyro.
-   * Aka, sets the current heading of the robot to zero.
-   * TODO make sure this also updates odometry, <i>if needed</i>.
+   * Resets the gyro. Note that whatever command calls this method <b>will require
+   * the subsystem</b>. So no other commands can run on the subsystem while the
+   * gyro is being reset, including any drive control commands.
    */
   public void resetGyro() {
     m_gyro.reset();
