@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -152,5 +153,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public void resetGyro() {
     m_gyro.reset();
+  }
+
+  /**
+   * Sets each of the swerve modules' drive motors to the specified idle state.
+   * 
+   * @param mode Brake or coast.
+   */
+  public void setDriveIdleMode(IdleMode mode) {
+    m_frontLeftModule.getDriveMotor().setIdleMode(mode);
+    m_frontRightModule.getDriveMotor().setIdleMode(mode);
+    m_backLeftModule.getDriveMotor().setIdleMode(mode);
+    m_backRightModule.getDriveMotor().setIdleMode(mode);
   }
 }
