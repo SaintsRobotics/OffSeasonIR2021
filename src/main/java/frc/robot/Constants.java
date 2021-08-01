@@ -43,6 +43,13 @@ public final class Constants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
+        /**
+         * Multiply the rpm of the drive motor of a swerve wheel by this number to
+         * convert to meters per second.
+         */
+        public static final double DRIVE_WHEEL_RPM_TO_METERS_PER_SECOND = 1;
+        // TODO the above number needs to be calculated. rn it's just a placeholder.
+
         /** Distance between centers of front and back wheels on robot. */
         public static final double WHEEL_BASE = .67;
 
