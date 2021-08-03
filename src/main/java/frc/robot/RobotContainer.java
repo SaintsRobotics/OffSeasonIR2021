@@ -4,16 +4,23 @@
 
 package frc.robot;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.HardwareMap.ClimberHardware;
+import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -33,11 +40,16 @@ public class RobotContainer {
  
   private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(m_hardwareMap.intakeHardware);
   private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
+
+  //Climber stuff
+  private ClimberSubsystem m_climberSubsytem = new ClimberSubsystem(m_hardwareMap.climberHardware);
+  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsytem, m_operatorController);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_climberSubsytem.setDefaultCommand(m_climberControllerCommand);
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
   }
 
@@ -59,8 +71,10 @@ public class RobotContainer {
 		new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
     // runs the shoot one ball command while A is held
     new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
-    
-  
+    // runs the Climber backwards when A is pressed
+    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsytem::reverseClimb, m_climberSubsytem));
+    // runs the Climber forwards when A is released
+    new JoystickButton(m_operatorController, Button.kStart.value).whenReleased(new InstantCommand(m_climberSubsytem::normalClimb, m_climberSubsytem));
   }
 
   /**

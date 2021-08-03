@@ -59,12 +59,12 @@ public class HardwareMap {
 
     public ShooterHardware shooterHardware;
     public IntakeHardware intakeHardware;
-    public ClimberHardware climberhardware;
+    public ClimberHardware climberHardware;
 
     public HardwareMap() {
         shooterHardware = new ShooterHardware();
         intakeHardware = new IntakeHardware();
-        climberhardware = new ClimberHardware();
+        climberHardware = new ClimberHardware();
     }
 
 }
