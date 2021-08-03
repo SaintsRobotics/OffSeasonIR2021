@@ -50,17 +50,20 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_frontRightModule = swerveHardware.frontRight;
     m_backLeftModule = swerveHardware.backLeft;
     m_backRightModule = swerveHardware.backRight;
-    m_gyro = swerveHardware.gyro;
+    m_gyro = swerveHardware.gyro; 
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
     m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
 
-    m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P,
-        Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
-    m_headingPidController.enableContinuousInput(-180, 180);
+    m_headingPidController = new PIDController(0.3, 0, 0);
+    m_headingPidController.enableContinuousInput(-Math.PI, Math.PI);
+    m_headingPidController.setSetpoint(0);
     // TODO right now, the heading PID controller is in degrees. do we want to
     // switch to radians?
+
+    this.resetGyro();
+
   }
 
   @Override
@@ -68,26 +71,23 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Heading correction
-    // if (m_rotationSpeed != 0) {
-    // m_headingPidController.setSetpoint(m_gyro.getAngle());
-    // SmartDashboard.putString("heading correction", "not correcting heading");
-    // }
-    // if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
-    // SmartDashboard.putString("heading correction", "correcting heading");
-    // m_rotationSpeed =
-    // m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(),
-    // 360));
-    // }
-    // else {
-    // SmartDashboard.putString("heading correction", "not correcting heading, not
-    // translating");
-    // }
+    
+    if (m_isTurning) { // if should be turning
+      m_headingPidController.setSetpoint(Math.toRadians(m_gyro.getAngle()));
+      SmartDashboard.putString("heading correction", "setting setpoint");
+    }
+    if (!m_isTurning && (m_xSpeed != 0 || m_ySpeed != 0)) { // if translating only (want heading correction)
+      SmartDashboard.putString("heading correction", "correcting heading");
+      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(Math.toRadians(m_gyro.getAngle()), 2 * Math.PI));
+    }
+    else {
+      SmartDashboard.putString("heading correction", "not correcting heading, not translating");
+    }
 
-    SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
+    SmartDashboard.putNumber("gyro angle ", m_gyro.getRotation2d().getRadians());
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
-    SmartDashboard.putNumber("heading pid output ",
-        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("rotation speed ", m_rotationSpeed);
     SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
@@ -158,6 +158,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
     m_isFieldRelative = isFieldRelative;
+    m_isTurning = rotationSpeed != 0;
   }
 
   /**
