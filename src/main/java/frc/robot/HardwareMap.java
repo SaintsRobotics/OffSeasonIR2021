@@ -51,9 +51,9 @@ public class HardwareMap {
         public Servo ratchetServo;
         public CANSparkMax winchMotor;
         public ClimberHardware(){
-            servoMotor = new Servo(1);
-            ratchetServo = new Servo(0);
-            winchMotor = new CANSparkMax(19, MotorType.kBrushless);
+            servoMotor = new Servo(Constants.ClimberPorts.SERVO_MOTOR_PORT);
+            ratchetServo = new Servo(Constants.ClimberPorts.RATCHET_SERVO_PORT);
+            winchMotor = new CANSparkMax(Constants.ClimberPorts.WINCH_MOTOR_PORT, MotorType.kBrushless);
         }
     }
 

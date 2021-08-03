@@ -63,4 +63,16 @@ public final class Constants {
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
     }
 
+    public static final class ClimberConstants{
+        public static final double WINCH_REVERSE_SERVO_POSITION = 0.0;
+        public static final double WINCH_NORMAL_SERVO_POSITION = 0.5;
+        public static final double SERVO_RELEASE_POSITION = 0.0;
+        public static final double SERVO_RETURN_POSITION = 0.5;
+    }
+    
+    public static final class ClimberPorts{
+        public static final int SERVO_MOTOR_PORT = 0;
+        public static final int RATCHET_SERVO_PORT = 1;
+        public static final int WINCH_MOTOR_PORT = 19;
+    }
 }

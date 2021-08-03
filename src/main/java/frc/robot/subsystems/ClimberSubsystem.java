@@ -4,11 +4,12 @@
 package frc.robot.subsystems;
 
 
+import frc.robot.Constants;
+
 //test
 
 //import edu.wpi.first.wpilibj.interfaces.Gyro;
 /*
-import frc.robot.RobotConfig;
 import frc.robot.commands.DriveArmCommand;
 import frc.robot.common.IClimbSubsystem;
 import frc.robot.common.ILogger;
@@ -44,32 +45,25 @@ public class ClimberSubsystem {
 
   public void reverseClimb() {
       //check FRC2020, we just put in 0, previously was a var in _config
-      m_ratchetServo.set(0);
+      m_ratchetServo.set(Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION);
       DriverStation.reportError("climb direction reversed", false);
   }
 
   public void normalClimb() {
     //check FRC2020, we just put in 0.5, previously was a var in _config
-      m_ratchetServo.set(0.5);
+      m_ratchetServo.set(Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION);
       DriverStation.reportError("climb direction normal", false);
   }
 
   public void releaseClimber() {
-      // If there are more than 30 seconds left in the match, we're not allowed to
-      // release the climber
-      // if (DriverStation.getInstance().getMatchTime() > this.endgameTime) {
-      // return;
-      // }
-
-
       //check FRC2020, we just put in 0, previously was a var in _config
-      m_servoMotor.set(0);
+      m_servoMotor.set(Constants.ClimberConstants.SERVO_RELEASE_POSITION);
       DriverStation.reportError("climb released ", false);
   }
 
   public void lockServo() {
     //check FRC2020, we just put in 0.5, previously was a var in _config
-    m_servoMotor.set(0.5);
+    m_servoMotor.set(Constants.ClimberConstants.SERVO_RETURN_POSITION);
   }
 
   public void climb(double speed) {
