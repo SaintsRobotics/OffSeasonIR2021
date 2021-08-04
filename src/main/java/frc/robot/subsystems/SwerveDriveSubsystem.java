@@ -6,32 +6,41 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.Utils;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
-
+  private SwerveDriveHardware m_swerveDriveHardware;
   private SwerveModule m_frontLeftModule;
   private SwerveModule m_frontRightModule;
   private SwerveModule m_backLeftModule;
   private SwerveModule m_backRightModule;
   private AHRS m_gyro;
-
+  private Field2d m_field;
   private double m_xSpeed;
   private double m_ySpeed;
   private double m_rotationSpeed;
   private boolean m_isFieldRelative;
-
+  private SwerveDriveOdometry m_odometry;
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
   private PIDController m_headingPidController;
+  private double time;
 
   /**
    * Determined by the gyro. Signifies whether or not the robot is
@@ -46,13 +55,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_backLeftModule = swerveHardware.backLeft;
     m_backRightModule = swerveHardware.backRight;
     m_gyro = swerveHardware.gyro;
-
+    m_swerveDriveHardware = swerveHardware;
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
 
     m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P,
         Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
     m_headingPidController.enableContinuousInput(-180, 180);
+
+    m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
+    time = 0;
+    m_field = new Field2d();
+
     // TODO right now, the heading PID controller is in degrees. do we want to
     // switch to radians?
   }
@@ -61,22 +75,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Heading correction
-//     if (m_rotationSpeed != 0) {
-//       m_headingPidController.setSetpoint(m_gyro.getAngle());
-//       SmartDashboard.putString("heading correction", "not correcting heading");
-//     } 
-//     if (m_rotationSpeed == 0 && (m_xSpeed != 0 || m_ySpeed != 0)) {
-//       SmartDashboard.putString("heading correction", "correcting heading");
-//       m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360));
-//     }
-//     else {
-//       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
-//     }
+    if (time > 10) {
+      m_odometry.update(m_gyro.getRotation2d(), m_swerveDriveHardware.frontLeft.getState(),
+          m_swerveDriveHardware.frontRight.getState(), m_swerveDriveHardware.backLeft.getState(),
+          m_swerveDriveHardware.backRight.getState());
+      m_field.setRobotPose(m_odometry.getPoseMeters());
 
+    }
+    time++;
+    SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putString("front Left Swerve Module State", m_swerveDriveHardware.frontLeft.getState().toString());
+    SmartDashboard.putNumber("time", time);
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
-    SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
-    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("gyro rate ",
+        Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
+    SmartDashboard.putNumber("heading pid output ",
+        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
     SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
@@ -94,7 +108,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // toSwerveModuleState array create it from kinematics
     SwerveModuleState[] swerveModuleStates;
     swerveModuleStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-
+    if (Robot.isReal()) {
+      for (SwerveModuleState swerveModule : swerveModuleStates) {
+        swerveModule.speedMetersPerSecond += (SwerveConstants.TRANSLATIONAL_FRICTION
+            * SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+      }
+    }
     // Normalizing wheel speeds so that the maximum possible speed isn't exceeded.
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates,
         Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
@@ -114,9 +133,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_backLeftModule.setDesiredState(swerveModuleStates[2]);
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
+    double m_degreeRotationSpeed = Math.toDegrees(m_rotationSpeed);
+    double m_degreesSinceLastTick = m_degreeRotationSpeed * Robot.kDefaultPeriod;
+
+    printSimulatedGyro(m_gyro.getYaw() + m_degreesSinceLastTick);
     SmartDashboard.putBoolean("is turning ", m_isTurning);
     SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
-    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("heading pid output ",
+        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Odometryrot", m_odometry.getPoseMeters().getRotation().getDegrees());
   }
 
   /**
@@ -140,11 +167,36 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the gyro.
-   * Aka, sets the current heading of the robot to zero.
-   * TODO make sure this also updates odometry, <i>if needed</i>.
+   * Resets the gyro. Aka, sets the current heading of the robot to zero. TODO
+   * make sure this also updates odometry, <i>if needed</i>.
    */
   public void resetGyro() {
     m_gyro.reset();
+  }
+
+  /**
+   * Prints the estimated gyro value to the simulator.
+   * 
+   * @param printHeading The estimated gyro value.
+   */
+  public void printSimulatedGyro(double printHeading) {
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    angle.set(printHeading);
+  }
+
+  /** Zeroes the odometry. */
+  public void resetOdometry() {
+    m_odometry.resetPosition(new Pose2d(), new Rotation2d());
+  }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose  The pose to which to set the odometry.
+   * @param angle The angle to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose, Rotation2d angle) {
+    m_odometry.resetPosition(pose, angle);
   }
 }
