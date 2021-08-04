@@ -76,7 +76,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     if (time > 10) {
-      m_odometry.update(m_gyro.getRotation2d(), m_swerveDriveHardware.frontLeft.getState(),
+      m_odometry.update(Rotation2d.fromDegrees(m_gyro.getAngle()), m_swerveDriveHardware.frontLeft.getState(),
           m_swerveDriveHardware.frontRight.getState(), m_swerveDriveHardware.backLeft.getState(),
           m_swerveDriveHardware.backRight.getState());
       m_field.setRobotPose(m_odometry.getPoseMeters());
