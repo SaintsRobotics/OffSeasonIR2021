@@ -42,6 +42,13 @@ public class SwerveJoystickCommand extends CommandBase {
         * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.2;
     boolean fieldRelative = m_controller.getBumper(Hand.kRight);
 
+
+    // if (m_controller.getY(Hand.kLeft) > 0.5) {
+    //   x = 0.2;
+    // }
+    // if (m_controller.getY(Hand.kLeft) < -0.5) {
+    //   x = -0.2;
+    // }
     m_drivetrain.move(x, y, rot, fieldRelative);
   }
 

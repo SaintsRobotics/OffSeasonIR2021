@@ -56,7 +56,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
     m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
 
-    m_headingPidController = new PIDController(0.3, 0, 0);
+    m_headingPidController = new PIDController(0.9, 0, 0);
     m_headingPidController.enableContinuousInput(-Math.PI, Math.PI);
     m_headingPidController.setSetpoint(0);
     // TODO right now, the heading PID controller is in degrees. do we want to
@@ -73,20 +73,20 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // Heading correction
     
     if (m_isTurning) { // if should be turning
-      m_headingPidController.setSetpoint(Math.toRadians(m_gyro.getAngle()));
+      m_headingPidController.setSetpoint(m_gyro.getRotation2d().getRadians());
       SmartDashboard.putString("heading correction", "setting setpoint");
     }
     if (!m_isTurning && (m_xSpeed != 0 || m_ySpeed != 0)) { // if translating only (want heading correction)
       SmartDashboard.putString("heading correction", "correcting heading");
-      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(Math.toRadians(m_gyro.getAngle()), 2 * Math.PI));
+      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getRotation2d().getRadians(), 2 * Math.PI));
     }
     else {
       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
     }
 
-    SmartDashboard.putNumber("gyro angle ", m_gyro.getRotation2d().getRadians());
-    SmartDashboard.putNumber("gyro rate ",
-        Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
+    SmartDashboard.putNumber("gyro angle ", m_gyro.getRotation2d().getDegrees());
+
+    SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
     SmartDashboard.putNumber("rotation speed ", m_rotationSpeed);
     SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
@@ -136,8 +136,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("is turning ", m_isTurning);
     SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
-    SmartDashboard.putNumber("heading pid output ",
-        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+    SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getRotation2d().getRadians(), Math.PI *2)));
   }
 
   /**
