@@ -110,11 +110,11 @@ public class SwerveModule {
   private void updateSwerveModuleState(SwerveModuleState state) {
     // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
     // configure conversion to meters per second.
-    if (Robot.isReal()) {
-      m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), m_turningEncoder.getRotation2d());
-    } else {
+    // if (Robot.isReal()) {
+    //   m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), m_turningEncoder.getRotation2d());
+    // } else {
       m_state = new SwerveModuleState(state.speedMetersPerSecond, m_turningEncoder.getRotation2d());
-    }
+    //}
   }
 
   /**

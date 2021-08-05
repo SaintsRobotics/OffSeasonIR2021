@@ -40,7 +40,8 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
-        public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
+        //previously 3.627
+        public static final double MAX_SPEED_METERS_PER_SECOND = 3.0;
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
         /** Distance between centers of front and back wheels on robot. */
