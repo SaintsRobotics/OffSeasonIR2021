@@ -32,7 +32,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
-  private PIDController m_headingPidController;
 
   /**
    * Determined by the gyro. Signifies whether or not the robot is
@@ -51,12 +50,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
 
-    m_headingPidController = new PIDController(0.3, 0, 0);
-    m_headingPidController.enableContinuousInput(-Math.PI, Math.PI);
-    m_headingPidController.setSetpoint(0);
-    // TODO right now, the heading PID controller is in degrees. do we want to
-    // switch to radians?
-
     this.resetGyro();
 
   }
@@ -65,25 +58,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Heading correction
-    
-    if (m_isTurning) { // if should be turning
-      m_headingPidController.setSetpoint(Math.toRadians(m_gyro.getAngle()));
-      SmartDashboard.putString("heading correction", "setting setpoint");
-    }
-    if (!m_isTurning && (m_xSpeed != 0 || m_ySpeed != 0)) { // if translating only (want heading correction)
-      SmartDashboard.putString("heading correction", "correcting heading");
-      m_rotationSpeed = m_headingPidController.calculate(Utils.normalizeAngle(Math.toRadians(m_gyro.getAngle()), 2 * Math.PI));
-    }
-    else {
-      SmartDashboard.putString("heading correction", "not correcting heading, not translating");
-    }
-
     SmartDashboard.putNumber("gyro angle ", m_gyro.getRotation2d().getRadians());
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
     SmartDashboard.putNumber("rotation speed ", m_rotationSpeed);
-    SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
 
@@ -121,9 +99,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
     SmartDashboard.putBoolean("is turning ", m_isTurning);
-    SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
-    SmartDashboard.putNumber("heading pid output ",
-        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
   }
 
   /**
