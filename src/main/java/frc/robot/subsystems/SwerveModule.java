@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 
@@ -45,16 +46,20 @@ public class SwerveModule {
 
   public void setDesiredState(SwerveModuleState desiredState) {
 
-    desiredState = SwerveModuleState.optimize(desiredState, m_turningEncoder.getRotation2d());
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, m_turningEncoder.getRotation2d());
 
     // Dividing given speed by max meters per second to fit the value within the
     // range of [-1, 1]
-    m_driveMotor.set(desiredState.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
-    m_turningPidController.setSetpoint(desiredState.angle.getRadians());
+    m_turningPidController.setSetpoint(state.angle.getRadians());
     double turningMotorPower = m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians());
     m_turningMotor.set(turningMotorPower);
     m_turningEncoder.sendVoltage(turningMotorPower);
+    SmartDashboard.putNumber("turning velocity",
+        m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians()));
+    SmartDashboard.putNumber("drive velocity",
+        state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
     this.updateSwerveModuleState();
   }
 
@@ -99,9 +104,7 @@ public class SwerveModule {
   private void updateSwerveModuleState() {
     // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
     // configure conversion to meters per second.
-    m_state = new SwerveModuleState(
-        m_driveMotor.getEncoder().getVelocity() * Constants.SwerveConstants.DRIVE_WHEEL_RPM_TO_METERS_PER_SECOND,
-        m_turningEncoder.getRotation2d());
+    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), m_turningEncoder.getRotation2d());
   }
 
   /**
