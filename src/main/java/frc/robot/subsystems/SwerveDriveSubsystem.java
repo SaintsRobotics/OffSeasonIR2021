@@ -75,12 +75,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // odometry code will error on the first tick or two due to the gyro taking
+    // longer to start up
     if (time > 10) {
       m_odometry.update(Rotation2d.fromDegrees(m_gyro.getAngle()), m_swerveDriveHardware.frontLeft.getState(),
           m_swerveDriveHardware.frontRight.getState(), m_swerveDriveHardware.backLeft.getState(),
           m_swerveDriveHardware.backRight.getState());
       m_field.setRobotPose(m_odometry.getPoseMeters());
-
+      time = 11;
     }
     time++;
     SmartDashboard.putData("Field", m_field);
@@ -126,17 +128,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_backLeftModule.setDesiredState();
       m_backRightModule.setDesiredState();
     } else {
-      // I assume swerve module states are given in the same order that the wheels are
+      // swerve module states are given in the same order that the wheels are
       // given to the kinematics object.
       m_frontLeftModule.setDesiredState(swerveModuleStates[0]);
       m_frontRightModule.setDesiredState(swerveModuleStates[1]);
       m_backLeftModule.setDesiredState(swerveModuleStates[2]);
       m_backRightModule.setDesiredState(swerveModuleStates[3]);
     }
+
+    // calculates the rotation of the robot using the desired rotation speed to feed
+    // into the simulated gyro.
+    // this doesn't affect anything when it gets run on the robot.
     double m_degreeRotationSpeed = Math.toDegrees(m_rotationSpeed);
     double m_degreesSinceLastTick = m_degreeRotationSpeed * Robot.kDefaultPeriod;
-
     printSimulatedGyro(m_gyro.getYaw() + m_degreesSinceLastTick);
+
     SmartDashboard.putBoolean("is turning ", m_isTurning);
     SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
     SmartDashboard.putNumber("heading pid output ",
