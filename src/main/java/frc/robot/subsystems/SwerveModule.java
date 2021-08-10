@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class SwerveModule {
 
@@ -44,6 +45,7 @@ public class SwerveModule {
         Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
     m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
     m_location = new Translation2d(X, Y);
+    m_state = new SwerveModuleState();
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -55,14 +57,16 @@ public class SwerveModule {
     m_driveMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
 
     m_turningPidController.setSetpoint(state.angle.getRadians());
+
     double turningMotorPower = m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians());
     m_turningMotor.set(turningMotorPower);
     m_turningEncoder.sendVoltage(turningMotorPower);
+
     SmartDashboard.putNumber("turning velocity",
         m_turningPidController.calculate(m_turningEncoder.getRotation2d().getRadians()));
     SmartDashboard.putNumber("drive velocity",
         state.speedMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
-    this.updateSwerveModuleState();
+    this.updateSwerveModuleState(state);
   }
 
   /**
@@ -76,7 +80,7 @@ public class SwerveModule {
     m_turningMotor.set(0);
     m_driveMotor.set(0);
 
-    this.updateSwerveModuleState();
+    this.updateSwerveModuleState(new SwerveModuleState(0, m_turningEncoder.getRotation2d()));
   }
 
   /**
@@ -103,10 +107,11 @@ public class SwerveModule {
    * velocity) of the swerve module. State is accessable by the getState method of
    * this class.
    */
-  private void updateSwerveModuleState() {
-    // TODO RIght now, drive motor velocity is in RPM. see rev CANEncoder docs to
-    // configure conversion to meters per second.
-    m_state = new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), m_turningEncoder.getRotation2d());
+  private void updateSwerveModuleState(SwerveModuleState state) {
+    // consider writing a case for when it is a real robot, to use a wrapped RPM
+    // from drive motor as the speed
+    m_state = new SwerveModuleState(state.speedMetersPerSecond, m_turningEncoder.getRotation2d());
+
   }
 
   /**
