@@ -89,8 +89,7 @@ public class RobotContainer {
         .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
     // Sets brake and coast mode
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
-        .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast));
-    new JoystickButton(m_driveController, Button.kBumperLeft.value)
+        .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
   }
 
