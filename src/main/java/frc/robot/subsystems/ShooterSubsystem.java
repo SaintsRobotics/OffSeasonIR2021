@@ -9,7 +9,7 @@ import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -48,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * Turns on the feeder to feed balls into the shooter.
    */
   public void turnFeederOn() {
-    if (getFlywheelRPM() >= Constants.ShooterConstants.FLYWHEEL_READY_RPM) {
+    if (getFlywheelRPM() >= ShooterConstants.FLYWHEEL_READY_RPM) {
       m_feederSpeed = 1;
     }
     else {
