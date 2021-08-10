@@ -7,8 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
@@ -16,12 +16,8 @@ import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
-
 import frc.robot.commands.SwerveJoystickCommand;
-
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.ShootCommand;
-
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -83,7 +79,8 @@ public class RobotContainer {
     // runs the shoot one ball command while A is held
     new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
     // turns on Feeder and shoots ball
-    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShootCommand(m_shooterSubsystem));
+    new JoystickButton(m_operatorController, Button.kB.value)
+        .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
 
     new JoystickButton(m_driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_swerveSubsystem));
   }
