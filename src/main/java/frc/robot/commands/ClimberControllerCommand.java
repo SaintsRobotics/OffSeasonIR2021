@@ -14,6 +14,7 @@ public class ClimberControllerCommand extends CommandBase{
     public ClimberControllerCommand(ClimberSubsystem climberSubsystem, XboxController xboxController){
         m_climberSubsystem = climberSubsystem;
         m_controller = xboxController;
+        addRequirements(m_climberSubsystem);
     }
 
     public void execute(){

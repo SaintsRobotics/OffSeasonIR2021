@@ -21,6 +21,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareMap.ClimberHardware;
 
@@ -50,6 +51,7 @@ public class ClimberSubsystem extends SubsystemBase{
  */
   public void reverseClimb() {
       m_ratchetServo.set(Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION);
+      SmartDashboard.putString("Ratchet State", "reverse");
       DriverStation.reportError("climb direction reversed", false);
   }
   /**
@@ -57,6 +59,7 @@ public class ClimberSubsystem extends SubsystemBase{
    */
   public void normalClimb() {
       m_ratchetServo.set(Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION);
+      SmartDashboard.putString("Ratchet State", "normal");
       DriverStation.reportError("climb direction normal", false);
   }
 /**
@@ -64,6 +67,7 @@ public class ClimberSubsystem extends SubsystemBase{
  */
   public void releaseClimber() {
       m_servoMotor.set(Constants.ClimberConstants.SERVO_RELEASE_POSITION);
+      SmartDashboard.putString("ClimberState", "Released");
       DriverStation.reportError("climb released ", false);
   }
 /**
