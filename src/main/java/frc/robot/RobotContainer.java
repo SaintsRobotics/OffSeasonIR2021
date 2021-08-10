@@ -32,7 +32,6 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  * scheduler calls). Instead, the structure of the robot (including subsystems,
  * commands, and button mappings) should be declared here.
  */
-
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
@@ -60,7 +59,6 @@ public class RobotContainer {
     m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
 
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-
   }
 
 
@@ -89,7 +87,6 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new ShootCommand(m_shooterSubsystem));
 
     new JoystickButton(m_driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_swerveSubsystem));
-
   }
 
   /**
