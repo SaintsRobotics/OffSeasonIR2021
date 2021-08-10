@@ -18,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder m_flywheelEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
-  public boolean isAtMaxSpeed;
+  public boolean m_isAtMaxSpeed;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooterHardware) {
