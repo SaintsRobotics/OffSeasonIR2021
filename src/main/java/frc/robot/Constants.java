@@ -106,8 +106,8 @@ public final class Constants {
     }
 
     public static final class ClimberPorts {
-        public static final int SERVO_MOTOR_PORT = 0;
-        public static final int RATCHET_SERVO_PORT = 1;
+        public static final int SERVO_MOTOR_PORT = 1;
+        public static final int RATCHET_SERVO_PORT = 0;
         public static final int WINCH_MOTOR_PORT = 19;
     }
 }
