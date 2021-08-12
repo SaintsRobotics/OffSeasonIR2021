@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Limelight;
 import frc.robot.Utils;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 
@@ -74,10 +75,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 //       SmartDashboard.putString("heading correction", "not correcting heading, not translating");
 //     }
 
+    //Robot values
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ", Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
     SmartDashboard.putNumber("heading pid output ", m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
     SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
+
+    // LimeLight values
+    SmartDashboard.putNumber("Y Offset", Limelight.getY());
+    SmartDashboard.putNumber("X Offset", Limelight.getX());
+    SmartDashboard.putNumber("Skew", Limelight.getAngle());
+    SmartDashboard.putNumber("Latency ", Limelight.getLatency());
+    SmartDashboard.putNumber("Target Area", Limelight.getArea());
+    SmartDashboard.putBoolean("Has Target", Limelight.hasTarget());
 
     // TODO somehow account for static friction, I think?
 
