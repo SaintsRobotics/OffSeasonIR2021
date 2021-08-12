@@ -11,17 +11,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
-
 import frc.robot.commands.SwerveJoystickCommand;
-
 import frc.robot.subsystems.IntakeSubsystem;
-
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -59,7 +57,6 @@ public class RobotContainer {
     m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
 
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-
   }
 
   /**
@@ -83,6 +80,9 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
     // runs the shoot one ball command while A is held
     new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
+    // turns on Feeder and shoots ball
+    new JoystickButton(m_operatorController, Button.kB.value)
+        .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
 
     // resets the gyro when the button is pressed
     new JoystickButton(m_driveController, Button.kStart.value)

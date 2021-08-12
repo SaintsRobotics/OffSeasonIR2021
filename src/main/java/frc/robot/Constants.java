@@ -40,7 +40,8 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
-        public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
+        //previously 3.627
+        public static final double MAX_SPEED_METERS_PER_SECOND = 3.0;
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
         /** Distance between centers of front and back wheels on robot. */
@@ -79,7 +80,7 @@ public final class Constants {
 
         // TODO Might need a better, more descriptive name.
         // TODO write a comment explaining the distinction between these two values
-        public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
+        public static final double FLYWHEEL_RPM_THRESHOLD = 4700;
         public static final double FLYWHEEL_READY_RPM = 5000;
         // TODO Subject to tuning
     }

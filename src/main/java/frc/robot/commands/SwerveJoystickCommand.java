@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Utils;
@@ -42,14 +43,10 @@ public class SwerveJoystickCommand extends CommandBase {
         * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND * 0.7;
     boolean fieldRelative = m_controller.getBumper(Hand.kRight);
 
-
-    // if (m_controller.getY(Hand.kLeft) > 0.5) {
-    //   x = 0.2;
-    // }
-    // if (m_controller.getY(Hand.kLeft) < -0.5) {
-    //   x = -0.2;
-    // }
     m_drivetrain.move(x, y, rot, fieldRelative);
+    SmartDashboard.putNumber("x", x);
+    SmartDashboard.putNumber("y", y);
+    SmartDashboard.putNumber("rot", rot);
   }
 
   // Called once the command ends or is interrupted.
