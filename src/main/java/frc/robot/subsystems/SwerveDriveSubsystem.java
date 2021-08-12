@@ -160,7 +160,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    *                        considered relative to the field, or relative to the
    *                        robot.
    */
-  public vo(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
+  public void move(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
     m_xSpeed = xSpeed;
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
@@ -187,7 +187,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_frontRightModule.getDriveMotor().setIdleMode(mode);
     m_backLeftModule.getDriveMotor().setIdleMode(mode);
     m_backRightModule.getDriveMotor().setIdleMode(mode);
-
+  }
   /**
    * Prints the estimated gyro value to the simulator.
    * 
