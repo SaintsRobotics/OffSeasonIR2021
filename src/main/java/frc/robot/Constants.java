@@ -40,7 +40,8 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
-        public static final double MAX_SPEED_METERS_PER_SECOND = 3.627;
+        //previously 3.627
+        public static final double MAX_SPEED_METERS_PER_SECOND = 3.0;
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
         /** Distance between centers of front and back wheels on robot. */
@@ -57,10 +58,6 @@ public final class Constants {
         public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
 
-        // Swerve module turning moder PID coefficients
-        public static final double MODULE_PID_P = 0.3;
-        public static final double MODULE_PID_I = 0;
-        public static final double MODULE_PID_D = 0;
 
         // Gyro rotation rate deadzone
         public static final double GYRO_RATE_DEADZONE = 0.05;
@@ -83,7 +80,7 @@ public final class Constants {
 
         // TODO Might need a better, more descriptive name.
         // TODO write a comment explaining the distinction between these two values
-        public static final double FLYWHEEL_RPM_THRESHOLD = 4500;
+        public static final double FLYWHEEL_RPM_THRESHOLD = 4700;
         public static final double FLYWHEEL_READY_RPM = 5000;
         // TODO Subject to tuning
     }
