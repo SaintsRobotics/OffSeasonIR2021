@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,8 +40,7 @@ public class SwerveModule {
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     m_turningEncoder = turningEncoder;
-    m_turningPidController = new PIDController(Constants.SwerveConstants.MODULE_PID_P,
-        Constants.SwerveConstants.MODULE_PID_I, Constants.SwerveConstants.MODULE_PID_D);
+    m_turningPidController = new PIDController(0.3, 0, 0);
     m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
     m_location = new Translation2d(X, Y);
     m_state = new SwerveModuleState();

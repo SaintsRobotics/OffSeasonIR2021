@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.HardwareMap;
 import frc.robot.Utils;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 

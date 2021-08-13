@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
@@ -23,6 +25,7 @@ import frc.robot.Robot;
 import frc.robot.Utils;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
+import frc.robot.Utils;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveHardware m_swerveDriveHardware;
@@ -39,7 +42,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveOdometry m_odometry;
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
-  private PIDController m_headingPidController;
   private double time;
 
   /**
@@ -54,14 +56,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_frontRightModule = swerveHardware.frontRight;
     m_backLeftModule = swerveHardware.backLeft;
     m_backRightModule = swerveHardware.backRight;
+
     m_gyro = swerveHardware.gyro;
     m_swerveDriveHardware = swerveHardware;
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
-
-    m_headingPidController = new PIDController(Constants.SwerveConstants.HEADING_PID_P,
-        Constants.SwerveConstants.HEADING_PID_I, Constants.SwerveConstants.HEADING_PID_D);
-    m_headingPidController.enableContinuousInput(-180, 180);
 
     m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
     time = 0;
@@ -74,6 +73,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
 
     // odometry code will error on the first tick or two due to the gyro taking
     // longer to start up
@@ -91,9 +91,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
-    SmartDashboard.putNumber("heading pid output ",
-        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
-    SmartDashboard.putNumber("heading pid setpoint ", m_headingPidController.getSetpoint());
 
     // TODO somehow account for static friction, I think?
 
@@ -144,9 +141,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     printSimulatedGyro(m_gyro.getYaw() + m_degreesSinceLastTick);
 
     SmartDashboard.putBoolean("is turning ", m_isTurning);
-    SmartDashboard.putNumber("heading pid error ", m_headingPidController.getPositionError());
-    SmartDashboard.putNumber("heading pid output ",
-        m_headingPidController.calculate(Utils.normalizeAngle(m_gyro.getAngle(), 360)));
+
     SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Odometryrot", m_odometry.getPoseMeters().getRotation().getDegrees());
@@ -170,16 +165,29 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
     m_isFieldRelative = isFieldRelative;
+    m_isTurning = rotationSpeed != 0;
   }
 
   /**
-   * Resets the gyro. Aka, sets the current heading of the robot to zero. TODO
-   * make sure this also updates odometry, <i>if needed</i>.
+   * Resets the gyro. Note that whatever command calls this method <b>will require
+   * the subsystem</b>. So no other commands can run on the subsystem while the
+   * gyro is being reset, including any drive control commands.
    */
   public void resetGyro() {
     m_gyro.reset();
   }
 
+  /**
+   * Sets each of the swerve modules' drive motors to the specified idle state.
+   * 
+   * @param mode Brake or coast.
+   */
+  public void setDriveIdleMode(IdleMode mode) {
+    m_frontLeftModule.getDriveMotor().setIdleMode(mode);
+    m_frontRightModule.getDriveMotor().setIdleMode(mode);
+    m_backLeftModule.getDriveMotor().setIdleMode(mode);
+    m_backRightModule.getDriveMotor().setIdleMode(mode);
+  }
   /**
    * Prints the estimated gyro value to the simulator.
    * 

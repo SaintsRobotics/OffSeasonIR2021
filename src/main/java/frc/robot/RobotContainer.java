@@ -4,15 +4,17 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
-import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
@@ -82,7 +84,13 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kB.value)
         .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
 
-    new JoystickButton(m_driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_swerveSubsystem));
+    // resets the gyro when the button is pressed
+    new JoystickButton(m_driveController, Button.kStart.value)
+        .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
+    // Sets brake and coast mode
+    new JoystickButton(m_driveController, Button.kBumperLeft.value)
+        .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
+        .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
   }
 
   /**

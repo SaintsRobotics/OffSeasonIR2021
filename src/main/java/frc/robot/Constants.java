@@ -58,10 +58,6 @@ public final class Constants {
         public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
 
-        // Swerve module turning moder PID coefficients
-        public static final double MODULE_PID_P = 0.3;
-        public static final double MODULE_PID_I = 0;
-        public static final double MODULE_PID_D = 0;
 
         // Gyro rotation rate deadzone
         public static final double GYRO_RATE_DEADZONE = 0.05;
