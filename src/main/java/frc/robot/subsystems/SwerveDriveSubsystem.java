@@ -21,10 +21,11 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.Utils;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
+import frc.robot.Limelight;
+import frc.robot.Robot;
+import frc.robot.Utils;
 import frc.robot.Utils;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
@@ -75,6 +76,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
 
+
+    
+
     // odometry code will error on the first tick or two due to the gyro taking
     // longer to start up
     if (time > 10) {
@@ -88,9 +92,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Field", m_field);
     SmartDashboard.putString("front Left Swerve Module State", m_swerveDriveHardware.frontLeft.getState().toString());
     SmartDashboard.putNumber("time", time);
+
+    //Robot values
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
+
+    // LimeLight values
+    SmartDashboard.putNumber("Y Offset", Limelight.getY());
+    SmartDashboard.putNumber("X Offset", Limelight.getX());
+    SmartDashboard.putNumber("Skew", Limelight.getAngle());
+    SmartDashboard.putNumber("Latency ", Limelight.getLatency());
+    SmartDashboard.putNumber("Target Area", Limelight.getArea());
+    SmartDashboard.putBoolean("Has Target", Limelight.hasTarget());
 
     // TODO somehow account for static friction, I think?
 
