@@ -49,17 +49,17 @@ public class ClimberSubsystem extends SubsystemBase{
 /**
  * Sets the ratchet servo so that when the winch drives it drives backward (The Climber mechanism moves up)
  */
-  public void reverseClimb() {
+  public void releaseRatchet() {
       m_ratchetServo.set(Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION);
-      SmartDashboard.putString("Ratchet State", "reverse");
+      SmartDashboard.putString("Ratchet State", "extend");
       DriverStation.reportError("climb direction reversed", false);
   }
   /**
    * Sets the ratchet servo so that when the winch drives it drives forward (The Climber mechanism moves down)
    */
-  public void normalClimb() {
+  public void lockRatchet() {
       m_ratchetServo.set(Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION);
-      SmartDashboard.putString("Ratchet State", "normal");
+      SmartDashboard.putString("Ratchet State", "retract");
       DriverStation.reportError("climb direction normal", false);
   }
 /**

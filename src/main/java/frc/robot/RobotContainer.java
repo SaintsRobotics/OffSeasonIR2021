@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
+import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
@@ -76,8 +77,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // turns on shooter when Left Bumper is pressed
-    new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+    //new JoystickButton(m_operatorController, Button.kBumperLeft.value)
+       //.whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
@@ -89,11 +90,12 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
     // runs the intake backwards while Y is heldnew
     // ShooterOnCommand(m_shooterSubsystem)
-    new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
+    new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new OuttakeCommand(m_intakeSubsystem));
     
     // runs the Climber backwards when A is pressed (and forward when A is released)
     new JoystickButton(m_operatorController, Button.kA.value)
-        .whenPressed(new InstantCommand(m_climberSubsystem::reverseClimb, m_climberSubsystem)).whenReleased(new InstantCommand(m_climberSubsystem::normalClimb, m_climberSubsystem));
+        .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
+    new JoystickButton(m_operatorController, Button.kBumperLeft.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
