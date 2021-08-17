@@ -8,12 +8,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
@@ -77,8 +79,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // turns on shooter when Left Bumper is pressed
-    //new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-       //.whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+    new JoystickButton(m_operatorController, Button.kBumperLeft.value)
+       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
@@ -86,16 +88,17 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kB.value)
         .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
 
-    // runs intake forwards while X is held
-    new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new IntakeCommand(m_intakeSubsystem));
-    // runs the intake backwards while Y is heldnew
-    // ShooterOnCommand(m_shooterSubsystem)
-    new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new OuttakeCommand(m_intakeSubsystem));
+
+    new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.2).whenActive(new IntakeCommand(m_intakeSubsystem));
+    new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.2).whenActive(new OuttakeCommand(m_intakeSubsystem));
+         
     
-    // runs the Climber backwards when A is pressed (and forward when A is released)
-    new JoystickButton(m_operatorController, Button.kA.value)
+    // runs the Climber backwards (extends arm) when X is pressed 
+    new JoystickButton(m_operatorController, Button.kX.value)
         .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
-    new JoystickButton(m_operatorController, Button.kBumperLeft.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
+    // runs the Climber forwards (retracts arm) when Y is pressed 
+    new JoystickButton(m_operatorController, Button.kY.value)
+      .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
