@@ -88,15 +88,18 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kB.value)
         .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
 
-
-    new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.2).whenActive(new IntakeCommand(m_intakeSubsystem));
-    new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.2).whenActive(new OuttakeCommand(m_intakeSubsystem));
-         
+    // runs intake while left trigger is held
+    new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
+        .whileActiveOnce(new IntakeCommand(m_intakeSubsystem));
+    // runs outtake while right trigger is held
+    new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
+        .whileActiveOnce(new OuttakeCommand(m_intakeSubsystem));
+           
     
-    // runs the Climber backwards (extends arm) when X is pressed 
+    // sets the Climber to run backwards (extend arm) when X is pressed 
     new JoystickButton(m_operatorController, Button.kX.value)
         .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
-    // runs the Climber forwards (retracts arm) when Y is pressed 
+    // sets the Climber to run forwards (retract arm) when Y is pressed 
     new JoystickButton(m_operatorController, Button.kY.value)
       .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed

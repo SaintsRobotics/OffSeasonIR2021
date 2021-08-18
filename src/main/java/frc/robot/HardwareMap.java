@@ -1,7 +1,7 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANEncoder;
@@ -102,9 +102,9 @@ public class HardwareMap {
         public VictorSPX armController;
 
         public IntakeHardware() {
-            intakeController = new VictorSPX(25);
-            armController = new VictorSPX(24);
-
+                intakeController = new VictorSPX(25);
+                armController = new VictorSPX(24);
+                armController.setNeutralMode(NeutralMode.Brake);
         }
     }
 
