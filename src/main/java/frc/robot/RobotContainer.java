@@ -85,8 +85,10 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
      // turns on Feeder and shoots ball
+
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem));
+        .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
+        .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
 
     // runs intake while left trigger is held
     new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
