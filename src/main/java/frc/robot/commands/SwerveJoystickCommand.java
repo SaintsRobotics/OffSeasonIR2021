@@ -33,6 +33,7 @@ public class SwerveJoystickCommand extends CommandBase {
     
   }
 
+  //AutoAimCannon command
   public void autoAimCannon() {
 
     if (m_controller.getBumper(Hand.kRight) && Limelight.hasTarget()) {
