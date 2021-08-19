@@ -98,11 +98,13 @@ public class RobotContainer {
         .whileActiveOnce(new OuttakeCommand(m_intakeSubsystem));
            
     
-    // sets the Climber to run backwards (extend arm) when X is pressed 
-    new JoystickButton(m_operatorController, Button.kX.value)
-        .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
-    // sets the Climber to run forwards (retract arm) when Y is pressed 
+    // locks ratchet so it cannot extend, only retract (press when hooked on and want to raise bot)
+    // do not try and extend at this point!! (might break hardware) 
+    // potential to-do - add check in code so when ratchet locked cannot send signal to extend 
     new JoystickButton(m_operatorController, Button.kY.value)
+        .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
+    // release ratchet so it can extend and retract
+    new JoystickButton(m_operatorController, Button.kX.value)
       .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));

@@ -41,7 +41,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * 
    * @return
    */
-  public double getAngle() {
+  public double getPos() {
     return m_servoMotor.get();
   }
 
@@ -99,5 +99,10 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public double getSpeed() {
     return m_winchMotor.getEncoder().getVelocity();
+  }
+
+  public void periodic(){
+    SmartDashboard.putNumber("Servo Position", this.getPos());
+
   }
 }
