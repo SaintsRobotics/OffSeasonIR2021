@@ -93,6 +93,7 @@ public final class Constants {
         public static final int ARM_PORT = 24;
     }
 
+    /** Servo positions for different climber states. Positions range between 0.0 (full left) and 1.0 (full right). */
     public static final class ClimberConstants {
         public static final double WINCH_REVERSE_SERVO_POSITION = 0.0;
         public static final double WINCH_NORMAL_SERVO_POSITION = 0.5;
