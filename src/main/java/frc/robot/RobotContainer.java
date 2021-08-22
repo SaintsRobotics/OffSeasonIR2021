@@ -46,16 +46,12 @@ public class RobotContainer {
 
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
   private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
-
-  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
-      m_driveController);
-
   private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
-  private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
-
   private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
-  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
-      m_operatorController);
+
+  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem, m_driveController);
+  private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
+  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem, m_operatorController);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,11 +59,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
-
     m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
-
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
+    m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);    
   }
 
   /**
