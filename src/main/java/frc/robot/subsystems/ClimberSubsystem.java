@@ -5,18 +5,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-//test
 
-//import edu.wpi.first.wpilibj.interfaces.Gyro;
-/*
-import frc.robot.commands.DriveArmCommand;
-import frc.robot.common.IClimbSubsystem;
-import frc.robot.common.ILogger;
-import frc.robot.common.TraceableSubsystem;
-import com.google.inject.Inject;
-*/
 import com.revrobotics.CANSparkMax;
-//import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
