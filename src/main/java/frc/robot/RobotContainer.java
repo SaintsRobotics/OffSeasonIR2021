@@ -7,9 +7,8 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,8 +22,8 @@ import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -74,10 +73,10 @@ public class RobotContainer {
 
     // turns on shooter when Left Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+        .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
-       .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
      // turns on Feeder and shoots ball
 
     new JoystickButton(m_operatorController, Button.kB.value)
@@ -111,7 +110,6 @@ public class RobotContainer {
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
         .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
-
   }
 
   /**
