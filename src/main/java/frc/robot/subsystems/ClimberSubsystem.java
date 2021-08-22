@@ -23,7 +23,6 @@ public class ClimberSubsystem extends SubsystemBase {
     m_servoMotor = climberHardware.servoMotor;
     m_ratchetServo = climberHardware.ratchetServo;
     m_winchMotor = climberHardware.winchMotor;
-
   }
 
   /**
