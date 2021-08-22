@@ -89,9 +89,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
   }
 
-  /**
-   * This method is called periodically.
-   */
+  /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
 }
