@@ -103,7 +103,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
    
-    // resets the gyro when the Start button is pressed
+    // resets the gyro when the Start button on drive controller is pressed
     new JoystickButton(m_driveController, Button.kStart.value)
         .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
     // Sets brake and coast mode with left bumper
