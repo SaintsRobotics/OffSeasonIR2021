@@ -27,7 +27,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * The Angle of the Servo that releases the climber
+   * Returns the angle of the servo that releases the climber.
    * 
    * @return
    */
