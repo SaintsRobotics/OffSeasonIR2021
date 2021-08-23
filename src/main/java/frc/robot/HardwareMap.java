@@ -17,6 +17,9 @@ import frc.robot.subsystems.SwerveModule;
 
 public class HardwareMap {
 
+        /**
+         * Constructs the controllers.
+         */
     public class InputHardware {
         public XboxController driveController;
         public XboxController operatorController;
@@ -27,6 +30,9 @@ public class HardwareMap {
         }
     }
 
+    /**
+     * Constructs the drive motors, turning motors and turning encoders for each module
+     */
     private class SwerveModuleHardware {
         public CANSparkMax frontLeftDriveMotor;
         public CANSparkMax frontRightDriveMotor;
@@ -73,16 +79,20 @@ public class HardwareMap {
         }
     }
 
+    /**
+     * Constructs hardware for the feeder and flywheel system.
+     */
     public class ShooterHardware {
+        // encoder for the flywheel
         public CANEncoder rightCanEncoder;
+        // motors to run the flywheel, combined in a speedcontrollergroup
         private CANSparkMax leftFlywheel;
         private CANSparkMax rightFlywheel;
         public SpeedControllerGroup flywheel;
+        // motors for the feeder system, combined in a speedcontrollergroup
         private WPI_VictorSPX wheels;
         private WPI_VictorSPX kicker;
         public SpeedControllerGroup feeder;
-        // TODO Write comments briefly explaining some of this hardware
-
         public ShooterHardware() {
             leftFlywheel = new CANSparkMax(Constants.ShooterConstants.LEFT_FLYWHEEL_PORT, MotorType.kBrushless);
             leftFlywheel.setInverted(true);
@@ -97,6 +107,9 @@ public class HardwareMap {
         }
     };
 
+    /**
+     * Constructs motors for arm and intake
+     */
     public class IntakeHardware {
         public VictorSPX intakeController;
         public VictorSPX armController;
@@ -108,6 +121,9 @@ public class HardwareMap {
         }
     }
 
+    /**
+     * Constructs hardware for the whole drivetrain (gyro and each swervemodule)
+     */
     public class SwerveDriveHardware {
         private double x;
         private double y;
@@ -136,9 +152,15 @@ public class HardwareMap {
         }
     }
 
+    /**
+     * Constructs servos and motor for climber
+     */
     public class ClimberHardware {
+        // pulls the pin to release the climber
         public Servo servoMotor;
+        // locks or unlocks the climber so it can extend only when needed
         public Servo ratchetServo;
+        // actually extends and retracts the climber
         public CANSparkMax winchMotor;
 
         public ClimberHardware() {

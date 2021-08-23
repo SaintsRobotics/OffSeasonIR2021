@@ -4,10 +4,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
-
 import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,17 +23,14 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns the angle of the servo that releases the climber.
-   * 
-   * @return
+   * @return the angle of the servo that releases the climber.
    */
   public double getPos() {
     return m_servoMotor.get();
   }
 
   /**
-   * Sets the ratchet servo so that when the winch drives it drives backward (The
-   * Climber mechanism moves up)
+   * Sets the ratchet servo to allow the climb mechanism to extend. 
    */
   public void releaseRatchet() {
     m_ratchetServo.set(Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION);
@@ -45,8 +39,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets the ratchet servo so that when the winch drives it drives forward (The
-   * Climber mechanism moves down)
+   * Sets the ratchet servo to only allow the climb mechanism to retract - it is unable to extend.
    */
   public void lockRatchet() {
     m_ratchetServo.set(Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION);
@@ -82,15 +75,14 @@ public class ClimberSubsystem extends SubsystemBase {
     m_winchMotor.set(speed);
   }
 
-  /**
-   * 
-   * @return The speed of the winch motor
+  /** 
+   * @return The speed of the winch motor in RPM
    */
   public double getSpeed() {
     return m_winchMotor.getEncoder().getVelocity();
   }
 
-  public void periodic(){
+  public void periodic() {
     SmartDashboard.putNumber("Servo Position", this.getPos());
 
   }

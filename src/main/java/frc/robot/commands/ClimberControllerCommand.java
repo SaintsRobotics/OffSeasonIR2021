@@ -17,11 +17,8 @@ public class ClimberControllerCommand extends CommandBase{
         addRequirements(m_climberSubsystem);
     }
 
+    @Override
     public void execute(){
         m_climberSubsystem.climb(Utils.deadZones(-m_controller.getY(Hand.kRight), Constants.ClimberConstants.CLIMBER_CONTROL_SPEED_DEADZONE));
-    }
-
-    public boolean isFinished(){
-        return false;
     }
 }

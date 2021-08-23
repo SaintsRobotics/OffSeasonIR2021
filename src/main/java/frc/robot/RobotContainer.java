@@ -7,8 +7,9 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,8 +23,8 @@ import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ShootOneBallCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
-import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -45,12 +46,16 @@ public class RobotContainer {
 
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
   private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
-  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
-  private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
 
-  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem, m_driveController);
+  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
+      m_driveController);
+
+  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
   private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
-  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem, m_operatorController);
+
+  private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
+  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
+      m_operatorController);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -58,9 +63,11 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+
     m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
+
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-    m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);    
   }
 
   /**
@@ -73,10 +80,10 @@ public class RobotContainer {
 
     // turns on shooter when Left Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-        .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
-        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+       .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
      // turns on Feeder and shoots ball
 
     new JoystickButton(m_operatorController, Button.kB.value)
@@ -103,13 +110,14 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
    
-    // resets the gyro when the Start button on drive controller is pressed
+    // resets the gyro when the Start button is pressed
     new JoystickButton(m_driveController, Button.kStart.value)
         .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
     // Sets brake and coast mode with left bumper
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
         .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+
   }
 
   /**
