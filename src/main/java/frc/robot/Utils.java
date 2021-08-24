@@ -29,6 +29,12 @@ public class Utils {
 		return input;
 	}
 
+	public static double tolerance (double value, double desiredVal, double tolerance) {
+		if (Math.abs(value - desiredVal) < tolerance) {
+			return desiredVal;
+		}
+		return value;
+	}
 	/**
 	 * Makes lower inputs smaller which allows for finer joystick control.
 	 * 
