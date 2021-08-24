@@ -64,15 +64,25 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * To bring the climber closer to the robot, input a value in [-1, 0]. To drive
-   * the winch in the opposite direction, input a value in [0, 1]. <b>MAKE SURE
-   * THE RACHET IS DISENGAGED BEFORE INPUTING NEGATIVE VALUES</b>, otherwise the
-   * motor will stall.
+   * To retract the climber, input a value in [-1, 0]. To extend the climber,
+   * input a value in [0, 1]. <b>MAKE SURE THE RACHET IS RELEASED BEFORE 
+   * INPUTING POSITIVE VALUES</b>, otherwise the motor will stall.
    * 
    * @param speed Speed of the winch motor.
    */
   public void climb(double speed) {
-    m_winchMotor.set(speed);
+    if(m_ratchetServo.get() == Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION && speed < 0) {
+      m_winchMotor.set(speed);
+      SmartDashboard.putString("Climber pos", "Lock retract");
+    }
+    else if(m_ratchetServo.get() == Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION) {
+      m_winchMotor.set(speed);
+      SmartDashboard.putString("Climber pos", "Released");
+    } 
+    else {
+      SmartDashboard.putString("Climber pos", "Nothing happened");
+    }
+    
   }
 
   /** 
