@@ -4,6 +4,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Utils;
+
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
@@ -33,7 +35,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * Sets the ratchet servo to allow the climb mechanism to extend. 
    */
   public void releaseRatchet() {
-    m_ratchetServo.set(Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION);
+    m_ratchetServo.set(Constants.ClimberConstants.WINCH_RELEASE_SERVO_POSITION);
     SmartDashboard.putString("Ratchet State", "extend");
     DriverStation.reportError("climb direction reversed", false);
   }
@@ -42,7 +44,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * Sets the ratchet servo to only allow the climb mechanism to retract - it is unable to extend.
    */
   public void lockRatchet() {
-    m_ratchetServo.set(Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION);
+    m_ratchetServo.set(Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION);
     SmartDashboard.putString("Ratchet State", "retract");
     DriverStation.reportError("climb direction normal", false);
   }
@@ -71,17 +73,12 @@ public class ClimberSubsystem extends SubsystemBase {
    * @param speed Speed of the winch motor.
    */
   public void climb(double speed) {
-    if(m_ratchetServo.get() == Constants.ClimberConstants.WINCH_NORMAL_SERVO_POSITION && speed < 0) {
+    if (!(Utils.tolerance(m_ratchetServo.get(), Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION, 0.1) == Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION && speed > 0)) {
       m_winchMotor.set(speed);
-      SmartDashboard.putString("Climber pos", "Lock retract");
+    } else {
+      m_winchMotor.set(0);
     }
-    else if(m_ratchetServo.get() == Constants.ClimberConstants.WINCH_REVERSE_SERVO_POSITION) {
-      m_winchMotor.set(speed);
-      SmartDashboard.putString("Climber pos", "Released");
-    } 
-    else {
-      SmartDashboard.putString("Climber pos", "Nothing happened");
-    }
+
     
   }
 

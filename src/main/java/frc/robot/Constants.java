@@ -95,8 +95,8 @@ public final class Constants {
 
     /** Servo positions for different climber states. Positions range between 0.0 (full left) and 1.0 (full right). */
     public static final class ClimberConstants {
-        public static final double WINCH_REVERSE_SERVO_POSITION = 0.0;
-        public static final double WINCH_NORMAL_SERVO_POSITION = 0.5;
+        public static final double WINCH_RELEASE_SERVO_POSITION = 0.0;
+        public static final double WINCH_LOCK_SERVO_POSITION = 0.5;
         public static final double SERVO_RELEASE_POSITION = 0.0;
         public static final double SERVO_RETURN_POSITION = 0.5;
 
