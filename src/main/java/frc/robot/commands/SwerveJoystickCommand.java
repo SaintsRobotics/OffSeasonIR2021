@@ -4,12 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.HardwareMap;
-import frc.robot.Limelight;
 import frc.robot.Utils;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -32,22 +30,7 @@ public class SwerveJoystickCommand extends CommandBase {
   public void initialize() {
     
   }
-
-  //AutoAimCannon command
-  public void autoAimCannon() {
-
-    if (m_controller.getBumper(Hand.kRight) && Limelight.hasTarget()) {
-      
-      //Get the values
-      double targetX = Utils.oddSquare(Limelight.getX() * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.5);
-      double targetY = Utils.oddSquare(Limelight.getY() * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.5);
-      double targetAngle = Limelight.getAngle();
-
-      //Aim the cannon
-      m_drivetrain.move(targetX, targetY, targetAngle, false);
-    }
-  }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {

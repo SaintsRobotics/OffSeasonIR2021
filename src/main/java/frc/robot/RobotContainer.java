@@ -18,7 +18,7 @@ import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 
 import frc.robot.commands.SwerveJoystickCommand;
-
+import frc.robot.commands.VisionAimingCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import frc.robot.subsystems.ShooterSubsystem;
@@ -84,6 +84,8 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new ShootOneBallCommand(m_shooterSubsystem));
 
     new JoystickButton(m_driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_swerveSubsystem));
+
+    new JoystickButton(m_driveController, Button.kBumperRight.value).whenPressed(new VisionAimingCommand(m_swerveSubsystem));
   }
 
   /**
