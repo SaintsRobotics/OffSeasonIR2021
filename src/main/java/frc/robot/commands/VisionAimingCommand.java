@@ -10,7 +10,7 @@ import frc.robot.Limelight;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class VisionAimingCommand extends CommandBase {
-  private final PIDController m_pid = new PIDController(0.008, 0, 0.07);
+  private final PIDController m_pid = new PIDController(0.5, 0, 0);
   private final SwerveDriveSubsystem m_drive; // Trying out final and seeing if it works
   
   /** Creates a new {@link VisionAimingCommand}. */
@@ -23,6 +23,8 @@ public class VisionAimingCommand extends CommandBase {
   public void initialize() {
     m_pid.reset();
     Limelight.setLed(3);
+    m_pid.setSetpoint(0.0); // 0.0 means the limelight is pointed at the right direction
+
   }
 
   @Override
