@@ -33,6 +33,8 @@ public class TargetAimCommand extends CommandBase {
     addRequirements(m_drivetrain);
     currentExpectedScore = 0;
 
+    
+
   }
 
   // Called when the command is initially scheduled.
@@ -59,8 +61,9 @@ public class TargetAimCommand extends CommandBase {
       //Get the move amounts
       double deltaX = input.nextDouble();
       double deltaY = input.nextDouble();
-      
+
       //Translate the drivetrain
+      m_drivetrain.move(0.1 * deltaX, 0.1 * deltaY, 0, false);
 
     } catch (Exception e) {
       System.out.println("\nTRANSFER FAILED\n");
