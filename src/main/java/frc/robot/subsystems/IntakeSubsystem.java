@@ -29,8 +29,9 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Intake MotorSpeed", m_desiredIntakeSpeed);
+    SmartDashboard.putNumber("Intake Motor Speed", m_desiredIntakeSpeed);
     m_intakeController.set(VictorSPXControlMode.PercentOutput, m_desiredIntakeSpeed);
+
   }
 
   /**
@@ -40,6 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void moveArm(double velocity) {
     m_armController.set(VictorSPXControlMode.PercentOutput, velocity);
+    SmartDashboard.putNumber("Desired Arm Motor Speed", velocity);
   }
 
   /**

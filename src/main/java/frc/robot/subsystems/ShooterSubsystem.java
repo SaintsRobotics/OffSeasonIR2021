@@ -9,6 +9,7 @@ import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -17,13 +18,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder m_flywheelEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
+  public boolean m_isAtMaxSpeed;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooterHardware) {
     m_flywheelMotor = shooterHardware.flywheel;
     m_feeder = shooterHardware.feeder;
     m_flywheelEncoder = shooterHardware.rightCanEncoder;
-
   }
 
   /**
@@ -47,7 +48,12 @@ public class ShooterSubsystem extends SubsystemBase {
    * Turns on the feeder to feed balls into the shooter.
    */
   public void turnFeederOn() {
-    m_feederSpeed = 1;
+    if (getFlywheelRPM() >= ShooterConstants.FLYWHEEL_READY_RPM) {
+      m_feederSpeed = 1;
+    }
+    else {
+      turnFeederOff();
+    }
   }
 
   /**
@@ -59,13 +65,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-
     // Spit out the shooter speed
     SmartDashboard.putNumber("Current Flywheel RPM", getFlywheelRPM());
     SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
     m_flywheelMotor.set(m_targetSpeed);
     m_feeder.set(m_feederSpeed);
-
   }
 }
