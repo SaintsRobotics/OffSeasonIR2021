@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutonMoveCommand;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
@@ -46,9 +47,9 @@ public class RobotContainer {
   private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
 
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
-  private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
+  private SwerveDriveSubsystem m_swerveDriveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
 
-  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
+  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveDriveSubsystem,
       m_driveController);
 
   private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
@@ -66,7 +67,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
 
-    m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
+    m_swerveDriveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
 
     m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
   }
@@ -113,11 +114,11 @@ public class RobotContainer {
    
     // resets the gyro when the Start button is pressed
     new JoystickButton(m_driveController, Button.kStart.value)
-        .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
+        .whenPressed(new InstantCommand(m_swerveDriveSubsystem::resetGyro, m_swerveDriveSubsystem));
     // Sets brake and coast mode with left bumper
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
-        .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
-        .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+        .whenPressed(() -> m_swerveDriveSubsystem.setDriveIdleMode(IdleMode.kCoast))
+        .whenReleased(() -> m_swerveDriveSubsystem.setDriveIdleMode(IdleMode.kBrake));
 
   }
 
@@ -127,7 +128,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
     return null;
   }
 }

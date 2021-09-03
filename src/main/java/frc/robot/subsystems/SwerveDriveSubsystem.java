@@ -40,7 +40,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private double m_ySpeed;
   private double m_rotationSpeed;
   private boolean m_isFieldRelative;
-  private SwerveDriveOdometry m_odometry;
+  private static SwerveDriveOdometry m_odometry;
   private ChassisSpeeds m_chassisSpeeds;
   private SwerveDriveKinematics m_kinematics;
   private double time;
@@ -75,10 +75,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-
-
-    
-
     // odometry code will error on the first tick or two due to the gyro taking
     // longer to start up
     if (time > 10) {
@@ -93,7 +89,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putString("front Left Swerve Module State", m_swerveDriveHardware.frontLeft.getState().toString());
     SmartDashboard.putNumber("time", time);
 
-    //Robot values
+    // Robot values
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
@@ -210,6 +206,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_backLeftModule.getDriveMotor().setIdleMode(mode);
     m_backRightModule.getDriveMotor().setIdleMode(mode);
   }
+
   /**
    * Prints the estimated gyro value to the simulator.
    * 
@@ -219,6 +216,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
     angle.set(printHeading);
+  }
+
+  /**
+   * 
+   * @return Returns the odometry position object. Format (x, y, rot)
+   */
+  public static Pose2d getPose2D() {
+    return m_odometry.getPoseMeters();
   }
 
   /** Zeroes the odometry. */
