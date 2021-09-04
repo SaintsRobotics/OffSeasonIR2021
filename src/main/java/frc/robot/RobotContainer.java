@@ -85,7 +85,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driveController, Button.kStart.value).whenPressed(new ResetGyroCommand(m_swerveSubsystem));
 
-    new JoystickButton(m_driveController, Button.kBumperRight.value).whenPressed(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
+    new JoystickButton(m_driveController, Button.kA.value).whileHeld(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
   }
 
   /**
