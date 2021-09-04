@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class AutonMoveCommand extends CommandBase {
@@ -18,6 +20,13 @@ public class AutonMoveCommand extends CommandBase {
   double m_rot = SwerveDriveSubsystem.getPose2D().getRotation().getRadians();
 
   private SwerveDriveOdometry m_odometry;
+
+
+  //Pid
+  PIDController m_xPID;
+  PIDController m_yPID;
+  PIDController m_rotPID;
+  
 
   public AutonMoveCommand withX(double new_x) {
     m_x = new_x;
@@ -52,6 +61,10 @@ public class AutonMoveCommand extends CommandBase {
 
   /** Creates a new AutonMoveCommand. */
   public AutonMoveCommand(SwerveDriveSubsystem swerveDriveSubsystem) {
+    m_xPID = new PIDController(0.5, 0.0, 0.0);
+    m_yPID = new PIDController(0.5, 0.0, 0.0);
+    m_rotPID = new PIDController(0.5, 0.0, 0.0);
+
     m_swerveDriveSubsystem = swerveDriveSubsystem;
     addRequirements(m_swerveDriveSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -64,7 +77,7 @@ public class AutonMoveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    m_swerveDriveSubsystem.move(m_xPID.calculate(m_swerveDriveSubsystem.getPose2D()), m_yPID.calculate(m_swerveDriveSubsystem.getPose2D()), rotationSpeed, isFieldRelative);
   }
 
   // Called once the command ends or is interrupted.
