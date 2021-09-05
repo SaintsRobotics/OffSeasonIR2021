@@ -11,6 +11,7 @@ public class Limelight {
 
     /**
      * Vertical Offset From Crosshair To Target
+     * 
      * @return vertical offset
      */
     public static double getY() {
@@ -18,7 +19,8 @@ public class Limelight {
     }
 
     /**
-     * Horizontal Offset From Crosshair To Target 
+     * Horizontal Offset From Crosshair To Target
+     * 
      * @return horizontal offset
      */
     public static double getX() {
@@ -27,6 +29,7 @@ public class Limelight {
 
     /**
      * Skew or rotation (-90 degrees to 0 degrees)
+     * 
      * @return skew angle
      */
     public static double getAngle() {
@@ -35,6 +38,7 @@ public class Limelight {
 
     /**
      * The pipeline’s latency contribution (ms)
+     * 
      * @return latency value
      */
     public static double getLatency() {
@@ -43,6 +47,7 @@ public class Limelight {
 
     /**
      * Target Area (0% of image to 100% of image)
+     * 
      * @return area value
      */
     public static double getArea() {
@@ -51,6 +56,7 @@ public class Limelight {
 
     /**
      * Whether the limelight has any valid targets (0 or 1)
+     * 
      * @return true if the camera sees target
      */
     public static boolean hasTarget() {
@@ -59,11 +65,12 @@ public class Limelight {
 
     /**
      * Sets limelight’s LED state
-     * @param state LED state (0-3)
+     * 
+     * @param state 0: use LED Mode set in the current pipeline. 1: force off. 2:
+     *              force blink. 3: force on.
      */
     public static void setLed(double state) {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(state);
     }
-
 
 }

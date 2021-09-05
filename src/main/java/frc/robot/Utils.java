@@ -6,7 +6,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package frc.robot;
 
 /**
@@ -29,12 +28,18 @@ public class Utils {
 		return input;
 	}
 
-	public static double tolerance (double value, double desiredVal, double tolerance) {
+	/**
+	 * If "value" is within "tolerance" of "desiredVal," it returns desiredVal.
+	 * </br>
+	 * If "value" is <i>outside</i> the tolerance, then it returns "value."
+	 */
+	public static double tolerance(double value, double desiredVal, double tolerance) {
 		if (Math.abs(value - desiredVal) < tolerance) {
 			return desiredVal;
 		}
 		return value;
 	}
+
 	/**
 	 * Makes lower inputs smaller which allows for finer joystick control.
 	 * 
