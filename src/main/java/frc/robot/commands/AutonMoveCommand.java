@@ -15,11 +15,10 @@ public class AutonMoveCommand extends CommandBase {
 
   // member vars
   private SwerveDriveSubsystem m_swerveDriveSubsystem;
-  double m_x = SwerveDriveSubsystem.getPose2D().getTranslation().getX();
-  double m_y = SwerveDriveSubsystem.getPose2D().getTranslation().getY();
-  double m_rot = SwerveDriveSubsystem.getPose2D().getRotation().getRadians();
-
-  private SwerveDriveOdometry m_odometry;
+  double m_x;
+  double m_y;
+  double m_rot;
+  boolean m_fieldRelative;
 
 
   //Pid
@@ -61,9 +60,14 @@ public class AutonMoveCommand extends CommandBase {
 
   /** Creates a new AutonMoveCommand. */
   public AutonMoveCommand(SwerveDriveSubsystem swerveDriveSubsystem) {
-    m_xPID = new PIDController(0.5, 0.0, 0.0);
-    m_yPID = new PIDController(0.5, 0.0, 0.0);
-    m_rotPID = new PIDController(0.5, 0.0, 0.0);
+    m_x = SwerveDriveSubsystem.getPose2D().getTranslation().getX();
+    m_y = SwerveDriveSubsystem.getPose2D().getTranslation().getY();
+    m_rot = SwerveDriveSubsystem.getPose2D().getRotation().getRadians();
+    m_fieldRelative = true;
+
+    m_xPID = new PIDController(0.5, 0, 0);
+    m_yPID = new PIDController(0.5, 0, 0);
+    m_rotPID = new PIDController(0.5, 0, 0);
 
     m_swerveDriveSubsystem = swerveDriveSubsystem;
     addRequirements(m_swerveDriveSubsystem);
@@ -77,7 +81,12 @@ public class AutonMoveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveDriveSubsystem.move(m_xPID.calculate(m_swerveDriveSubsystem.getPose2D()), m_yPID.calculate(m_swerveDriveSubsystem.getPose2D()), rotationSpeed, isFieldRelative);
+    m_xPID.setSetpoint(m_x);
+    m_yPID.setSetpoint(m_y);
+    m_rotPID.setSetpoint(m_rot);
+    Pose2d currPos = SwerveDriveSubsystem.getPose2D();
+    
+    m_swerveDriveSubsystem.move(m_xPID.calculate(currPos.getX()), m_yPID.calculate(currPos.getY()), m_rotPID.calculate(currPos.getRotation().getRadians()), m_fieldRelative);
   }
 
   // Called once the command ends or is interrupted.
