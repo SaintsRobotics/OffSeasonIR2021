@@ -9,13 +9,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
@@ -79,42 +77,43 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // turns on shooter when Left Bumper is pressed
-    new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+    new JoystickButton(m_operatorController, XboxController.Button.kBumperLeft.value)
+        .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
-    new JoystickButton(m_operatorController, Button.kBumperRight.value)
-       .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
-     // turns on Feeder and shoots ball
+    new JoystickButton(m_operatorController, XboxController.Button.kBumperRight.value)
+        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+    // turns on Feeder and shoots ball
 
-    new JoystickButton(m_operatorController, Button.kB.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
         .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
         .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
 
     // runs intake while left trigger is held
-    new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
-        .whileActiveOnce(new IntakeCommand(m_intakeSubsystem));
+    new Button(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
+        .whileHeld(new IntakeCommand(m_intakeSubsystem));
     // runs outtake while right trigger is held
-    new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
-        .whileActiveOnce(new OuttakeCommand(m_intakeSubsystem));
-           
-    
-    // locks ratchet so it cannot extend, only retract (press when hooked on and want to raise bot)
-    // do not try and extend at this point!! (might break hardware) 
-    // potential to-do - add check in code so when ratchet locked cannot send signal to extend 
-    new JoystickButton(m_operatorController, Button.kY.value)
+    new Button(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
+        .whileHeld(new OuttakeCommand(m_intakeSubsystem));
+
+    // locks ratchet so it cannot extend, only retract (press when hooked on and
+    // want to raise bot)
+    // do not try and extend at this point!! (might break hardware)
+    // potential to-do - add check in code so when ratchet locked cannot send signal
+    // to extend
+    new JoystickButton(m_operatorController, XboxController.Button.kY.value)
         .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
     // release ratchet so it can extend and retract
-    new JoystickButton(m_operatorController, Button.kX.value)
-      .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
+    new JoystickButton(m_operatorController, XboxController.Button.kX.value)
+        .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed
-    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+    new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
+        .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
-   
     // resets the gyro when the Start button is pressed
-    new JoystickButton(m_driveController, Button.kStart.value)
+    new JoystickButton(m_driveController, XboxController.Button.kStart.value)
         .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
     // Sets brake and coast mode with left bumper
-    new JoystickButton(m_driveController, Button.kBumperLeft.value)
+    new JoystickButton(m_driveController, XboxController.Button.kBumperLeft.value)
         .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
 
