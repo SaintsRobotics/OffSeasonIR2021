@@ -7,10 +7,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -25,7 +23,6 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 import frc.robot.Limelight;
 import frc.robot.Robot;
-import frc.robot.Utils;
 import frc.robot.Utils;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
