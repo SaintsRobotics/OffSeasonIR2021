@@ -155,7 +155,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("Odometryrot", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("OdometryRot", m_odometry.getPoseMeters().getRotation().getDegrees());
   }
 
   /**

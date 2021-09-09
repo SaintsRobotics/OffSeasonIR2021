@@ -101,7 +101,7 @@ public class SwerveModule {
 
   /**
    * Private method that is used in this class to update the state (heading and
-   * velocity) of the swerve module. State is accessable by the getState method of
+   * velocity) of the swerve module. State is accessible by the getState method of
    * this class.
    */
   private void updateSwerveModuleState(SwerveModuleState state) {
