@@ -54,7 +54,7 @@ public class OperatorBoard {
      * 
      * @return Left is negative, right is positive.
      */
-    private double getLeftJoystickX() {
+    public double getLeftJoystickX() {
         return -HARDWARE.getRawAxis(0);
         // This value is negated because something is weird with the wiring.
     }
@@ -64,7 +64,7 @@ public class OperatorBoard {
      * 
      * @return Up is negative, down is positive.
      */
-    private double getLeftJoystickY() {
+    public double getLeftJoystickY() {
         return HARDWARE.getRawAxis(1);
     }
 
@@ -73,7 +73,7 @@ public class OperatorBoard {
      * 
      * @return Up is negative, down is positive.
      */
-    private double getRightJoystickX() {
+    public double getRightJoystickX() {
         return HARDWARE.getRawAxis(2);
     }
 
@@ -82,7 +82,7 @@ public class OperatorBoard {
      * 
      * @return Up is negative, down is positive.
      */
-    private double getRightJoystickY() {
+    public double getRightJoystickY() {
         return HARDWARE.getRawAxis(3);
     }
 
