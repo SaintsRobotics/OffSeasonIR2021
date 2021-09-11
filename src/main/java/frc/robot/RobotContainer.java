@@ -40,12 +40,13 @@ public class RobotContainer {
     private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
 
     private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
-    private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,m_driveController);
-
-    private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
+    private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
+            m_driveController);
 
     private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
     private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
+
+    private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
 
     private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
     private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
@@ -69,18 +70,15 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        // turns on the shooter when the left bumper is pressed on the operator controller
-        new JoystickButton(m_operatorController, XboxController.Button.kBumperLeft.value)
-                .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+        // resets the gyro when the Start button is pressed on the drive controller
+        new JoystickButton(m_driveController, XboxController.Button.kStart.value)
+                .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
 
-        // turns off the shooter when the right bumper is pressed on the operator controller
-        new JoystickButton(m_operatorController, XboxController.Button.kBumperRight.value)
-                .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
-
-        // turns on the feeder when the B button is pressed on the operator controller
-        new JoystickButton(m_operatorController, XboxController.Button.kB.value)
-                .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
-                .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
+        // wheels are set to coast when the left bumper is pressed otherwise they are
+        // set to brake
+        new JoystickButton(m_driveController, XboxController.Button.kBumperLeft.value)
+                .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
+                .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
 
         // runs the intake while the left trigger is held on the operator controller
         new Button(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
@@ -90,11 +88,23 @@ public class RobotContainer {
         new Button(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
                 .whileHeld(new OuttakeCommand(m_intakeSubsystem));
 
-        // locks ratchet so the climber cannot extend, only retract (press when hooked on and
-        // want to raise bot)
-        // do not try and extend at this point!! (might break hardware)
-        // potential to-do - add check in code so when ratchet locked cannot send signal
-        // to extend
+        // turns on the feeder when the B button is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kB.value)
+                .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
+                .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
+
+        // turns on the shooter when the left bumper is pressed on the operator
+        // controller
+        new JoystickButton(m_operatorController, XboxController.Button.kBumperLeft.value)
+                .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+
+        // turns off the shooter when the right bumper is pressed on the operator
+        // controller
+        new JoystickButton(m_operatorController, XboxController.Button.kBumperRight.value)
+                .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+
+        // locks the ratchet when the Y button is pressed on the operator controller
+        // DO NOT EXTEND CLIMBER WHEN LOCKED, MIGHT BREAK HARDWARE
         new JoystickButton(m_operatorController, XboxController.Button.kY.value)
                 .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
 
@@ -105,15 +115,6 @@ public class RobotContainer {
         // releases the climber when start is pressed on the operator controller
         new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
                 .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
-
-        // resets the gyro when the Start button is pressed on the drive controller
-        new JoystickButton(m_driveController, XboxController.Button.kStart.value)
-                .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
-
-        // wheels are set to coast when the left bumper is pressed otherwise they are set to brake
-        new JoystickButton(m_driveController, XboxController.Button.kBumperLeft.value)
-                .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
-                .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
     }
 
     /**
