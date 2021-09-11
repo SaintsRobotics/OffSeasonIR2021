@@ -19,26 +19,17 @@ public class OperatorBoard {
     public OperatorBoardButton BUTTON_TWELVE;
     public OperatorBoardButton BUTTON_THIRTEEN;
     public OperatorBoardButton BUTTON_FOURTEEN;
-
-    private static OperatorBoard instance;
-
-    /**
-     * The constructor is kept private so that I can make sure it is only run once,
-     * and that there is only ever one instance of OperatorBoard in existence.
-     */
-    public static OperatorBoard getInstance() {
-        if (instance == null) {
-            instance = new OperatorBoard();
-        }
-        return instance;
-    }
+    // TODO rename these, and use lowercase camel case names
 
     /**
-     * The constructor is kept private so that I can make sure it is only run once,
-     * and that there is only ever one instance of OperatorBoard in existence.
+     * Constructs one operator board. Since we only have one operator board, this
+     * class should be treated as a singleton.
+     * 
+     * @param port The USB port number for the controller
      */
-    private OperatorBoard() {
-        HARDWARE = new Joystick(1);
+    public OperatorBoard(int port) {
+        HARDWARE = new Joystick(port);
+
         BUTTON_ONE = new OperatorBoardButton(1);
         BUTTON_TWO = new OperatorBoardButton(2);
         BUTTON_THREE = new OperatorBoardButton(3);
