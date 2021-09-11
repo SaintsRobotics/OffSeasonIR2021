@@ -69,7 +69,7 @@ public class OperatorBoard {
     }
 
     /**
-     * Access the y-axis of the right joystick.
+     * Access the x-axis of the right joystick.
      * 
      * @return Up is negative, down is positive.
      */
