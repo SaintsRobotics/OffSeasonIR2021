@@ -34,97 +34,94 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+    private HardwareMap hardwareMap = new HardwareMap();
 
-  private HardwareMap hardwareMap = new HardwareMap();
+    private XboxController m_driveController = hardwareMap.inputHardware.driveController;
+    private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
 
-  private XboxController m_driveController = hardwareMap.inputHardware.driveController;
-  private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
+    private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
+    private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,m_driveController);
 
-  private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
-  private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
+    private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
 
-  private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
-      m_driveController);
+    private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
+    private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
 
-  private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
-  private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
+    private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
+    private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
+            m_operatorController);
 
-  private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
-  private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
-      m_operatorController);
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        configureButtonBindings();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-    m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+        m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
+        m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
+        m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+    }
 
-    m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by instantiating a {@link GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        // turns on the shooter when the left bumper is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kBumperLeft.value)
+                .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
 
-    m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-  }
+        // turns off the shooter when the right bumper is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kBumperRight.value)
+                .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
+        // turns on the feeder when the B button is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kB.value)
+                .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
+                .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
 
-    // turns on shooter when Left Bumper is pressed
-    new JoystickButton(m_operatorController, XboxController.Button.kBumperLeft.value)
-        .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
-    // turns off shooter when Right Bumper is pressed
-    new JoystickButton(m_operatorController, XboxController.Button.kBumperRight.value)
-        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
-    // turns on Feeder and shoots ball
+        // runs the intake while the left trigger is held on the operator controller
+        new Button(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
+                .whileHeld(new IntakeCommand(m_intakeSubsystem));
 
-    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
-        .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
-        .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
+        // runs the outtake while the right trigger is held
+        new Button(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
+                .whileHeld(new OuttakeCommand(m_intakeSubsystem));
 
-    // runs intake while left trigger is held
-    new Button(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
-        .whileHeld(new IntakeCommand(m_intakeSubsystem));
-    // runs outtake while right trigger is held
-    new Button(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
-        .whileHeld(new OuttakeCommand(m_intakeSubsystem));
+        // locks ratchet so the climber cannot extend, only retract (press when hooked on and
+        // want to raise bot)
+        // do not try and extend at this point!! (might break hardware)
+        // potential to-do - add check in code so when ratchet locked cannot send signal
+        // to extend
+        new JoystickButton(m_operatorController, XboxController.Button.kY.value)
+                .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
 
-    // locks ratchet so it cannot extend, only retract (press when hooked on and
-    // want to raise bot)
-    // do not try and extend at this point!! (might break hardware)
-    // potential to-do - add check in code so when ratchet locked cannot send signal
-    // to extend
-    new JoystickButton(m_operatorController, XboxController.Button.kY.value)
-        .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
-    // release ratchet so it can extend and retract
-    new JoystickButton(m_operatorController, XboxController.Button.kX.value)
-        .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
-    // releases the Climber when Start is pressed
-    new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
-        .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+        // releases the ratchet when the X button is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kX.value)
+                .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
 
-    // resets the gyro when the Start button is pressed
-    new JoystickButton(m_driveController, XboxController.Button.kStart.value)
-        .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
-    // Sets brake and coast mode with left bumper
-    new JoystickButton(m_driveController, XboxController.Button.kBumperLeft.value)
-        .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
-        .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+        // releases the climber when start is pressed on the operator controller
+        new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
+                .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
-  }
+        // resets the gyro when the Start button is pressed on the drive controller
+        new JoystickButton(m_driveController, XboxController.Button.kStart.value)
+                .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-  }
+        // wheels are set to coast when the left bumper is pressed otherwise they are set to brake
+        new JoystickButton(m_driveController, XboxController.Button.kBumperLeft.value)
+                .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
+                .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+    }
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        return null;
+    }
 }
