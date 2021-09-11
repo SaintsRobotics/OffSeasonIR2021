@@ -119,6 +119,8 @@ public class RobotContainer {
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
         .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+    new JoystickButton(m_driveController, Button.kA.value)
+        .whileHeld(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
 
   }
 
