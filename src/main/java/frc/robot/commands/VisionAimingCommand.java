@@ -21,7 +21,7 @@ public class VisionAimingCommand extends SwerveJoystickCommand {
   @Override
   public void initialize() {
     m_pid.reset();
-    // Limelight.setLed(3);
+    Limelight.setLed(3);
     m_pid.setSetpoint(0.0); // 0.0 means the limelight is pointed at the right direction
 
   }
@@ -35,6 +35,6 @@ public class VisionAimingCommand extends SwerveJoystickCommand {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    // Limelight.setLed(1);
+    Limelight.setLed(1);
   } 
 }
