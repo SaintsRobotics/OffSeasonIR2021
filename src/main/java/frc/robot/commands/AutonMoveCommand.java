@@ -20,12 +20,10 @@ public class AutonMoveCommand extends CommandBase {
   double m_rot;
   boolean m_fieldRelative;
 
-
-  //Pid
+  // Pid
   PIDController m_xPID;
   PIDController m_yPID;
   PIDController m_rotPID;
-  
 
   public AutonMoveCommand withX(double new_x) {
     m_x = new_x;
@@ -57,7 +55,6 @@ public class AutonMoveCommand extends CommandBase {
     return this;
   }
 
-
   /** Creates a new AutonMoveCommand. */
   public AutonMoveCommand(SwerveDriveSubsystem swerveDriveSubsystem) {
     m_x = SwerveDriveSubsystem.getPose2D().getTranslation().getX();
@@ -70,7 +67,7 @@ public class AutonMoveCommand extends CommandBase {
     m_rotPID = new PIDController(0.5, 0, 0);
 
     m_xPID.setTolerance(0.05);
-		m_yPID.setTolerance(0.05);
+    m_yPID.setTolerance(0.05);
     m_rotPID.setTolerance(Math.PI / 24);
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -81,7 +78,8 @@ public class AutonMoveCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -90,13 +88,15 @@ public class AutonMoveCommand extends CommandBase {
     m_yPID.setSetpoint(m_y);
     m_rotPID.setSetpoint(m_rot);
     Pose2d currPos = SwerveDriveSubsystem.getPose2D();
-    
-    m_swerveDriveSubsystem.move(m_xPID.calculate(currPos.getX()), m_yPID.calculate(currPos.getY()), m_rotPID.calculate(currPos.getRotation().getRadians()), m_fieldRelative);
+
+    m_swerveDriveSubsystem.move(m_xPID.calculate(currPos.getX()), m_yPID.calculate(currPos.getY()),
+        m_rotPID.calculate(currPos.getRotation().getRadians()), m_fieldRelative);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

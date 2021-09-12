@@ -23,7 +23,7 @@ public class TimedFeedCommand extends CommandBase {
     addRequirements(m_shooterSubsystem);
   }
 
-  public TimedFeedCommand withTime (double time) {
+  public TimedFeedCommand withTime(double time) {
     m_targetTime = time;
     return this;
   }
@@ -34,9 +34,7 @@ public class TimedFeedCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getFlywheelRPM() >= 0.96) {
-      m_shooterSubsystem.turnFeederOn();
-    }
+    m_shooterSubsystem.turnFeederOn();
     m_currentTime += 0.02;
   }
 
