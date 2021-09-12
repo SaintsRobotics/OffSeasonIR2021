@@ -46,7 +46,7 @@ public class SwerveJoystickCommand extends CommandBase {
     double y = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kLeft), 0.2))
         * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.7;
     double rot = getRotation();
-    boolean fieldRelative = m_controller.getBumper(Hand.kRight);
+    boolean fieldRelative = !m_controller.getBumper(Hand.kRight);
 
     m_drivetrain.move(x, y, rot, fieldRelative);
     SmartDashboard.putNumber("x", x);
