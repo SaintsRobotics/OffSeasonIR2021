@@ -8,17 +8,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /** Command to shoot one ball. */
-public class ShootOneBallCommand extends CommandBase {
+public class TimedFeedCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
+  private double m_currentTime = 0;
+  private double m_targetTime = 1;
 
   /**
-   * Creates a new {@link ShootOneBallCommand}.
+   * Creates a new {@link TimedFeedCommand}.
    * 
    * @param shooter Shooter subsystem that the command will run on.
    */
-  public ShootOneBallCommand(ShooterSubsystem shooter) {
+  public TimedFeedCommand(ShooterSubsystem shooter) {
     m_shooterSubsystem = shooter;
     addRequirements(m_shooterSubsystem);
+  }
+
+  public TimedFeedCommand withTime (double time) {
+    m_targetTime = time;
+    return this;
   }
 
   @Override
@@ -30,6 +37,7 @@ public class ShootOneBallCommand extends CommandBase {
     if (m_shooterSubsystem.getFlywheelRPM() >= 0.96) {
       m_shooterSubsystem.turnFeederOn();
     }
+    m_currentTime += 0.02;
   }
 
   @Override
@@ -39,6 +47,6 @@ public class ShootOneBallCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return m_currentTime >= m_targetTime;
   }
 }

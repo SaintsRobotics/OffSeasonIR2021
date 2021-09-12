@@ -69,6 +69,11 @@ public class AutonMoveCommand extends CommandBase {
     m_yPID = new PIDController(0.5, 0, 0);
     m_rotPID = new PIDController(0.5, 0, 0);
 
+    m_xPID.setTolerance(0.05);
+		m_yPID.setTolerance(0.05);
+    m_rotPID.setTolerance(Math.PI / 24);
+    m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
+
     m_swerveDriveSubsystem = swerveDriveSubsystem;
     addRequirements(m_swerveDriveSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.

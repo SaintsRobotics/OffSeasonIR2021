@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonMoveCommand;
@@ -22,7 +23,7 @@ import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.OuttakeCommand;
-import frc.robot.commands.ShootOneBallCommand;
+import frc.robot.commands.TimedFeedCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -130,8 +131,16 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     SmartDashboard.putString("Auton test", "Auton run");
+
+    /*
+    // three ball auto 
+    return new SequentialCommandGroup(new ShooterOnCommand(m_shooterSubsystem),
+        new AutonMoveCommand(m_swerveDriveSubsystem).changeX(-1.2), new VisionAimingCommand(m_swerveDriveSubsystem),
+        new TimedFeedCommand(m_shooterSubsystem).withTime(3), new ShooterOffCommand(m_shooterSubsystem));
+    */
     return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
     
+
     // return null;
   }
 }
