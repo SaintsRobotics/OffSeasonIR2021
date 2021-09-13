@@ -25,6 +25,7 @@ import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.commands.VisionAimingCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -80,36 +81,37 @@ public class RobotContainer {
 
     // turns on shooter when Left Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-       .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+        .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
     // turns off shooter when Right Bumper is pressed
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
-       .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
-     // turns on Feeder and shoots ball
+        .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+    // turns on Feeder and shoots ball
 
     new JoystickButton(m_operatorController, Button.kB.value)
         .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
         .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
 
     // runs intake while left trigger is held
-    new Trigger(()-> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
+    new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
         .whileActiveOnce(new IntakeCommand(m_intakeSubsystem));
     // runs outtake while right trigger is held
     new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
         .whileActiveOnce(new OuttakeCommand(m_intakeSubsystem));
-           
-    
-    // locks ratchet so it cannot extend, only retract (press when hooked on and want to raise bot)
-    // do not try and extend at this point!! (might break hardware) 
-    // potential to-do - add check in code so when ratchet locked cannot send signal to extend 
+
+    // locks ratchet so it cannot extend, only retract (press when hooked on and
+    // want to raise bot)
+    // do not try and extend at this point!! (might break hardware)
+    // potential to-do - add check in code so when ratchet locked cannot send signal
+    // to extend
     new JoystickButton(m_operatorController, Button.kY.value)
         .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
     // release ratchet so it can extend and retract
     new JoystickButton(m_operatorController, Button.kX.value)
-      .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
+        .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
     // releases the Climber when Start is pressed
-    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+    new JoystickButton(m_operatorController, Button.kStart.value)
+        .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
-   
     // resets the gyro when the Start button is pressed
     new JoystickButton(m_driveController, Button.kStart.value)
         .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
@@ -117,6 +119,8 @@ public class RobotContainer {
     new JoystickButton(m_driveController, Button.kBumperLeft.value)
         .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
         .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+    new JoystickButton(m_driveController, Button.kA.value)
+        .whileHeld(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
 
   }
 
