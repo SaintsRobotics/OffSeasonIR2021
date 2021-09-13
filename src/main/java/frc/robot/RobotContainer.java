@@ -135,14 +135,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     SmartDashboard.putString("Auton test", "Auton run");
 
-    /*
-     * // three ball auto return new SequentialCommandGroup(new
-     * ShooterOnCommand(m_shooterSubsystem), new
-     * AutonMoveCommand(m_swerveDriveSubsystem).changeX(-1.2), new
-     * VisionAimingCommand(m_swerveDriveSubsystem), new
-     * TimedFeedCommand(m_shooterSubsystem).withTime(3), new
-     * ShooterOffCommand(m_shooterSubsystem));
-     */
+    
+     // three ball auto
+     /*
+     return new SequentialCommandGroup(new ShooterOnCommand(m_shooterSubsystem),
+             new AutonMoveCommand(m_swerveDriveSubsystem).changeX(-1.2),
+             new VisionAimingCommand(m_swerveDriveSubsystem, m_driveController),
+             new TimedFeedCommand(m_shooterSubsystem).withTime(3), new ShooterOffCommand(m_shooterSubsystem));
+    */
     return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
 
     // return null;

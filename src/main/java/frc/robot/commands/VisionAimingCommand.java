@@ -23,6 +23,7 @@ public class VisionAimingCommand extends SwerveJoystickCommand {
     m_pid.reset();
     Limelight.setLed(3);
     m_pid.setSetpoint(0.0); // 0.0 means the limelight is pointed at the right direction
+    m_pid.setTolerance(Math.PI/24);
 
   }
   //@Override
