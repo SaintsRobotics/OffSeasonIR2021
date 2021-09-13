@@ -4,19 +4,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Limelight;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
-public class VisionAimingCommand extends CommandBase {
-  private final PIDController m_pid = new PIDController(0.5, 0, 0);
-  private final SwerveDriveSubsystem m_drive; // Trying out final and seeing if it works
+public class VisionAimingCommand extends SwerveJoystickCommand {
+  private final PIDController m_pid = new PIDController(0.03, 0, 0);
   
   /** Creates a new {@link VisionAimingCommand}. */
-  public VisionAimingCommand(SwerveDriveSubsystem subsystem) {
-    m_drive = subsystem;
-    addRequirements(m_drive);
+  public VisionAimingCommand(SwerveDriveSubsystem subsystem, XboxController controller) {
+    super(subsystem, controller);
   }
 
   @Override
@@ -26,15 +25,16 @@ public class VisionAimingCommand extends CommandBase {
     m_pid.setSetpoint(0.0); // 0.0 means the limelight is pointed at the right direction
 
   }
+  //@Override
+  public double getRotation() { 
+    SmartDashboard.putNumber("vision PID", Limelight.getX());
 
-  @Override
-  public void execute() {
-    m_drive.move(0, 0, -m_pid.calculate(Limelight.getX()), false);
+    return m_pid.calculate(Limelight.getX());
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.move(0, 0, 0, false);
+    super.end(interrupted);
     Limelight.setLed(1);
   } 
 }
