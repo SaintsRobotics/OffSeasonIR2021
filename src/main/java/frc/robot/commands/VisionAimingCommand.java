@@ -34,6 +34,11 @@ public class VisionAimingCommand extends SwerveJoystickCommand {
   }
 
   @Override
+  public boolean isFinished() {
+    return m_pid.atSetpoint();
+  }
+
+  @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
     Limelight.setLed(1);

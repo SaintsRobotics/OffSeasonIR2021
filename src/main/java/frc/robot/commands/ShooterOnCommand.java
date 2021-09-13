@@ -48,6 +48,7 @@ public class ShooterOnCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // implement a timer?
+    return true;
   }
 }

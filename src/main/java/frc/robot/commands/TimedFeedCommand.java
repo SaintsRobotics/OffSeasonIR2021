@@ -39,12 +39,14 @@ public class TimedFeedCommand extends CommandBase {
   }
 
   @Override
+  public boolean isFinished() {
+    return m_currentTime >= m_targetTime;
+  }
+  
+  @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.turnFeederOff();
   }
 
-  @Override
-  public boolean isFinished() {
-    return m_currentTime >= m_targetTime;
-  }
+  
 }
