@@ -77,14 +77,22 @@ public class OperatorBoard {
         return HARDWARE.getRawAxis(3);
     }
 
+    /**
+     * A custom button class for the operator board.
+     */
     public class OperatorBoardButton extends Button {
         private int m_buttonNumber;
 
+        /**
+         * Constructs an OperatorBoardButton with a designated numerical ID
+         * @param button The button's number - a sort of ID
+         */
         public OperatorBoardButton(int button) {
             m_buttonNumber = button;
         }
 
         /**
+         * Returns whether the button is being pressed.
          * @return Whether or not the button is being pressed.
          */
         @Override
@@ -106,5 +114,4 @@ public class OperatorBoard {
             HARDWARE.setOutput(m_buttonNumber, false);
         }
     }
-
 }
