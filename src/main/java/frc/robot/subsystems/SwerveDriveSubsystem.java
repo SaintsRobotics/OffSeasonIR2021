@@ -19,11 +19,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Limelight;
+import frc.robot.Utils;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
-import frc.robot.Limelight;
 import frc.robot.Robot;
 import frc.robot.Utils;
+
 
 public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveHardware m_swerveDriveHardware;
@@ -72,10 +74,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-
-
-    
-
     // odometry code will error on the first tick or two due to the gyro taking
     // longer to start up
     if (time > 10) {
@@ -90,7 +88,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putString("front Left Swerve Module State", m_swerveDriveHardware.frontLeft.getState().toString());
     SmartDashboard.putNumber("time", time);
 
-    //Robot values
+    // Robot values
     SmartDashboard.putNumber("gyro angle ", Utils.normalizeAngle(m_gyro.getAngle(), 360));
     SmartDashboard.putNumber("gyro rate ",
         Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE));
@@ -199,6 +197,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_backLeftModule.getDriveMotor().setIdleMode(mode);
     m_backRightModule.getDriveMotor().setIdleMode(mode);
   }
+
   /**
    * Prints the estimated gyro value to the simulator.
    * 

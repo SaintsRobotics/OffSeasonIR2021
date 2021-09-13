@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public class Limelight {
@@ -71,6 +72,7 @@ public class Limelight {
      */
     public static void setLed(double state) {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(state);
+        SmartDashboard.putNumber("limelight state", state);
     }
 
 }
