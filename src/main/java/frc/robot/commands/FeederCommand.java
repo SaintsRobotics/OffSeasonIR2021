@@ -20,7 +20,6 @@ public class FeederCommand extends CommandBase {
    */
   public FeederCommand(ShooterSubsystem shooter, OperatorBoardButton button) {
     m_shooterSubsystem = shooter;
-    addRequirements(m_shooterSubsystem);
     m_button = button;
   }
 

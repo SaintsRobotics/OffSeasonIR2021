@@ -21,7 +21,6 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ReleaseRatchetCommand;
-import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -91,7 +90,7 @@ public class RobotContainer {
                                 .whileHeld(new OuttakeCommand(m_intakeSubsystem, m_operatorController.intakeReverse));
 
                 // press to release ratchet. press again to lock ratchet.
-                m_operatorController.releaseRatchet.toggleWhenActive(
+                m_operatorController.releaseRatchet.toggleWhenPressed(
                                 new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
 
                 // releases the Climber when button is pressed
