@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class OperatorBoard {
 
     private static Joystick HARDWARE;
-    public OperatorBoardButton stopShooter;
     public OperatorBoardButton startShooter;
     public OperatorBoardButton feeder;
     public OperatorBoardButton intakeForward;
     public OperatorBoardButton intakeReverse;
     public OperatorBoardButton releaseRatchet;
     public OperatorBoardButton releaseClimber;
-    public OperatorBoardButton BUTTON_FOURTEEN;
-    // TODO rename these, and use lowercase camel case names
+    public OperatorBoardButton BUTTON_ELEVEN;
+    public OperatorBoardButton BUTTON_TWELVE;
 
     /**
      * Constructs one operator board. Since we only have one operator board, this
@@ -30,14 +29,14 @@ public class OperatorBoard {
     public OperatorBoard(int port) {
         HARDWARE = new Joystick(port);
 
-        stopShooter = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ONE);
-        startShooter = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWO);
-        feeder = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THREE);
-        intakeForward = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_SIX);
-        intakeReverse = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ELEVEN);
-        releaseRatchet = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWELVE);
+        startShooter = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_SIX);
+        feeder = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWO);
+        intakeForward = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THREE);
+        intakeReverse = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ONE);
+        releaseRatchet = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_FOURTEEN);
         releaseClimber = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THIRTEEN);
-        BUTTON_FOURTEEN = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_FOURTEEN);
+        BUTTON_ELEVEN = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ELEVEN);        BUTTON_TWELVE = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWELVE);
+        BUTTON_TWELVE = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWELVE);
     }
 
     /**
