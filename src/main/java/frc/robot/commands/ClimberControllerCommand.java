@@ -18,7 +18,7 @@ public class ClimberControllerCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_climberSubsystem.climb(Utils.deadZones(-m_controller.getRightJoystickY(),
+        m_climberSubsystem.climb(Utils.deadZones(-m_controller.getLeftJoystickY(),
                 Constants.ClimberConstants.CLIMBER_CONTROL_SPEED_DEADZONE));
     }
 }
