@@ -22,15 +22,13 @@ public class HardwareMap {
          */
         public class InputHardware {
                 public XboxController driveController;
-                public XboxController operatorController;
-
-                // public OperatorBoard operatorBoard;
+                // public XboxController operatorController;
+                public OperatorBoard operatorBoard;
 
                 public InputHardware() {
                         driveController = new XboxController(0);
-                        operatorController = new XboxController(1);
-
-                        // operatorBoard = new OperatorBoard(1);
+                        // operatorController = new XboxController(1);
+                        operatorBoard = new OperatorBoard(1);
                 }
         }
 

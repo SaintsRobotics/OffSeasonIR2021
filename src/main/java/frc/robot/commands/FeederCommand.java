@@ -5,36 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OperatorBoard.OperatorBoardButton;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /** Command to shoot one ball. */
-public class ShootOneBallCommand extends CommandBase {
+public class FeederCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
+  private OperatorBoardButton m_button;
 
   /**
-   * Creates a new {@link ShootOneBallCommand}.
+   * Creates a new {@link FeederCommand}.
    * 
    * @param shooter Shooter subsystem that the command will run on.
    */
-  public ShootOneBallCommand(ShooterSubsystem shooter) {
+  public FeederCommand(ShooterSubsystem shooter, OperatorBoardButton button) {
     m_shooterSubsystem = shooter;
     addRequirements(m_shooterSubsystem);
+    m_button = button;
   }
 
   @Override
   public void initialize() {
+    m_button.turnLightOn();
   }
 
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getFlywheelRPM() >= 0.96) {
-      m_shooterSubsystem.turnFeederOn();
-    }
+    m_shooterSubsystem.turnFeederOn();
   }
 
   @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.turnFeederOff();
+    m_button.turnLightOff();
   }
 
   @Override

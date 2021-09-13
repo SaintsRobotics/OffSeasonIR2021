@@ -45,13 +45,13 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   /**
-   * Turns on the feeder to feed balls into the shooter.
+   * Turns on the feeder to feed balls into the shooter. ONLY runs the feeder if
+   * the flywheel is up to speed.
    */
   public void turnFeederOn() {
     if (getFlywheelRPM() >= ShooterConstants.FLYWHEEL_READY_RPM) {
       m_feederSpeed = 1;
-    }
-    else {
+    } else {
       turnFeederOff();
     }
   }

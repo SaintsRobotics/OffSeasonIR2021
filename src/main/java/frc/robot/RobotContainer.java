@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberControllerCommand;
+import frc.robot.commands.FeederCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.ReleaseRatchetCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.commands.SwerveJoystickCommand;
@@ -36,97 +38,87 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
+        // The robot's subsystems and commands are defined here...
 
-    private HardwareMap hardwareMap = new HardwareMap();
+        private HardwareMap hardwareMap = new HardwareMap();
 
-    private XboxController m_driveController = hardwareMap.inputHardware.driveController;
-    private XboxController m_operatorController = hardwareMap.inputHardware.operatorController;
+        private XboxController m_driveController = hardwareMap.inputHardware.driveController;
+        private OperatorBoard m_operatorController = hardwareMap.inputHardware.operatorBoard;
 
-    private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
-    private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
-    private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
-    private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
+        private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
+        private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
+        private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
+        private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
 
-    private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
-            m_driveController);
-    private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
-    private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
-            m_operatorController);
+        private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
+                        m_driveController);
+        private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
+        private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
+                        m_operatorController);
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        configureButtonBindings();
-        m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
-        m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-        m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
-    }
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
+        public RobotContainer() {
+                configureButtonBindings();
+                m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
+                m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
+                m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+        }
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by instantiating a {@link GenericHID} or one of its subclasses
-     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
+        /**
+         * Use this method to define your button->command mappings. Buttons can be
+         * created by instantiating a {@link GenericHID} or one of its subclasses
+         * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+         * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+         */
+        private void configureButtonBindings() {
 
-        // turns on shooter when Left Bumper is pressed
-        new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-                .whenPressed(new ShooterOnCommand(m_shooterSubsystem));
+                // turns on shooter when Left Bumper is pressed
+                m_operatorController.startShooter.toggleWhenPressed(
+                                new ShooterOnCommand(m_shooterSubsystem, m_operatorController.startShooter));
 
-        // turns off shooter when Right Bumper is pressed
-        new JoystickButton(m_operatorController, Button.kBumperRight.value)
-                .whenPressed(new ShooterOffCommand(m_shooterSubsystem));
+                // turns on Feeder while button is held so balls will be shot
+                m_operatorController.feeder
+                                .whileHeld(new FeederCommand(m_shooterSubsystem, m_operatorController.feeder));
 
-        // turns on Feeder when B button is pressed and shoots ball
-        new JoystickButton(m_operatorController, Button.kB.value)
-                .whenPressed(new RunCommand(() -> m_shooterSubsystem.turnFeederOn(), m_shooterSubsystem))
-                .whenReleased(new RunCommand(() -> m_shooterSubsystem.turnFeederOff(), m_shooterSubsystem));
+                // runs the intake while the button is held
+                m_operatorController.intakeForward
+                                .whileHeld(new IntakeCommand(m_intakeSubsystem, m_operatorController.intakeForward));
 
-        // runs the intake while the left trigger is held on the operator controller
-        new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kLeft) > 0.5)
-                .whileActiveOnce(new IntakeCommand(m_intakeSubsystem));
+                // runs the intake backwards while the button is held
+                m_operatorController.intakeReverse
+                                .whileHeld(new OuttakeCommand(m_intakeSubsystem, m_operatorController.intakeReverse));
 
-        // runs the outtake while the right trigger is held
-        new Trigger(() -> m_operatorController.getTriggerAxis(Hand.kRight) > 0.5)
-                .whileActiveOnce(new OuttakeCommand(m_intakeSubsystem));
+                // press to release ratchet. press again to lock ratchet.
+                m_operatorController.releaseRatchet.toggleWhenActive(
+                                new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
 
-        // locks ratchet when Y button pressed so it cannot extend, only retract
-        // (press when hooked on and want to raise bot)
-        new JoystickButton(m_operatorController, Button.kY.value)
-                .whenPressed(new InstantCommand(m_climberSubsystem::lockRatchet, m_climberSubsystem));
+                // releases the Climber when button is pressed
+                m_operatorController.releaseClimber.whenPressed(
+                                new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
-        // release ratchet when X button pressed so it can extend and retract
-        new JoystickButton(m_operatorController, Button.kX.value)
-                .whenPressed(new InstantCommand(m_climberSubsystem::releaseRatchet, m_climberSubsystem));
+                // resets the gyro when the Start button is pressed
+                new JoystickButton(m_driveController, Button.kStart.value)
+                                .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
 
-        // releases the Climber when Start is pressed
-        new JoystickButton(m_operatorController, Button.kStart.value)
-                .whenPressed(new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+                // Sets brake and coast mode with left bumper
+                new JoystickButton(m_driveController, Button.kBumperLeft.value)
+                                .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
+                                .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
 
-        // resets the gyro when the Start button is pressed
-        new JoystickButton(m_driveController, Button.kStart.value)
-                .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
+                new JoystickButton(m_driveController, Button.kA.value)
+                                .whileHeld(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
 
-        // Sets brake and coast mode with left bumper
-        new JoystickButton(m_driveController, Button.kBumperLeft.value)
-                .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
-                .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
+        }
 
-        new JoystickButton(m_driveController, Button.kA.value)
-                .whileHeld(new VisionAimingCommand(m_swerveSubsystem, m_driveController));
-
-    }
-
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;
-    }
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                // An ExampleCommand will run in autonomous
+                return null;
+        }
 }

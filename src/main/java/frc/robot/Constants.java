@@ -20,6 +20,20 @@ package frc.robot;
 public final class Constants {
 
     /**
+     * Port numbers for the buttons on the operator board.
+     */
+    public static final class ControllerButtonPorts {
+        public static final int BUTTON_ONE = 1;
+        public static final int BUTTON_TWO = 2;
+        public static final int BUTTON_THREE = 3;
+        public static final int BUTTON_SIX = 6;
+        public static final int BUTTON_ELEVEN = 11;
+        public static final int BUTTON_TWELVE = 12;
+        public static final int BUTTON_THIRTEEN = 13;
+        public static final int BUTTON_FOURTEEN = 14;
+    }
+
+    /**
      * Port numbers for any hardware relating to swerve modules.
      */
     public static final class SwervePorts {
@@ -40,7 +54,7 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
-        //previously 3.627
+        // previously 3.627
         public static final double MAX_SPEED_METERS_PER_SECOND = 3.0;
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 8.76;
 
@@ -57,7 +71,6 @@ public final class Constants {
         public static final double BACK_LEFT_ROTATION_OFFSET = -6.091199;
         public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.573;
         public static final double BACK_RIGHT_ROTATION_OFFSET = 3.9;
-
 
         // Gyro rotation rate deadzone
         public static final double GYRO_RATE_DEADZONE = 0.05;
@@ -93,7 +106,10 @@ public final class Constants {
         public static final int ARM_PORT = 24;
     }
 
-    /** Servo positions for different climber states. Positions range between 0.0 (full left) and 1.0 (full right). */
+    /**
+     * Servo positions for different climber states. Positions range between 0.0
+     * (full left) and 1.0 (full right).
+     */
     public static final class ClimberConstants {
         public static final double WINCH_RELEASE_SERVO_POSITION = 0.0;
         public static final double WINCH_LOCK_SERVO_POSITION = 0.5;
