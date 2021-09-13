@@ -67,7 +67,8 @@ public class Limelight {
     /**
      * Sets limelight’s LED state
      * 
-     * @param state LED state (0-3)
+     * @param state 0: use LED Mode set in the current pipeline. 1: force off. 2:
+     *              force blink. 3: force on.
      */
     public static void setLed(double state) {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(state);

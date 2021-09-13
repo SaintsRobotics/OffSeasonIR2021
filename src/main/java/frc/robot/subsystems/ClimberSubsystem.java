@@ -32,7 +32,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets the ratchet servo to allow the climb mechanism to extend. 
+   * Sets the ratchet servo to allow the climb mechanism to extend.
    */
   public void releaseRatchet() {
     m_ratchetServo.set(Constants.ClimberConstants.WINCH_RELEASE_SERVO_POSITION);
@@ -41,7 +41,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets the ratchet servo to only allow the climb mechanism to retract - it is unable to extend.
+   * Sets the ratchet servo to only allow the climb mechanism to retract - it is
+   * unable to extend.
    */
   public void lockRatchet() {
     m_ratchetServo.set(Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION);
@@ -59,7 +60,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the servo to the position where the robot would be secured down
+   * Moves the servo to the position where the climber would be secured down
    */
   public void lockServo() {
     m_servoMotor.set(Constants.ClimberConstants.SERVO_RETURN_POSITION);
@@ -67,22 +68,22 @@ public class ClimberSubsystem extends SubsystemBase {
 
   /**
    * To retract the climber, input a value in [-1, 0]. To extend the climber,
-   * input a value in [0, 1]. <b>MAKE SURE THE RACHET IS RELEASED BEFORE 
-   * INPUTING POSITIVE VALUES</b>, otherwise the motor will stall.
+   * input a value in [0, 1]. <b>MAKE SURE THE RACHET IS RELEASED BEFORE INPUTING
+   * POSITIVE VALUES</b>, otherwise the motor will stall.
    * 
    * @param speed Speed of the winch motor.
    */
   public void climb(double speed) {
-    if (!(Utils.tolerance(m_ratchetServo.get(), Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION, 0.1) == Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION && speed > 0)) {
+    if (!(Utils.tolerance(m_ratchetServo.get(), Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION,
+        0.1) == Constants.ClimberConstants.WINCH_LOCK_SERVO_POSITION && speed > 0)) {
       m_winchMotor.set(speed);
     } else {
       m_winchMotor.set(0);
     }
 
-    
   }
 
-  /** 
+  /**
    * @return The speed of the winch motor in RPM
    */
   public double getSpeed() {
