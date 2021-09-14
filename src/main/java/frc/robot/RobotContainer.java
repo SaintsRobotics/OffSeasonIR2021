@@ -7,15 +7,13 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonMoveCommand;
@@ -23,12 +21,11 @@ import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.OuttakeCommand;
-import frc.robot.commands.TimedFeedCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.VisionAimingCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -145,7 +142,7 @@ public class RobotContainer {
              new TimedFeedCommand(m_shooterSubsystem).withTime(3), 
              new ShooterOffCommand(m_shooterSubsystem));
     */
-    return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
+    return new AutonMoveCommand(m_swerveDriveSubsystem).withRelativeRot(3);
 
     // return null;
   }
