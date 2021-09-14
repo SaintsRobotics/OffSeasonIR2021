@@ -140,13 +140,13 @@ public class HardwareMap {
             y = Constants.SwerveConstants.TRACK_WIDTH / 2;
             swerveModuleHardware = new SwerveModuleHardware();
             frontLeft = new SwerveModule(swerveModuleHardware.frontLeftDriveMotor,
-                    swerveModuleHardware.frontLeftTurningMotor, x, y, swerveModuleHardware.frontLeftTurningEncoder);
+                    swerveModuleHardware.frontLeftTurningMotor, x, -y, swerveModuleHardware.frontLeftTurningEncoder);
             frontRight = new SwerveModule(swerveModuleHardware.frontRightDriveMotor,
-                    swerveModuleHardware.frontRightTurningMotor, x, -y, swerveModuleHardware.frontRightTurningEncoder);
+                    swerveModuleHardware.frontRightTurningMotor, x, y, swerveModuleHardware.frontRightTurningEncoder);
             backLeft = new SwerveModule(swerveModuleHardware.backLeftDriveMotor,
-                    swerveModuleHardware.backLeftTurningMotor, -x, y, swerveModuleHardware.backLeftTurningEncoder);
+                    swerveModuleHardware.backLeftTurningMotor, -x, -y, swerveModuleHardware.backLeftTurningEncoder);
             backRight = new SwerveModule(swerveModuleHardware.backRightDriveMotor,
-                    swerveModuleHardware.backRightTurningMotor, -x, -y, swerveModuleHardware.backRightTurningEncoder);
+                    swerveModuleHardware.backRightTurningMotor, -x, y, swerveModuleHardware.backRightTurningEncoder);
 
             gyro = new AHRS();
         }

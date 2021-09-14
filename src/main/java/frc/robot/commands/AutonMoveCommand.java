@@ -64,7 +64,7 @@ public class AutonMoveCommand extends CommandBase {
 
     m_xPID = new PIDController(0.5, 0, 0);
     m_yPID = new PIDController(0.5, 0, 0);
-    m_rotPID = new PIDController(0.5, 0, 0);
+    m_rotPID = new PIDController(-0.7, 0, 0);
 
     m_xPID.setTolerance(0.05);
     m_yPID.setTolerance(0.05);

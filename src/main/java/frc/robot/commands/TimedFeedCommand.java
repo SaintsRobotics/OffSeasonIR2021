@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -34,6 +35,7 @@ public class TimedFeedCommand extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putString("FeederOn", "ON");
     m_shooterSubsystem.turnFeederOn();
     m_currentTime += 0.02;
   }

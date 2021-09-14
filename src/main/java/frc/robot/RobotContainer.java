@@ -137,15 +137,15 @@ public class RobotContainer {
 
     
      // three ball auto
-     /*
+     
      return new SequentialCommandGroup(
              new ShooterOnCommand(m_shooterSubsystem),
-             new AutonMoveCommand(m_swerveDriveSubsystem).changeX(-1.2),
+             new AutonMoveCommand(m_swerveDriveSubsystem).changeX(-0.5),
              new VisionAimingCommand(m_swerveDriveSubsystem, m_driveController),
              new TimedFeedCommand(m_shooterSubsystem).withTime(3), 
              new ShooterOffCommand(m_shooterSubsystem));
-    */
-    return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
+    
+    //return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
 
     // return null;
   }
