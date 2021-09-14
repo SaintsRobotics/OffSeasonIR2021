@@ -22,8 +22,9 @@ public class ClimberSubsystem extends SubsystemBase {
     m_servoMotor = climberHardware.servoMotor;
     m_ratchetServo = climberHardware.ratchetServo;
     m_winchMotor = climberHardware.winchMotor;
-
-
+    
+    
+    // Set the servo to "return/rest" position at the very beginning.
     m_servoMotor.set(Constants.ClimberConstants.SERVO_RETURN_POSITION);
   }
 
