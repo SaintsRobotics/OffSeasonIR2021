@@ -97,6 +97,9 @@ public class RobotContainer {
                 m_operatorController.releaseClimber.whenPressed(
                                 new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
+                // set climber servo to reseting position
+                m_operatorController.resetClimber.whenPressed(() -> m_climberSubsystem.resetClimber());
+
                 // resets the gyro when the Start button is pressed
                 new JoystickButton(m_driveController, Button.kStart.value)
                                 .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));

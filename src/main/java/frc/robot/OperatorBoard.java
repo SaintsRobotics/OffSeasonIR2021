@@ -17,7 +17,7 @@ public class OperatorBoard {
     public OperatorBoardButton intakeReverse;
     public OperatorBoardButton releaseRatchet;
     public OperatorBoardButton releaseClimber;
-    public OperatorBoardButton BUTTON_ELEVEN;
+    public OperatorBoardButton resetClimber;
     public OperatorBoardButton BUTTON_TWELVE;
 
     /**
@@ -35,7 +35,7 @@ public class OperatorBoard {
         intakeReverse = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ONE);
         releaseRatchet = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_FOURTEEN);
         releaseClimber = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THIRTEEN);
-        BUTTON_ELEVEN = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ELEVEN);
+        resetClimber = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ELEVEN);
         BUTTON_TWELVE = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWELVE);
     }
 

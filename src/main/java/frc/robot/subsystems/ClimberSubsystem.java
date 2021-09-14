@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareMap.ClimberHardware;
 
 public class ClimberSubsystem extends SubsystemBase {
-  public Servo m_servoMotor;
-  public Servo m_ratchetServo;
-  public CANSparkMax m_winchMotor;
+  private Servo m_servoMotor;
+  private Servo m_ratchetServo;
+  private CANSparkMax m_winchMotor;
 
   public ClimberSubsystem(ClimberHardware climberHardware) {
     m_servoMotor = climberHardware.servoMotor;
@@ -25,7 +25,7 @@ public class ClimberSubsystem extends SubsystemBase {
     
     
     // Set the servo to "return/rest" position at the very beginning.
-    m_servoMotor.set(Constants.ClimberConstants.SERVO_RETURN_POSITION);
+    this.resetClimber();
   }
 
   
@@ -64,6 +64,10 @@ public class ClimberSubsystem extends SubsystemBase {
     m_servoMotor.set(Constants.ClimberConstants.SERVO_RELEASE_POSITION);
     SmartDashboard.putString("ClimberState", "Released");
     DriverStation.reportError("climb released ", false);
+  }
+
+  public void resetClimber() {
+    m_servoMotor.set(Constants.ClimberConstants.SERVO_RETURN_POSITION);
   }
 
   /**
