@@ -12,7 +12,6 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class VisionAimingCommand extends SwerveJoystickCommand {
   private final PIDController m_pid = new PIDController(0.03, 0, 0);
-  
   /** Creates a new {@link VisionAimingCommand}. */
   public VisionAimingCommand(SwerveDriveSubsystem subsystem, XboxController controller) {
     super(subsystem, controller);
@@ -23,7 +22,7 @@ public class VisionAimingCommand extends SwerveJoystickCommand {
     m_pid.reset();
     Limelight.setLed(3);
     m_pid.setSetpoint(0.0); // 0.0 means the limelight is pointed at the right direction
-    m_pid.setTolerance(Math.PI/24);
+    m_pid.setTolerance(Math.PI/12);
 
   }
   //@Override
