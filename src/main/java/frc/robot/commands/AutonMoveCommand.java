@@ -27,36 +27,6 @@ public class AutonMoveCommand extends CommandBase {
   PIDController m_yPID;
   PIDController m_rotPID;
 
-  public AutonMoveCommand withX(double new_x) {
-    m_x = new_x;
-    return this;
-  }
-
-  public AutonMoveCommand withY(double new_y) {
-    m_y = new_y;
-    return this;
-  }
-
-  public AutonMoveCommand withRot(double new_rot) {
-    m_rot = new_rot;
-    return this;
-  }
-
-  public AutonMoveCommand changeX(double new_x) {
-    m_x += new_x;
-    return this;
-  }
-
-  public AutonMoveCommand changeY(double new_y) {
-    m_y += new_y;
-    return this;
-  }
-
-  public AutonMoveCommand changeRot(double new_rot) {
-    m_rot += new_rot;
-    return this;
-  }
-
   /** Creates a new AutonMoveCommand. */
   public AutonMoveCommand(SwerveDriveSubsystem swerveDriveSubsystem) {
     m_x = SwerveDriveSubsystem.getPose2D().getTranslation().getX();

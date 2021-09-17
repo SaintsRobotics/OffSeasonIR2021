@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonMoveCommand;
@@ -25,6 +26,7 @@ import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ShooterOffCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.commands.TimedFeedCommand;
 import frc.robot.commands.VisionAimingCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -133,13 +135,16 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         SmartDashboard.putString("Auton test", "Auton run");
 
-        // three ball auto
+        // move off line auto
+         return new MoveBackwardsAutonCommand(m_swerveDriveSubsystem).withSpeed(1).withTime(1.5);
 
-        return new SequentialCommandGroup(new ShooterOnCommand(m_shooterSubsystem),
+        // three ball auto
+        /*return new SequentialCommandGroup(
+                new ShooterOnCommand(m_shooterSubsystem),
                 new MoveBackwardsAutonCommand(m_swerveDriveSubsystem).withSpeed(1).withTime(1.2),
-             new VisionAimingCommand(m_swerveDriveSubsystem, m_driveController),
-             new TimedFeedCommand(m_shooterSubsystem).withTime(3), 
-             new ShooterOffCommand(m_shooterSubsystem));
+                new VisionAimingCommand(m_swerveDriveSubsystem, m_driveController).withTimeout(3),
+                new TimedFeedCommand(m_shooterSubsystem).withTime(3),
+                new ShooterOffCommand(m_shooterSubsystem)); */
     
     //return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
 

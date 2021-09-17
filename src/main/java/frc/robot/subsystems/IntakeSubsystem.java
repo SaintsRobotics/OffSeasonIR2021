@@ -19,7 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private double m_desiredIntakeSpeed;
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem(IntakeHardware intake) {
+  public IntakeSubsystem(IntakeHardware intake) { // angle, speed, on/off
     // fill this in based on hardwaremap
     m_intakeController = intake.intakeController;
     m_armController = intake.armController;
