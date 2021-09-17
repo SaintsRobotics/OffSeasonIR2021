@@ -136,7 +136,7 @@ public class RobotContainer {
         SmartDashboard.putString("Auton test", "Auton run");
 
         // move off line auto
-         return new MoveBackwardsAutonCommand(m_swerveDriveSubsystem).withSpeed(1).withTime(1.5);
+         return new MoveBackwardsAutonCommand(m_swerveDriveSubsystem).withSpeed(1).withTime(1.5).withTimeout(3);
 
         // three ball auto
         /*return new SequentialCommandGroup(
@@ -145,8 +145,6 @@ public class RobotContainer {
                 new VisionAimingCommand(m_swerveDriveSubsystem, m_driveController).withTimeout(3),
                 new TimedFeedCommand(m_shooterSubsystem).withTime(3),
                 new ShooterOffCommand(m_shooterSubsystem)); */
-    
-    //return new AutonMoveCommand(m_swerveDriveSubsystem).changeRot(3);
 
     // return null;
   }
