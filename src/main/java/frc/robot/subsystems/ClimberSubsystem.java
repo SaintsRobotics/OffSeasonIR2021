@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.Utils;
-
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
@@ -27,9 +26,6 @@ public class ClimberSubsystem extends SubsystemBase {
     // Set the servo to "return/rest" position at the very beginning.
     this.resetClimber();
   }
-
-  
-
 
   /**
    * @return the angle of the servo that releases the climber.

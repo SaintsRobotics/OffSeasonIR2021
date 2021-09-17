@@ -5,13 +5,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANEncoder;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.SwerveModule;
 
@@ -201,5 +198,4 @@ public class HardwareMap {
                 intakeHardware = new IntakeHardware();
                 climberHardware = new ClimberHardware();
         }
-
 }
