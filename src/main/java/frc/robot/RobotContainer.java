@@ -8,20 +8,24 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
+import frc.robot.commands.MoveBackwardsAutonCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ReleaseRatchetCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.commands.TimedFeedCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.VisionAimingCommand;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -119,7 +123,21 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // An ExampleCommand will run in autonomous
-                return null;
+                SmartDashboard.putString("Auton test", "Auton run");
+
+                // move off line auto
+                // return new
+                // MoveBackwardsAutonCommand(m_swerveSubsystem).withSpeed(1).withTime(1.5).withTimeout(3);
+
+                // three ball auto
+                ShooterOnCommand shooteron = new ShooterOnCommand(m_shooterSubsystem,
+                                m_operatorController.startShooter);
+                return new SequentialCommandGroup(shooteron,
+                                new MoveBackwardsAutonCommand(m_swerveSubsystem).withSpeed(1).withTime(1.2),
+                                new VisionAimingCommand(m_swerveSubsystem, m_driveController).withTimeout(3),
+                                new TimedFeedCommand(m_shooterSubsystem).withTime(3),
+                                new InstantCommand(() -> shooteron.cancel(), m_shooterSubsystem));
+
+                // return null;
         }
 }
