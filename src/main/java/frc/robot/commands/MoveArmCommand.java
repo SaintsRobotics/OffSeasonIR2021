@@ -4,18 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OperatorBoard;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class MoveArmCommand extends CommandBase {
-  private XboxController m_controller;
+  private OperatorBoard m_controller;
   private IntakeSubsystem m_intakeSubsystem;
+
   /**
    * Creates a new MoveArmCommand.
    */
-  public MoveArmCommand(XboxController controller, IntakeSubsystem intake) {
+  public MoveArmCommand(OperatorBoard controller, IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_controller = controller;
     m_intakeSubsystem = intake;
@@ -30,12 +30,11 @@ public class MoveArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //joystickOutput will be between 1 and -1
-    double joystickOutput = m_controller.getY(Hand.kLeft);
-    m_intakeSubsystem.moveArm(-0.75*joystickOutput);
-    
-  }
+    // joystickOutput will be between 1 and -1
+    double joystickOutput = m_controller.getRightJoystickY();
+    m_intakeSubsystem.moveArm(-0.75 * joystickOutput);
 
+  }
 
   // Called once the command ends or is interrupted.
   @Override

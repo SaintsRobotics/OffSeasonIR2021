@@ -5,13 +5,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANEncoder;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.SwerveModule;
 
@@ -22,15 +19,13 @@ public class HardwareMap {
          */
         public class InputHardware {
                 public XboxController driveController;
-                public XboxController operatorController;
-
-                // public OperatorBoard operatorBoard;
+                // public XboxController operatorController;
+                public OperatorBoard operatorBoard;
 
                 public InputHardware() {
                         driveController = new XboxController(0);
-                        operatorController = new XboxController(1);
-
-                        // operatorBoard = new OperatorBoard(1);
+                        // operatorController = new XboxController(1);
+                        operatorBoard = new OperatorBoard(1);
                 }
         }
 
@@ -203,5 +198,4 @@ public class HardwareMap {
                 intakeHardware = new IntakeHardware();
                 climberHardware = new ClimberHardware();
         }
-
 }

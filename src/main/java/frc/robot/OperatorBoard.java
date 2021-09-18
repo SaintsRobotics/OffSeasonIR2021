@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class OperatorBoard {
 
     private static Joystick HARDWARE;
-    public OperatorBoardButton BUTTON_ONE;
-    public OperatorBoardButton BUTTON_TWO;
-    public OperatorBoardButton BUTTON_THREE;
-    public OperatorBoardButton BUTTON_SIX;
-    public OperatorBoardButton BUTTON_ELEVEN;
+    public OperatorBoardButton startShooter;
+    public OperatorBoardButton feeder;
+    public OperatorBoardButton intakeForward;
+    public OperatorBoardButton intakeReverse;
+    public OperatorBoardButton releaseRatchet;
+    public OperatorBoardButton releaseClimber;
+    public OperatorBoardButton resetClimber;
     public OperatorBoardButton BUTTON_TWELVE;
-    public OperatorBoardButton BUTTON_THIRTEEN;
-    public OperatorBoardButton BUTTON_FOURTEEN;
-    // TODO rename these, and use lowercase camel case names
 
     /**
      * Constructs one operator board. Since we only have one operator board, this
@@ -30,14 +29,14 @@ public class OperatorBoard {
     public OperatorBoard(int port) {
         HARDWARE = new Joystick(port);
 
-        BUTTON_ONE = new OperatorBoardButton(1);
-        BUTTON_TWO = new OperatorBoardButton(2);
-        BUTTON_THREE = new OperatorBoardButton(3);
-        BUTTON_SIX = new OperatorBoardButton(6);
-        BUTTON_ELEVEN = new OperatorBoardButton(11);
-        BUTTON_TWELVE = new OperatorBoardButton(12);
-        BUTTON_THIRTEEN = new OperatorBoardButton(13);
-        BUTTON_FOURTEEN = new OperatorBoardButton(14);
+        startShooter = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_SIX);
+        feeder = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWO);
+        intakeForward = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THREE);
+        intakeReverse = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ONE);
+        releaseRatchet = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_FOURTEEN);
+        releaseClimber = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_THIRTEEN);
+        resetClimber = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_ELEVEN);
+        BUTTON_TWELVE = new OperatorBoardButton(Constants.ControllerButtonPorts.BUTTON_TWELVE);
     }
 
     /**
@@ -85,6 +84,7 @@ public class OperatorBoard {
 
         /**
          * Constructs an OperatorBoardButton with a designated numerical ID
+         * 
          * @param button The button's number - a sort of ID
          */
         public OperatorBoardButton(int button) {
@@ -93,6 +93,7 @@ public class OperatorBoard {
 
         /**
          * Returns whether the button is being pressed.
+         * 
          * @return Whether or not the button is being pressed.
          */
         @Override
