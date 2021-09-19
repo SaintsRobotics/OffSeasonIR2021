@@ -56,8 +56,8 @@ public class RobotContainer {
         private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
                         m_driveController);
         private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
-        private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
-                        m_operatorController);
+        //private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
+          //              m_operatorController);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -66,7 +66,7 @@ public class RobotContainer {
                 configureButtonBindings();
                 m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
                 m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-                m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+                //m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
         }
 
         /**
@@ -94,15 +94,15 @@ public class RobotContainer {
                                 .whileHeld(new OuttakeCommand(m_intakeSubsystem, m_operatorController.intakeReverse));
 
                 // press to release ratchet. press again to lock ratchet.
-                m_operatorController.releaseRatchet.toggleWhenPressed(
-                                new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
+                //m_operatorController.releaseRatchet.toggleWhenPressed(
+                  //              new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
 
                 // releases the Climber when button is pressed
-                m_operatorController.releaseClimber.whenPressed(
-                                new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+                //m_operatorController.releaseClimber.whenPressed(
+                  //              new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
                 // set climber servo to reseting position
-                m_operatorController.resetClimber.whenPressed(() -> m_climberSubsystem.resetClimber());
+                //m_operatorController.resetClimber.whenPressed(() -> m_climberSubsystem.resetClimber());
 
                 // resets the gyro when the Start button is pressed
                 new JoystickButton(m_driveController, Button.kStart.value)

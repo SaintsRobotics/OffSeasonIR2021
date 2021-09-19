@@ -41,6 +41,7 @@ public class AutonAimingCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_swerveSubsystem.move(0, 0, 0, true);
     Limelight.setLed(1);
   }
 

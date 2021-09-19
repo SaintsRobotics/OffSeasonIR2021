@@ -27,7 +27,7 @@ public class MoveBackwardsAutonCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveSubsystem.move(-m_xspeed, 0, 0, true);
+    m_swerveSubsystem.move(-m_xspeed, 0, 0, false);
     m_currentTime += 0.02;
 
   }
