@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutonAimingCommand;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.IntakeCommand;
@@ -132,10 +133,10 @@ public class RobotContainer {
                 // three ball auto
                 ShooterOnCommand shooteron = new ShooterOnCommand(m_shooterSubsystem,
                                 m_operatorController.startShooter);
-                return new SequentialCommandGroup(shooteron,
+                return new SequentialCommandGroup(new InstantCommand(() -> m_shooterSubsystem.setFlywheelPower(0.98)),
                                 new MoveBackwardsAutonCommand(m_swerveSubsystem).withSpeed(1).withTime(1.2),
-                                new VisionAimingCommand(m_swerveSubsystem, m_driveController).withTimeout(3),
-                                new TimedFeedCommand(m_shooterSubsystem).withTime(3),
+                                new AutonAimingCommand(m_swerveSubsystem).withTimeout(4),
+                                new TimedFeedCommand(m_shooterSubsystem).withTime(3.5),
                                 new InstantCommand(() -> shooteron.cancel(), m_shooterSubsystem));
 
                 // return null;
