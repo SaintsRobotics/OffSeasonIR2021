@@ -25,7 +25,7 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
 import frc.robot.Robot;
 import frc.robot.Utils;
-
+import frc.robot.subsystems.SwerveModule;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveHardware m_swerveDriveHardware;
@@ -154,6 +154,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("OdometryRot", m_odometry.getPoseMeters().getRotation().getDegrees());
+
+    // Beeline-Amelioration
+    if (Utils.deadZones(m_rotationSpeed, Constants.SwerveConstants.GYRO_RATE_DEADZONE) != 0.0) {
+      m_isTurning = true;
+    } else if (Utils.deadZones(m_gyro.getRate(), Constants.SwerveConstants.GYRO_RATE_DEADZONE) == 0.0 && this.m_isTurning) {
+      this.m_pidController.setSetpoint((((this.m_gyro.getAngle() % 360) + 360) % 360));
+      this._isTurning = false;
+      _theta = this._pidController.calculate((((this.m_gyro.getAngle() % 360) + 360) % 360));
+    }
   }
 
   /**
