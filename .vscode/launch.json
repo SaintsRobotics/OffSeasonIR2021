@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch Matrix",
+      "request": "launch",
+      "mainClass": "frc.robot.ML_Utils.Matrix",
+      "projectName": "OffSeasonIR2021"
+    },
+    {
+      "type": "java",
       "name": "Launch GetPrediction",
       "request": "launch",
       "mainClass": "frc.robot.GetPrediction",

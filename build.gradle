@@ -43,6 +43,19 @@ def includeDesktopSupport = true
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
+
+    //Ndj4 additions
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.9.1'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: '0.9.1'       
+
+    testCompile group: 'org.nd4j', name: 'nd4j-native-platform', version: '0.9.1'
+    compile group: 'org.nd4j', name: 'nd4j-api', version: '0.9.1'
+
+    compile "org.slf4j:slf4j-simple:1.7.25"
+    compile "org.slf4j:slf4j-api:1.7.25"
+    compile "org.nd4j:nd4j-native:0.9.1"
+
+    //frc
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
