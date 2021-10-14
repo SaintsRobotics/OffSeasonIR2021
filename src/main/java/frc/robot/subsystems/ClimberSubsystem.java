@@ -5,6 +5,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.Utils;
+import frc.robot.Constants.ClimberConstants;
+
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
@@ -25,6 +27,7 @@ public class ClimberSubsystem extends SubsystemBase {
     
     // Set the servo to "return/rest" position at the very beginning.
     this.resetClimber();
+    m_ratchetServo.set(ClimberConstants.WINCH_LOCK_SERVO_POSITION);
   }
 
   /**

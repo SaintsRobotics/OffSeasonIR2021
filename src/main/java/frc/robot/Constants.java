@@ -113,7 +113,8 @@ public final class Constants {
     public static final class ClimberConstants {
         public static final double WINCH_RELEASE_SERVO_POSITION = 0.0;
         public static final double WINCH_LOCK_SERVO_POSITION = 0.5;
-        public static final double SERVO_RELEASE_POSITION = 0.0;
+        //bad for servo
+        public static final double SERVO_RELEASE_POSITION = 1;
         public static final double SERVO_RETURN_POSITION = 0.5;
 
         public static final double CLIMBER_CONTROL_SPEED_DEADZONE = 0.2;

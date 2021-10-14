@@ -8,20 +8,25 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutonAimingCommand;
 import frc.robot.commands.ClimberControllerCommand;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MoveArmCommand;
+import frc.robot.commands.MoveBackwardsAutonCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ReleaseRatchetCommand;
 import frc.robot.commands.ShooterOnCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.commands.TimedFeedCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.VisionAimingCommand;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -51,8 +56,8 @@ public class RobotContainer {
         private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
                         m_driveController);
         private MoveArmCommand m_moveArmCommand = new MoveArmCommand(m_operatorController, m_intakeSubsystem);
-        private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
-                        m_operatorController);
+        //private ClimberControllerCommand m_climberControllerCommand = new ClimberControllerCommand(m_climberSubsystem,
+          //              m_operatorController);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -61,7 +66,7 @@ public class RobotContainer {
                 configureButtonBindings();
                 m_swerveSubsystem.setDefaultCommand(m_swerveJoystickCommand);
                 m_intakeSubsystem.setDefaultCommand(m_moveArmCommand);
-                m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
+                //m_climberSubsystem.setDefaultCommand(m_climberControllerCommand);
         }
 
         /**
@@ -89,15 +94,15 @@ public class RobotContainer {
                                 .whileHeld(new OuttakeCommand(m_intakeSubsystem, m_operatorController.intakeReverse));
 
                 // press to release ratchet. press again to lock ratchet.
-                m_operatorController.releaseRatchet.toggleWhenPressed(
-                                new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
+                //m_operatorController.releaseRatchet.toggleWhenPressed(
+                  //              new ReleaseRatchetCommand(m_climberSubsystem, m_operatorController.releaseRatchet));
 
                 // releases the Climber when button is pressed
-                m_operatorController.releaseClimber.whenPressed(
-                                new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
+                //m_operatorController.releaseClimber.whenPressed(
+                  //              new InstantCommand(m_climberSubsystem::releaseClimber, m_climberSubsystem));
 
                 // set climber servo to reseting position
-                m_operatorController.resetClimber.whenPressed(() -> m_climberSubsystem.resetClimber());
+                //m_operatorController.resetClimber.whenPressed(() -> m_climberSubsystem.resetClimber());
 
                 // resets the gyro when the Start button is pressed
                 new JoystickButton(m_driveController, Button.kStart.value)
@@ -119,7 +124,21 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // An ExampleCommand will run in autonomous
-                return null;
+                SmartDashboard.putString("Auton test", "Auton run");
+
+                // move off line auto
+                // return new
+                // MoveBackwardsAutonCommand(m_swerveSubsystem).withSpeed(1).withTime(1.5).withTimeout(3);
+
+                // three ball auto
+                ShooterOnCommand shooteron = new ShooterOnCommand(m_shooterSubsystem,
+                                m_operatorController.startShooter);
+                return new SequentialCommandGroup(new InstantCommand(() -> m_shooterSubsystem.setFlywheelPower(0.98)),
+                                new MoveBackwardsAutonCommand(m_swerveSubsystem).withSpeed(1).withTime(1.2),
+                                new AutonAimingCommand(m_swerveSubsystem).withTimeout(4),
+                                new TimedFeedCommand(m_shooterSubsystem).withTime(3.5),
+                                new InstantCommand(() -> shooteron.cancel(), m_shooterSubsystem));
+
+                // return null;
         }
 }
