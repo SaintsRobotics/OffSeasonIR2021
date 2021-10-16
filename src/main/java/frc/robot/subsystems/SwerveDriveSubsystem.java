@@ -154,6 +154,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("OdometryRot", m_odometry.getPoseMeters().getRotation().getDegrees());
+
+    double distance = (2.286-0.5334)/Math.tan(Math.toRadians(Limelight.getY())+Math.toRadians(28.5));
+
+
+    SmartDashboard.putNumber("Distance", distance);
   }
 
   /**
