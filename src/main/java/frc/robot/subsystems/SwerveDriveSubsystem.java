@@ -61,7 +61,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_swerveDriveHardware = swerveHardware;
     m_kinematics = new SwerveDriveKinematics(m_frontLeftModule.getLocation(), m_frontRightModule.getLocation(),
         m_backLeftModule.getLocation(), m_backRightModule.getLocation());
-
+    
+  
     m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
     time = 0;
     m_field = new Field2d();
@@ -70,6 +71,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // switch to radians?
   }
 
+  public SwerveDriveKinematics getKinematics() {
+    return m_kinematics;
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -154,6 +158,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("OdometryX", m_odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("OdometryY", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("OdometryRot", m_odometry.getPoseMeters().getRotation().getDegrees());
+    double distance = (2.1209 - 0.5334)/Math.tan(Math.toRadians(Limelight.getY())+Math.toRadians(22.5));
+    SmartDashboard.putNumber("Distance", distance);
   }
 
   /**

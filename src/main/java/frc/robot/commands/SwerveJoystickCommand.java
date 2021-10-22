@@ -5,8 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Utils;
@@ -24,7 +28,17 @@ public class SwerveJoystickCommand extends CommandBase {
     m_controller = controller;
   }
 
-  // Called when the command is initially scheduled.
+  public SwerveJoystickCommand(Trajectory m_trajectory, Object object, SwerveDriveKinematics kinematics,
+		PIDController xPID, PIDController yPID, ProfiledPIDController rotPID, Object object2,
+		SwerveDriveSubsystem m_swerveSubsystem) {
+}
+
+public SwerveJoystickCommand(Trajectory m_trajectory, Object object, SwerveDriveKinematics kinematics,
+		PIDController xPID, PIDController yPID, ProfiledPIDController rotPID, Object object2,
+		SwerveDriveSubsystem m_swerveSubsystem) {
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
 

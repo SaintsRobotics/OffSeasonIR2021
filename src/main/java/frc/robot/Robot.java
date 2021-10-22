@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
    */
 
   //Change the name of the file to paths/YourPath.wpilib.json, change YourPath to name of the path
+  
   String trajectoryJSON = "paths/PathWeaver.wpilib.json";
   Trajectory trajectory = new Trajectory();
   
@@ -52,7 +53,9 @@ public class Robot extends TimedRobot {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
    }
+   
   }
+  */
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
