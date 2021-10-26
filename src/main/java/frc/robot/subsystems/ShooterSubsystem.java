@@ -32,7 +32,8 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param power Value from [-1, 1].
    */
   public void setFlywheelPower(double power) {
-    this.m_targetSpeed = power;
+    this.m_targetSpeed = 0.8; //power;
+    
   }
 
   /**
@@ -48,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * the flywheel is up to speed.
    */
   public void turnFeederOn() {
-    if (getFlywheelRPM() >= ShooterConstants.FLYWHEEL_READY_RPM) {
+    if (true) {
       m_feederSpeed = 1;
     } else {
       turnFeederOff();

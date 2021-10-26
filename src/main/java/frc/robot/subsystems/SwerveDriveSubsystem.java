@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import java.util.Scanner;
+
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -23,11 +25,13 @@ import frc.robot.Limelight;
 import frc.robot.Utils;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.HardwareMap.SwerveDriveHardware;
+import frc.robot.commands.ShooterOnCommand;
 import frc.robot.Robot;
 import frc.robot.Utils;
 
 
 public class SwerveDriveSubsystem extends SubsystemBase {
+
   private SwerveDriveHardware m_swerveDriveHardware;
   private SwerveModule m_frontLeftModule;
   private SwerveModule m_frontRightModule;
@@ -156,7 +160,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("OdometryRot", m_odometry.getPoseMeters().getRotation().getDegrees());
 
     double distance = (2.286-0.5334)/Math.tan(Math.toRadians(Limelight.getY())+Math.toRadians(28.5));
-
 
     SmartDashboard.putNumber("Distance", distance);
   }
