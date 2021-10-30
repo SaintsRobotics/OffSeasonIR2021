@@ -26,6 +26,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
+  public double getDesiredIntakeSpeed() {
+    return this.m_desiredIntakeSpeed;
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
