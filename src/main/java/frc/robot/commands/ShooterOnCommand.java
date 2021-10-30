@@ -14,6 +14,10 @@ public class ShooterOnCommand extends CommandBase {
   private ShooterSubsystem m_shooterSubsystem;
   private OperatorBoardButton m_button;
 
+
+  private double a_coef = 239.703;
+  private double b_coef = 4289.9;
+
   /** Creates a new ShooterCommand. */
   public ShooterOnCommand(ShooterSubsystem shooterSubsystem, OperatorBoardButton button) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,7 +38,7 @@ public class ShooterOnCommand extends CommandBase {
   public void execute() {
 
     double currentSpeed = m_shooterSubsystem.getFlywheelRPM();
-    if (currentSpeed < Constants.ShooterConstants.FLYWHEEL_RPM_THRESHOLD) { // TODO subject to tuning
+    if (currentSpeed < Constants.ShooterConstants.FLYWHEEL_READY_RPM) { // TODO subject to tuning
       m_shooterSubsystem.setFlywheelPower(1);
     }
 

@@ -17,7 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANEncoder m_flywheelEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
-  public boolean m_isAtMaxSpeed;
+  public boolean m_isAtMaxSpeed; 
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(ShooterHardware shooterHardware) {
@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param power Value from [-1, 1].
    */
   public void setFlywheelPower(double power) {
-    this.m_targetSpeed = 0.8; //power;
+    this.m_targetSpeed = power;
     
   }
 
@@ -70,5 +70,8 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Feeder Speed", m_feederSpeed);
     m_flywheelMotor.set(m_targetSpeed);
     m_feeder.set(m_feederSpeed);
+
+    // What is the shooter 
+
   }
 }
