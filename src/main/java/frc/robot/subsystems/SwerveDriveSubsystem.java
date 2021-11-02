@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.text.Position;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -223,4 +225,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose, Rotation2d angle) {
     m_odometry.resetPosition(pose, angle);
   }
+
+  public SwerveDriveKinematics getKinematics() {
+    return m_kinematics;
+  }
+
+  public Pose2d getCurrentPosition() {
+    return m_odometry.getPoseMeters();
+  }
+
+
+  
+  
 }

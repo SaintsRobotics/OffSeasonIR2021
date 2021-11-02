@@ -4,10 +4,17 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -43,10 +50,15 @@ public class RobotContainer {
         private XboxController m_driveController = hardwareMap.inputHardware.driveController;
         private OperatorBoard m_operatorController = hardwareMap.inputHardware.operatorBoard;
 
+        private SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain();
         private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
+        private SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain);
         private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
         private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
         private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
+        private String trajectoryJSON = "output/Path.wpilib.json";
+        private Trajectory trajectory = new Trajectory();
+        private XboxController m_controller = new XboxController(0);
 
         private SwerveJoystickCommand m_swerveJoystickCommand = new SwerveJoystickCommand(m_swerveSubsystem,
                         m_driveController);
@@ -120,6 +132,37 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
                 // An ExampleCommand will run in autonomous
-                return null;
+                return pathFollowCommand();
         }
+        public Command getTeleCommand() {
+                return swerveJoystickCommand;
+              }
+            
+              public Command getTestCommand() {
+                // return new MoveOneMeterCommand(swerveDrivetrain).andThen(new
+                // MoveOneMeterCommand(swerveDrivetrain));
+                return null;
+              }
+            
+              public Command pathFollowCommand() {
+            
+                try {
+                  Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+                  trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+                } catch (IOException ex) {
+                  DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+                }
+            
+                PIDController xPID = new PIDController(Constants.SwerveConstants.MAX_METERS_PER_SECOND, 0, 0);
+                PIDController yPID = new PIDController(Constants.SwerveConstants.MAX_METERS_PER_SECOND, 0, 0);
+                ProfiledPIDController rotPID = new ProfiledPIDController(-Math.PI * 6, 0.0, 0.0,
+                    new TrapezoidProfile.Constraints(Constants.SwerveConstants.MAX_RADIANS_PER_SECOND, 2.6));
+                xPID.setTolerance(.05);
+                yPID.setTolerance(0.05);
+                rotPID.setTolerance(Math.PI / 24);
+                rotPID.enableContinuousInput(-Math.PI, Math.PI);
+                return new SwerveControllerCommand(trajectory, swerveDrivetrain::getCurrentPosition,
+                    swerveDrivetrain.getKinematics(), xPID, yPID, rotPID, swerveDrivetrain::move, swerveDrivetrain);
+            
+              }
 }
