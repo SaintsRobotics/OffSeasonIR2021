@@ -17,7 +17,9 @@ public class UtilityTest {
 
     @Test
     public void toleranceTest() {
-        //
+        double toleranceResultOne = Utils.tolerance(0.5, 1, 1);
+        double toleranceExpectedOne = 1;
+        assertEquals(toleranceExpectedOne, toleranceResultOne, DELTA);
     }
 
     @Test
