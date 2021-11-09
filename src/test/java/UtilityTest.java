@@ -10,7 +10,7 @@ public class UtilityTest {
 
     @Test
     public void toleranceTest() {
-
+        //
     }
 
     @Test
@@ -20,7 +20,7 @@ public class UtilityTest {
 
     @Test 
     public void normalizeAngleTest() {
-        
+
     }
 
 }
