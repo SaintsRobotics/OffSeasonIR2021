@@ -20,16 +20,30 @@ public class UtilityTest {
         double toleranceResultOne = Utils.tolerance(0.5, 1, 1);
         double toleranceExpectedOne = 1;
         assertEquals(toleranceExpectedOne, toleranceResultOne, DELTA);
+        double toleranceResultTwo = Utils.tolerance(15, 10, 0.5);
+        double toleranceExpectedTwo = 15;
+        assertEquals(toleranceExpectedTwo, toleranceResultTwo, DELTA);
+
     }
 
     @Test
     public void oddSquareTest() {
-
+        double oddSquareResultOne = Utils.oddSquare(4);
+        double oddSquareExpectedOne = 16;
+        assertEquals(oddSquareExpectedOne, oddSquareResultOne, DELTA);
+        double oddSquareResultTwo = Utils.oddSquare(-4);
+        double oddSquareExpectedTwo = -16;
+        assertEquals(oddSquareExpectedTwo, oddSquareResultTwo, DELTA);
     }
 
     @Test 
     public void normalizeAngleTest() {
-
+       double normalizeAngleResultOne = Utils.normalizeAngle(120, 360);
+       double normalizeAngleExpectedOne  = 120;
+       assertEquals(normalizeAngleResultOne, normalizeAngleExpectedOne, DELTA);
+       double normalizeAngleResultTwo = Utils.normalizeAngle(400, 360);
+       double normalizeAngleExpectedTwo = 40;
+       assertEquals(normalizeAngleResultTwo, normalizeAngleExpectedTwo, DELTA); 
     }
 
 }
