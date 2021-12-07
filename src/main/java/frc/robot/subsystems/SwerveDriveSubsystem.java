@@ -28,7 +28,6 @@ import frc.robot.HardwareMap.SwerveDriveHardware;
 import frc.robot.Robot;
 import frc.robot.Utils;
 
-
 public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveHardware m_swerveDriveHardware;
   private SwerveModule m_frontLeftModule;
@@ -234,7 +233,4 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
-
-  
-  
 }
