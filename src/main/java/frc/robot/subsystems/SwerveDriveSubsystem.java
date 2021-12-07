@@ -26,7 +26,6 @@ import frc.robot.HardwareMap.SwerveDriveHardware;
 import frc.robot.Robot;
 import frc.robot.Utils;
 
-
 public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveHardware m_swerveDriveHardware;
   private SwerveModule m_frontLeftModule;
@@ -34,6 +33,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveModule m_backLeftModule;
   private SwerveModule m_backRightModule;
   private AHRS m_gyro;
+  public Pose2d m_pose;
   private Field2d m_field;
   private double m_xSpeed;
   private double m_ySpeed;
@@ -77,7 +77,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // odometry code will error on the first tick or two due to the gyro taking
     // longer to start up
     if (time > 10) {
-      m_odometry.update(Rotation2d.fromDegrees(m_gyro.getAngle()), m_swerveDriveHardware.frontLeft.getState(),
+      m_pose = m_odometry.update(Rotation2d.fromDegrees(m_gyro.getAngle()), m_swerveDriveHardware.frontLeft.getState(),
           m_swerveDriveHardware.frontRight.getState(), m_swerveDriveHardware.backLeft.getState(),
           m_swerveDriveHardware.backRight.getState());
       m_field.setRobotPose(m_odometry.getPoseMeters());
