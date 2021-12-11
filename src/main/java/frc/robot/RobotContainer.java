@@ -9,16 +9,21 @@ import java.nio.file.Path;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberControllerCommand;
@@ -50,9 +55,10 @@ public class RobotContainer {
         private XboxController m_driveController = hardwareMap.inputHardware.driveController;
         private OperatorBoard m_operatorController = hardwareMap.inputHardware.operatorBoard;
 
-        private SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain();
+        private SwerveDriveSubsystem swerveDrivetrain = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
         private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(hardwareMap.shooterHardware);
-        private SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain);
+        private SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(
+                        hardwareMap.swerveDriveHardware);
         private SwerveDriveSubsystem m_swerveSubsystem = new SwerveDriveSubsystem(hardwareMap.swerveDriveHardware);
         private IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(hardwareMap.intakeHardware);
         private ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(hardwareMap.climberHardware);
@@ -134,35 +140,39 @@ public class RobotContainer {
                 // An ExampleCommand will run in autonomous
                 return pathFollowCommand();
         }
+
         public Command getTeleCommand() {
                 return swerveJoystickCommand;
-              }
-            
-              public Command getTestCommand() {
+        }
+
+        public Command getTestCommand() {
                 // return new MoveOneMeterCommand(swerveDrivetrain).andThen(new
                 // MoveOneMeterCommand(swerveDrivetrain));
                 return null;
-              }
-            
-              public Command pathFollowCommand() {
-            
+        }
+
+        public Command pathFollowCommand() {
+
                 try {
-                  Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-                  trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+                        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+                        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
                 } catch (IOException ex) {
-                  DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+                        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
                 }
-            
-                PIDController xPID = new PIDController(Constants.SwerveConstants.MAX_METERS_PER_SECOND, 0, 0);
-                PIDController yPID = new PIDController(Constants.SwerveConstants.MAX_METERS_PER_SECOND, 0, 0);
+
+                PIDController xPID = new PIDController(Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND, 0, 0);
+                PIDController yPID = new PIDController(Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND, 0, 0);
                 ProfiledPIDController rotPID = new ProfiledPIDController(-Math.PI * 6, 0.0, 0.0,
-                    new TrapezoidProfile.Constraints(Constants.SwerveConstants.MAX_RADIANS_PER_SECOND, 2.6));
+                                new TrapezoidProfile.Constraints(
+                                                Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND,
+                                                2.6));
                 xPID.setTolerance(.05);
                 yPID.setTolerance(0.05);
                 rotPID.setTolerance(Math.PI / 24);
                 rotPID.enableContinuousInput(-Math.PI, Math.PI);
                 return new SwerveControllerCommand(trajectory, swerveDrivetrain::getCurrentPosition,
-                    swerveDrivetrain.getKinematics(), xPID, yPID, rotPID, swerveDrivetrain::move, swerveDrivetrain);
-            
-              }
+                                swerveDrivetrain.getKinematics(), xPID, yPID, rotPID,
+                                swerveDrivetrain::SetSwerveModuleStates, swerveDrivetrain);
+
+        }
 }

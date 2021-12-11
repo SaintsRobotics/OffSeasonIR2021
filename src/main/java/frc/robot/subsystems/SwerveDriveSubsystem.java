@@ -70,6 +70,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // TODO right now, the heading PID controller is in degrees. do we want to
     // switch to radians?
   }
+  public void SetSwerveModuleStates(SwerveModuleState[] swerveModuleStates) { 
+    m_frontLeftModule.setDesiredState(swerveModuleStates[0]);
+    m_frontRightModule.setDesiredState(swerveModuleStates[1]);
+    m_backLeftModule.setDesiredState(swerveModuleStates[2]);
+    m_backRightModule.setDesiredState(swerveModuleStates[3]);
+
+  }
 
   @Override
   public void periodic() {
@@ -134,13 +141,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       m_frontRightModule.setDesiredState();
       m_backLeftModule.setDesiredState();
       m_backRightModule.setDesiredState();
+      
     } else {
       // swerve module states are given in the same order that the wheels are
       // given to the kinematics object.
-      m_frontLeftModule.setDesiredState(swerveModuleStates[0]);
-      m_frontRightModule.setDesiredState(swerveModuleStates[1]);
-      m_backLeftModule.setDesiredState(swerveModuleStates[2]);
-      m_backRightModule.setDesiredState(swerveModuleStates[3]);
+      this.SetSwerveModuleStates(swerveModuleStates);
     }
 
     // calculates the rotation of the robot using the desired rotation speed to feed
