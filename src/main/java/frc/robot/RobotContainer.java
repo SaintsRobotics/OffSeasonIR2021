@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
@@ -109,7 +108,7 @@ public class RobotContainer {
                                 .whenPressed(new InstantCommand(m_swerveSubsystem::resetGyro, m_swerveSubsystem));
 
                 // Sets brake and coast mode with left bumper
-                new JoystickButton(m_driveController, Button.kBumperLeft.value)
+                new JoystickButton(m_driveController, Button.kLeftBumper.value)
                                 .whenPressed(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kCoast))
                                 .whenReleased(() -> m_swerveSubsystem.setDriveIdleMode(IdleMode.kBrake));
 

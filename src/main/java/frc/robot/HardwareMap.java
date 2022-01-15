@@ -4,12 +4,12 @@ import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.subsystems.SwerveModule;
 
 public class HardwareMap {
@@ -88,15 +88,15 @@ public class HardwareMap {
          */
         public class ShooterHardware {
                 // encoder for the flywheel
-                public CANEncoder rightCanEncoder;
+                public RelativeEncoder rightCanEncoder;
                 // motors to run the flywheel, combined in a speedcontrollergroup
                 private CANSparkMax leftFlywheel;
                 private CANSparkMax rightFlywheel;
-                public SpeedControllerGroup flywheel;
+                public MotorControllerGroup flywheel;
                 // motors for the feeder system, combined in a speedcontrollergroup
                 private WPI_VictorSPX wheels;
                 private WPI_VictorSPX kicker;
-                public SpeedControllerGroup feeder;
+                public MotorControllerGroup feeder;
 
                 public ShooterHardware() {
                         leftFlywheel = new CANSparkMax(Constants.ShooterConstants.LEFT_FLYWHEEL_PORT,
@@ -105,12 +105,12 @@ public class HardwareMap {
                         rightFlywheel = new CANSparkMax(Constants.ShooterConstants.RIGHT_FLYWHEEL_PORT,
                                         MotorType.kBrushless);
                         rightCanEncoder = rightFlywheel.getEncoder();
-                        flywheel = new SpeedControllerGroup(leftFlywheel, rightFlywheel);
+                        flywheel = new MotorControllerGroup(leftFlywheel, rightFlywheel);
 
                         kicker = new WPI_VictorSPX(Constants.ShooterConstants.KICKER_PORT);
                         wheels = new WPI_VictorSPX(Constants.ShooterConstants.WHEELS_PORT);
                         wheels.setInverted(true);
-                        feeder = new SpeedControllerGroup(kicker, wheels);
+                        feeder = new MotorControllerGroup(kicker, wheels);
                 }
         };
 

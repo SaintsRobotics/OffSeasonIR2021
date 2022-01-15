@@ -4,17 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.HardwareMap.ShooterHardware;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private SpeedControllerGroup m_flywheelMotor;
-  private SpeedControllerGroup m_feeder;
-  private CANEncoder m_flywheelEncoder;
+  private MotorControllerGroup m_flywheelMotor;
+  private MotorControllerGroup m_feeder;
+  private RelativeEncoder m_flywheelEncoder;
   private double m_targetSpeed;
   private double m_feederSpeed;
   public boolean m_isAtMaxSpeed;

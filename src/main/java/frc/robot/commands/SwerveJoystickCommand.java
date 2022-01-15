@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,7 +30,7 @@ public class SwerveJoystickCommand extends CommandBase {
   }
 
   public double getRotation() {
-    return Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kRight), 0.2))
+    return Utils.oddSquare(Utils.deadZones(-m_controller.getRightX(), 0.2))
         * Constants.SwerveConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND;
   }
 
@@ -41,12 +40,12 @@ public class SwerveJoystickCommand extends CommandBase {
 
     // Just think really hard about why these values are negated and flip-flopped.
     // Maybe use a whiteboard or piece of paper.
-    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2))
+    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getLeftY(), 0.2))
         * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND* 0.7;
-    double y = Utils.oddSquare(Utils.deadZones(-m_controller.getX(Hand.kLeft), 0.2))
+    double y = Utils.oddSquare(Utils.deadZones(-m_controller.getLeftX(), 0.2))
         * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND * 0.7;
     double rot = getRotation();
-    boolean fieldRelative = !m_controller.getBumper(Hand.kRight);
+    boolean fieldRelative = !m_controller.getRightBumper();
 
     m_drivetrain.move(x, y, rot, fieldRelative);
     SmartDashboard.putNumber("x", x);

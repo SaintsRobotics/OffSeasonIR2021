@@ -8,6 +8,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+
 /**
  * Class for holding utility methods that do not apply to any specific command
  * or subsystem.
@@ -60,4 +62,5 @@ public class Utils {
 	public static double normalizeAngle(double angle, double max) {
 		return ((angle % max) + max) % max;
 	}
+
 }
